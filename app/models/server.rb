@@ -15,6 +15,7 @@ class Server < ActiveRecord::Base
   end
   
   def backup_running?
+    return false if last_started.blank?
     if last_started > last_backup
       true
     else

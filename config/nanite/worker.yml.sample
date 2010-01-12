@@ -1,0 +1,20 @@
+development:
+  :host: localhost
+  :user: agent
+  :pass: testing
+  :vhost: /retcon
+  :log_level: debug
+
+production:
+  :host: localhost
+  :user: agent
+  :pass: testing
+  :vhost: /retcon
+  :log_level: info
+
+test:
+  :host: localhost
+  :user: agent
+  :pass: testing
+  :vhost: /retcon
+  :log_level: debug

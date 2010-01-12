@@ -1,5 +1,5 @@
 log/*.log
 tmp
 config/database.yml
-db/*.db
+db/*.sqlite3
 config/nanite/*.yml

@@ -1,0 +1,35 @@
+== Getting Started
+
+- Install the plugin: script/plugin install git://github.com/dcu/nanite-rails.git
+
+- script/generate nanite
+
+- Configure RAILS_ROOT/config/nanite/mapper.yml and RAILS_ROOT/config/nanite/worker.yml
+    $ cp config/nanite/mapper.sample.yml config/nanite/mapper.yml
+    $ cp config/nanite/worker.sample.yml config/nanite/worker.yml
+
+- Add "config.gem 'nanite'" to RAILS_ROOT/config/environment.rb
+
+- run "rake nanite:rabbitmq" as root
+
+- run "script/nanite start"
+
+- on a rails console run: NaniteJob.request!(Hash, :constants){|r| puts r.inspect}
+
+== Adding a custom agent named "spider"
+  spider will have two actions, eat, and throw_web, eat takes a parameter
+
+- script/generate agent spider eat throw_web
+- script/nanite -a spider start          
+- on a rails console run:
+  $ Nanite.request("/spiders/eat", "fly"){|r| puts r.inspect}
+  $ Nanite.request("/spiders/throw_web"){|r| puts r.inspect}
+
+
+== Rails Integration ==
+if you need to use your ActiveRecord models add this lines to your worker/init.rb code
+
+ ENV["RAILS_ENV"] ||= "development"
+ ENV["NO_NM"] = "1" 
+ require APP_ROOT + "/config/environment"
+

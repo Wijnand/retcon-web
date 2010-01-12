@@ -1,0 +1,9 @@
+<% content_for :header do %>
+  Edit <%= @backup_server.hostname %>
+<% end %>
+
+<%= render :partial => 'form' %>
+
+<% add_action 'Show', @backup_server %>
+<% add_action 'Backup Servers Overview', backup_servers_path %>
+<% add_action 'Add Backup Server', new_backup_server_path %>

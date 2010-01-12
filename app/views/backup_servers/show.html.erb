@@ -1,0 +1,21 @@
+<% content_for :header do %>
+  <%= @backup_server.hostname %>
+<% end %>
+
+
+<p>
+  <b>Hostname:</b>
+  <%=h @backup_server.hostname %>
+</p>
+
+<p>
+  <b>Zpool:</b>
+  <%=h @backup_server.zpool %>
+</p>
+<p>
+  <b>Max backups:</b>
+  <%=h @backup_server.max_backups %>
+</p>
+
+<%= link_to 'Edit', edit_backup_server_path(@backup_server) %> |
+<%= link_to 'Back', backup_servers_path %>

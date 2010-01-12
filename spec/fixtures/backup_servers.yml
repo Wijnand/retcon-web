@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  hostname: backup1
+  zpool: backup
+  max_backups: 10
+
+two:
+  hostname: backup2
+  zpool: backup
+  max_backups: 10

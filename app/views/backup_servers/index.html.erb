@@ -1,0 +1,21 @@
+<% content_for :header do %>
+  Backup servers
+<% end %>
+
+<table class="index">
+  <tr>
+    <th>Hostname</th>
+  </tr>
+
+<% @backup_servers.each do |backup_server| %>
+  <tr>
+    <td><%=link_to h( backup_server.hostname), backup_server %></td>
+    <td><%= link_to 'Edit', edit_backup_server_path(backup_server) %></td>
+    <td><%= link_to 'Destroy', backup_server, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New backup_server', new_backup_server_path %>

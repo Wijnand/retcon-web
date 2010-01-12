@@ -1,0 +1,10 @@
+<% content_for :header do %>
+  Edit server <%=h @server.hostname %>
+<% end %>
+
+<%= render :partial => 'form' %>
+
+
+<% add_action 'Show this server', @server %>
+<% add_action 'Add Server', new_server_path %>
+<% add_action 'Servers overview', servers_path %>

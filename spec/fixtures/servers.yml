@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  hostname: MyString
+  connect_to: MyString
+  ssh_port: 1
+  enabled: false
+  backup_server_id: 1
+  last_backup: 2010-01-11 08:01:09
+
+two:
+  hostname: MyString
+  connect_to: MyString
+  ssh_port: 1
+  enabled: false
+  backup_server_id: 1
+  last_backup: 2010-01-11 08:01:09

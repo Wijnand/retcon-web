@@ -1,0 +1,50 @@
+<% content_for :header do %>
+  <%=h @server.hostname %>
+<% end %>
+<h2>Generic information</h2>
+<p>
+  <b>Hostname:</b>
+  <%=h @server.hostname %>
+</p>
+<p>
+  <b>Ssh address:</b>
+  <%=h (@server.connect_to.empty? ? @server.hostname : @server.connect_to) %>
+</p>
+<p>
+  <b>Ssh port:</b>
+  <%=h (@server.ssh_port.to_s.empty? ? "22" : @server.ssh_port) %>
+</p>
+<p>
+  <b>Enabled:</b>
+  <%=h @server.enabled %>
+</p>
+
+<p>
+<% if @server.backup_running? %>
+  <b>Backup running since:</b>
+  <%=h @server.last_started %>
+<% else %>
+  <b>Backup last finished:</b>
+  <%=h @server.last_backup %>
+<% end %>
+</p>
+
+<% semantic_form_for(@server) do |f| %>
+  <% f.inputs do %>
+    <%= f.input :backup_server, :hint => "When moving to another server the backup data will currently not be moved!", 
+                                :collection => @server.possible_backup_servers, 
+                                :include_blank => (@server.backup_server.nil? ? true : false )%>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
+
+
+<h2>Applied profiles</h2>
+<ul class="profile_list">
+<% @server.profiles.each do | profile | %>
+  <li><%= link_to h(profile.name), profile %></li>
+<% end %>
+</ul>
+<% add_action 'Edit this server', edit_server_path( @server) %>
+<% add_action 'Add Server', new_server_path %>
+<% add_action 'Servers overview', servers_path %>

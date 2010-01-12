@@ -1,0 +1,10 @@
+<% semantic_form_for(@server) do |f| %>
+  <% f.inputs do %>
+    <%= f.input :hostname %>
+    <%= f.input :enabled, :required => false, :label => 'Backups enabled?' %>
+    <%= f.input :connect_to, :required => false, :label => 'Ssh address', :hint => 'If different from hostname' %>
+    <%= f.input :ssh_port, :required => false, :hint => 'If not port 22' %>
+    <%= f.input :profiles, :as => :check_boxes %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>

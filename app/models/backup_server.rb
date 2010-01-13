@@ -19,6 +19,7 @@ class BackupServer < ActiveRecord::Base
   private
   def do_nanite(action, payload)
     res = 'undef'
+    return nil unless nanites["nanite-#{hostname}"]
     Nanite.request(action, payload, :target => hostname) do |result |
      key = "nanite-" + hostname
      res = result[key]
@@ -32,6 +33,7 @@ class BackupServer < ActiveRecord::Base
   def self.nanite_query(action, payload)
     res = 'undef'
     servers = {}
+    return servers if nanites.size == 0
     Nanite.request(action, payload, :selector => :all) do | result |
       result.each_pair do | key, value |
         # Strip the nanite- prefix in the hash key
@@ -44,6 +46,14 @@ class BackupServer < ActiveRecord::Base
       sleep 0.1
     end
     return res
+  end
+  
+  def nanites
+    Nanite.mapper.cluster.nanites
+  end
+  
+  def self.nanites
+    Nanite.mapper.cluster.nanites
   end
   
   def self.array_to_models(arr)

@@ -41,11 +41,13 @@ describe BackupServer do
   
   it "should have a way to call nanite jobs for a specific backup server" do
     b = BackupServer.new(@valid_attributes)
+    b.should_receive(:nanites).and_return({'nanite-backup3' => 'something'})
     Nanite.should_receive(:request).once.with("method", "arg", :target => b.hostname).and_yield("the result")
     b.send(:do_nanite, 'method', 'arg')
   end
   
   it "should be able to query using nanite" do
+    BackupServer.should_receive(:nanites).and_return({'nanite-backup2' => 'something', 'nanite-backup1' => 'something'})
     Nanite.should_receive(:request).once.with("command", "arg", :selector => :all).and_yield(
            {'nanite-backup1' => 'my result', 'nanite-backup2' => 'other result'})
     list = BackupServer.nanite_query("command", "arg")
@@ -53,6 +55,7 @@ describe BackupServer do
   end
   
   it "should select valid backup servers for a given server" do
+    BackupServer.should_receive(:nanites).and_return({'nanite-backup2' => 'something', 'nanite-backup1' => 'something'})
     Nanite.should_receive(:request).once.with("/info/in_subnet?", "localhost", :selector => :all).and_yield(
            {'nanite-backup1' => true, 'nanite-backup2' => false})
     available = BackupServer.available_for("localhost")

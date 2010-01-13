@@ -16,11 +16,7 @@ class Server < ActiveRecord::Base
   
   def backup_running?
     return false if last_started.blank?
-    if last_started > last_backup
-      true
-    else
-      false
-    end
+    last_started > last_backup ? true : false
   end
   
   def should_backup?

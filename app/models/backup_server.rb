@@ -33,7 +33,6 @@ class BackupServer < ActiveRecord::Base
   def self.nanite_query(action, payload)
     res = 'undef'
     servers = {}
-    puts Nanite.mapper
     return servers if nanites.size == 0
     Nanite.request(action, payload, :selector => :all) do | result |
       result.each_pair do | key, value |
@@ -54,6 +53,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def self.nanites
+    return [] if Nanite.mapper.nil? or Nanite.mapper.cluster.nil?
     Nanite.mapper.cluster.nanites
   end
   

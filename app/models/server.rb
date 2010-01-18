@@ -38,11 +38,9 @@ class Server < ActiveRecord::Base
   
   def in_backup_window?
     return true if window_start.blank? or window_stop.blank?
-    start_string = window_start == 0 ? "00:00" : "#{window_start}:00"
-    stop_string = window_stop == 0 ? "23:59" : "#{window_stop}:00"
+    start  = Time.parse( window_start == 0 ? "00:00" : "#{window_start}:00")
+    ending = Time.parse( window_stop == 0 ? "23:59" : "#{window_stop}:00")
     now = Time.new
-    start = Time.parse("#{start_string}")
-    ending = Time.parse("#{stop_string}")
     range = start..ending
     range.include? now
   end
@@ -54,7 +52,7 @@ class Server < ActiveRecord::Base
   end
   
   def setup_backups
-    backup_server.setup_for(self)
+    backup_server.setup_for(self) if backup_server
   end
   
   def after_initialize

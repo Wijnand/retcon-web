@@ -3,39 +3,28 @@ require 'time'
 
 describe Server do
   before(:each) do
-    @valid_attributes = {
-      :hostname => "localhost",
-      :connect_to => "127.0.0.1",
-      :ssh_port => 22,
-      :enabled => true,
-      :backup_server_id => 1,
-      :last_backup => Time.now,
-      :last_started => Time.now - 3600,
-      :window_start => 0,
-      :window_stop => 23,
-      :interval_hours => 24
-    }
+  
   end
 
   it "should create a new instance given valid attributes" do
-    s = Server.new(@valid_attributes)
+    s = Factory.build(:server)
     s.valid?.should be true
   end
   
   it "should not be valid when no hostname is given" do
-    s = Server.new(@valid_attributes)
+    s = Factory.build(:server)
     s.hostname = nil
     s.valid?.should be false
   end
   
   it "should not be valid when no interval is given" do
-    s = Server.new(@valid_attributes)
+    s = Factory.build(:server)
     s.interval_hours = nil
     s.valid?.should be false
   end
   
   it "should not accept impossible hours" do
-    s = Server.new(@valid_attributes)
+    s = Factory.build(:server)
     s.window_start = 25
     s.valid?.should be false
     s.window_start = 1
@@ -46,7 +35,7 @@ describe Server do
   end
   
   it "should be valid when the other attributes are not given" do
-    s = Server.new(@valid_attributes)
+    s = Factory.build(:server)
     s.connect_to = nil
     s.ssh_port = nil
     s.enabled = nil
@@ -57,8 +46,8 @@ describe Server do
   end
   
   it "should provide a instance method to determine valid backup servers" do
-    s1 = Server.new(@valid_attributes)
-    s2 = Server.new(@valid_attributes)
+    s1 = Factory.build(:server, :connect_to => '127.0.0.1')
+    s2 = Factory.build(:server)
     s2.connect_to = nil
     BackupServer.should_receive(:available_for).with(s1.connect_to)
     BackupServer.should_receive(:available_for).with(s2.hostname)
@@ -67,31 +56,31 @@ describe Server do
   end
   
   it "should provide a to_s method" do
-    s = Server.new(@valid_attributes)
-    s.to_s.should == "localhost"
+    s = Factory.build(:server)
+    s.to_s.should == s.hostname
   end
   
   it "should know if a backup is running" do
-    s1 = Server.new(@valid_attributes)
+    s1 = Factory.build(:server)
     s1.last_backup = Time.new
     s1.last_started = Time.new - 3600
     s1.backup_running?.should be false
-    s2 = Server.new(@valid_attributes)
+    s2 = Factory.build(:server)
     s2.last_backup = Time.new - 3600
     s2.last_started = Time.new
     s2.backup_running?.should be true
   end
   
   it "should not backup when a backup is already running" do
-    s1 = Server.new(@valid_attributes)
-    s1.last_backup = Time.new - 3600
-    s1.last_started = Time.new
-    s1.backup_running?.should be true
-    s1.should_backup?.should be false
+    s = Factory.build(:server)
+    s.last_backup = Time.new - 3600
+    s.last_started = Time.new
+    s.backup_running?.should be true
+    s.should_backup?.should be false
   end
   
   it "should always be in the backup window when no start or end is given" do
-    server = Server.new
+    server = Factory.build(:server)
     server.in_backup_window?.should be true
     server.window_start = 0
     server.in_backup_window?.should be true
@@ -101,13 +90,13 @@ describe Server do
   end
   
   it "should know when it's not in the window" do
-    server_one_hour_window = Server.new
+    server_one_hour_window = Factory.build(:server)
     server_one_hour_window.window_start = 1
     server_one_hour_window.window_stop = 2
     Time.should_receive(:new).and_return(Time.parse("03:00"))
     server_one_hour_window.in_backup_window?.should be false
     
-    server_23_hour_window = Server.new
+    server_23_hour_window = Factory.build(:server)
     server_23_hour_window.window_start = 0
     server_23_hour_window.window_stop = 23
     Time.should_receive(:new).and_return(Time.parse("23:30"))
@@ -115,7 +104,7 @@ describe Server do
   end
   
   it "should know when it's in the window" do
-    server = Server.new
+    server = Factory.build(:server)
     server.window_start = 1
     server.window_stop = 2
     Time.should_receive(:new).and_return(Time.parse("01:30"))
@@ -133,9 +122,7 @@ describe Server do
   end
   
   it "should know when its past the interval" do
-    s = Server.new(@valid_attributes)
-    s.last_backup = Time.new - (2 * 3600)
-    s.interval_hours = 1
+    s = Factory.build(:server, :last_started => (Time.new - (2 * 3600)), :interval_hours => 1)
     s.interval_passed?.should be true
     
     s.interval_hours = 3
@@ -143,7 +130,7 @@ describe Server do
   end
   
   it "should know when to backup" do
-    s = Server.new(@valid_attributes)
+    s = Factory.build(:server)
     s.last_backup = Time.new - (2 * 3600)
     s.last_started = Time.new - ( 4 * 3600)
     s.interval_hours = 1
@@ -168,5 +155,23 @@ describe Server do
     s.last_started = Time.new - ( 24 * 3600)
     s.interval_hours = 24
     s.should_backup?.should be true
+  end
+  
+  it "should order the backup server to provision after save" do
+    pending
+  end
+  
+  it "should generate a list of includes with a sha" do
+    # should return 2 strings
+    # first the sha, for caching
+    # second a list of includes, newline separated
+    pending
+  end
+  
+  it "should generate a list of excludes with a sha" do
+    # should return 2 strings
+    # first the sha, for caching
+    # second a list of excludes, newline separated
+    pending
   end
 end

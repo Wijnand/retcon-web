@@ -28,6 +28,23 @@ describe Server do
     s.valid?.should be false
   end
   
+  it "should not be valid when no interval is given" do
+    s = Server.new(@valid_attributes)
+    s.interval_hours = nil
+    s.valid?.should be false
+  end
+  
+  it "should not accept impossible hours" do
+    s = Server.new(@valid_attributes)
+    s.window_start = 25
+    s.valid?.should be false
+    s.window_start = 1
+    s.window_stop = 25
+    s.valid?.should be false
+    s.window_stop = 2
+    s.valid?.should be true
+  end
+  
   it "should be valid when the other attributes are not given" do
     s = Server.new(@valid_attributes)
     s.connect_to = nil
@@ -115,8 +132,41 @@ describe Server do
     server.in_backup_window?.should be true
   end
   
-  it "should know when to backup" do
-    server = Server.new(@valid_attributes)
+  it "should know when its past the interval" do
+    s = Server.new(@valid_attributes)
+    s.last_backup = Time.new - (2 * 3600)
+    s.interval_hours = 1
+    s.interval_passed?.should be true
     
+    s.interval_hours = 3
+    s.interval_passed?.should be false
+  end
+  
+  it "should know when to backup" do
+    s = Server.new(@valid_attributes)
+    s.last_backup = Time.new - (2 * 3600)
+    s.last_started = Time.new - ( 4 * 3600)
+    s.interval_hours = 1
+    s.should_backup?.should be true
+    
+    # already running
+    s.last_backup = Time.new - (24 * 3600)
+    s.last_started = Time.new - ( 4 * 3600)
+    s.interval_hours = 24
+    s.should_backup?.should be false
+    
+    # already did one in the window
+    s.last_backup = Time.new - (3 * 3600)
+    s.last_started = Time.new - ( 4 * 3600)
+    s.interval_hours = 24
+    s.should_backup?.should be false
+    
+    # The most common case
+    s.window_start = nil
+    s.window_stop = nil
+    s.last_backup = Time.new - (23 * 3600)
+    s.last_started = Time.new - ( 24 * 3600)
+    s.interval_hours = 24
+    s.should_backup?.should be true
   end
 end

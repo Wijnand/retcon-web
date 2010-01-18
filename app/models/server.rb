@@ -1,5 +1,12 @@
 class Server < ActiveRecord::Base
-  validates_presence_of :hostname
+  validates_presence_of :hostname, :interval_hours
+  
+  validates_inclusion_of :window_start, :in => 0..23, 
+         :message => 'Should be a valid hour! Ranging from 0 to 23', 
+         :unless => Proc.new { |server| server.window_start.blank?  }
+  validates_inclusion_of :window_stop, :in => 0..23,
+         :message => 'Should be a valid hour! Ranging from 0 to 23',
+         :unless => Proc.new { |server| server.window_stop.blank?  }
   
   has_many :profilizations
   has_many :profiles, :through => :profilizations
@@ -22,6 +29,7 @@ class Server < ActiveRecord::Base
   def should_backup?
     return false if backup_running?
     return false unless in_backup_window?
+    interval_passed?
   end
   
   def in_backup_window?
@@ -30,8 +38,14 @@ class Server < ActiveRecord::Base
     stop_string = window_stop == 0 ? "23:59" : "#{window_stop}:00"
     now = Time.new
     start = Time.parse("#{start_string}")
-    ending = Time.parse("#{stop_string}:00")
+    ending = Time.parse("#{stop_string}")
     range = start..ending
     range.include? now
+  end
+  
+  def interval_passed?
+    now = Time.new
+    next_backup = last_started + (interval_hours * 3600)
+    now > next_backup
   end
 end

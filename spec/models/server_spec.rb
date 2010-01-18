@@ -68,6 +68,14 @@ describe Server do
     server.should_backup?.should be false
   end
   
+  it "should not backup when no backup server is selected" do
+    server = Factory.build(:server, :enabled => true, :backup_server => nil, 
+                                    :last_started => (Time.new - ( 4 * 3600)),
+                                    :last_backup => (Time.new - (3* 3600)),
+                                    :interval_hours => 1)
+    server.should_backup?.should be false
+  end
+  
   it "should know if a backup is running" do
     s1 = Factory.build(:server)
     s1.last_backup = Time.new

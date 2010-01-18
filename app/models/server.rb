@@ -30,6 +30,7 @@ class Server < ActiveRecord::Base
   
   def should_backup?
     return false unless enabled
+    return false unless backup_server
     return false if backup_running?
     return false unless in_backup_window?
     interval_passed?

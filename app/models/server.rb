@@ -13,6 +13,8 @@ class Server < ActiveRecord::Base
   
   belongs_to :backup_server
   
+  after_save :setup_backups
+  
   def to_s
     hostname
   end
@@ -47,5 +49,9 @@ class Server < ActiveRecord::Base
     now = Time.new
     next_backup = last_started + (interval_hours * 3600)
     now > next_backup
+  end
+  
+  def setup_backups
+    backup_server.setup_for(self)
   end
 end

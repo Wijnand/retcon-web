@@ -52,6 +52,9 @@ class BackupServer < ActiveRecord::Base
     self.nanites
   end
   
+  def setup_for(host)
+  end
+  
   def self.nanites
     return [] if Nanite.mapper.nil? or Nanite.mapper.cluster.nil?
     Nanite.mapper.cluster.nanites

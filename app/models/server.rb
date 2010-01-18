@@ -29,6 +29,7 @@ class Server < ActiveRecord::Base
   end
   
   def should_backup?
+    return false unless enabled
     return false if backup_running?
     return false unless in_backup_window?
     interval_passed?
@@ -55,7 +56,7 @@ class Server < ActiveRecord::Base
     backup_server.setup_for(self)
   end
   
-  def enabled
-    @enabled or true
+  def after_initialize
+    @enabled = true
   end
 end

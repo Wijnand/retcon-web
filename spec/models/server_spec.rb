@@ -60,6 +60,14 @@ describe Server do
     s.to_s.should == s.hostname
   end
   
+  it "should not backup when backups are disabled" do
+    server = Factory.build(:server, :enabled => false, 
+                                    :last_started => (Time.new - ( 4 * 3600)),
+                                    :last_backup => (Time.new - (3* 3600)),
+                                    :interval_hours => 1)
+    server.should_backup?.should be false
+  end
+  
   it "should know if a backup is running" do
     s1 = Factory.build(:server)
     s1.last_backup = Time.new
@@ -102,7 +110,7 @@ describe Server do
     Time.should_receive(:new).and_return(Time.parse("23:30"))
     server_23_hour_window.in_backup_window?.should be false
   end
-  
+
   it "should know when it's in the window" do
     server = Factory.build(:server)
     server.window_start = 1

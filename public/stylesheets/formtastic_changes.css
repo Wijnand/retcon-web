@@ -15,5 +15,8 @@ form.formtastic {
 
 form.formtastic fieldset ol li p.inline-hints { 
   color:#333; 
-  font-style: italic; 
+  font-style: italic;
+  font-size: smaller;
 }
+
+form.formtastic fieldset.separator { border: 1px dotted; margin: 1em; padding: .5em;}

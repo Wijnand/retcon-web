@@ -54,4 +54,8 @@ class Server < ActiveRecord::Base
   def setup_backups
     backup_server.setup_for(self)
   end
+  
+  def enabled
+    @enabled or true
+  end
 end

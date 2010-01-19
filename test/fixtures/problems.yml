@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  server_id: 1
+  backup_server_id: 1
+  message: MyText
+
+two:
+  server_id: 1
+  backup_server_id: 1
+  message: MyText

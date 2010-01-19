@@ -10,10 +10,14 @@ class Server < ActiveRecord::Base
   
   has_many :profilizations
   has_many :profiles, :through => :profilizations
-  
+  has_many :problems
   belongs_to :backup_server
   
   after_save :setup_backups
+  
+  def latest_problems
+    problems.find(:all, :order => 'created_at DESC', :limit=>10)
+  end
   
   def to_s
     hostname

@@ -33,7 +33,7 @@ describe BackupServer do
   it "should have a way to call nanite jobs for a specific backup server" do
     b = Factory.build(:backup_server)
     b.should_receive(:nanites).and_return({"nanite-#{b.hostname}" => 'something'})
-    Nanite.should_receive(:request).once.with("method", "arg", :target => b.hostname).and_yield("the result")
+    Nanite.should_receive(:request).once.with("method", "arg", :target => "nanite-#{b.hostname}").and_yield("the result")
     b.send(:do_nanite, 'method', 'arg')
   end
   

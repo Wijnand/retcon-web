@@ -18,7 +18,11 @@ class BackupServer < ActiveRecord::Base
   
   def setup_for(host)
     # Currently this is the only step for provisioning I know of
-    create_fs("#{zpool}/#{host.hostname}")
+    status = create_fs("#{zpool}/#{host.hostname}")
+    if status[0] != 0
+      Problem.create!(:server => host, :backup_server => self, :message=> status[1])
+    else
+    end
   end
   
   def do_nanite(action, payload)
@@ -57,10 +61,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def create_fs(fs)
-    status = do_nanite("/zfs/create", fs)
-    if status != 0
-      raise RuntimeError, "Filesystem creation failed"
-    end
+    do_nanite("/zfs/create", fs)
   end
   
   def self.nanites

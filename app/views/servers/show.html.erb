@@ -42,3 +42,9 @@ Here we will describe in english how the backup configuration will apply. TODO
 <% add_action 'Edit this server', edit_server_path( @server) %>
 <% add_action 'Add Server', new_server_path %>
 <% add_action 'Servers overview', servers_path %>
+
+<h2>Latest problems</h2>
+<% @server.latest_problems.each do | problem | %>
+  <dt><%= problem.created_at %></dt>
+  <dd><%=h problem.backup_server %>: <%=h problem.message %></dd>
+<% end %>

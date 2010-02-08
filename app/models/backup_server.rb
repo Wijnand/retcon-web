@@ -16,18 +16,9 @@ class BackupServer < ActiveRecord::Base
     hostname
   end
   
-  def setup_for(host)
-    # Currently this is the only step for provisioning I know of
-    status = create_fs("#{zpool}/#{host.hostname}")
-    if status[0] != 0
-      Problem.create!(:server => host, :backup_server => self, :message=> status[1])
-    else
-    end
-  end
-  
   def do_nanite(action, payload)
     res = 'undef'
-    return nil unless nanites["nanite-#{hostname}"]
+    return [1,'backup server was offline'] unless nanites["nanite-#{hostname}"]
     Nanite.request(action, payload, :target => "nanite-#{hostname}") do |result |
      key = "nanite-" + hostname
      res = result[key]
@@ -58,10 +49,6 @@ class BackupServer < ActiveRecord::Base
   
   def nanites
     self.class.nanites
-  end
-  
-  def create_fs(fs)
-    do_nanite("/zfs/create", fs)
   end
   
   def self.nanites

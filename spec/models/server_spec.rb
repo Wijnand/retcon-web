@@ -23,6 +23,12 @@ describe Server do
     s.valid?.should be false
   end
   
+  it "should not be valid when no keep_snapshots is given" do
+    s = Factory.build(:server)
+    s.keep_snapshots = nil
+    s.valid?.should be false
+  end
+  
   it "should not accept impossible hours" do
     s = Factory.build(:server)
     s.window_start = 25

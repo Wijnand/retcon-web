@@ -61,7 +61,7 @@ describe BackupServer do
   it "should provide a way to provision backups for a given server" do
     server = Factory.build :server
     backup_server = Factory.build :backup_server
-    backup_server.should_receive(:create_fs).with(backup_server.zpool + '/' + server.hostname).and_return true
+    backup_server.should_receive(:create_fs).with(backup_server.zpool + '/' + server.hostname).and_return [0,'']
     backup_server.send :setup_for, server
   end
 end

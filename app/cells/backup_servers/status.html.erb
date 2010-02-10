@@ -1,0 +1,12 @@
+<table>
+  <th>
+    <td>Backup Server</td>
+    <td>Status</td>
+  <th>
+  <% @backup_servers.each do | backup_server | %>
+    <tr>
+    <td><%=h backup_server.hostname %></td>
+    <td><%= display_online backup_server %></td>
+    </tr>
+  <% end %>
+</table>

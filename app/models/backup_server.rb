@@ -24,7 +24,7 @@ class BackupServer < ActiveRecord::Base
   
   def do_nanite(action, payload)
     res = 'undef'
-    return [1,'backup server was offline'] unless nanites["nanite-#{hostname}"]
+    return [1,'backup server was offline'] unless online?
     Nanite.request(action, payload, :target => "nanite-#{hostname}") do |result |
      key = "nanite-" + hostname
      res = result[key]
@@ -57,9 +57,15 @@ class BackupServer < ActiveRecord::Base
     self.class.nanites
   end
   
+  def online?
+    nanites.include? hostname
+  end
+  
   def self.nanites
     return [] if Nanite.mapper.nil? or Nanite.mapper.cluster.nil?
-    Nanite.mapper.cluster.nanites
+    Nanite.mapper.cluster.nanites.map do | nanite |
+      nanite.inspect
+    end
   end
   
   def self.array_to_models(arr)

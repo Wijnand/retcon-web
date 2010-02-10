@@ -32,15 +32,15 @@ describe BackupServer do
   
   it "should have a way to call nanite jobs for a specific backup server" do
     b = Factory.build(:backup_server)
-    b.should_receive(:nanites).and_return({"nanite-#{b.hostname}" => 'something'})
+    b.should_receive(:nanites).and_return({"#{b.hostname}" => 'something'})
     Nanite.should_receive(:request).once.with("method", "arg", :target => "nanite-#{b.hostname}").and_yield("the result")
     b.send(:do_nanite, 'method', 'arg')
   end
   
   it "should be able to query using nanite" do
-    BackupServer.should_receive(:nanites).and_return({'nanite-backup2' => 'something', 'nanite-backup1' => 'something'})
+    BackupServer.should_receive(:nanites).and_return({'backup2' => 'something', 'backup1' => 'something'})
     Nanite.should_receive(:request).once.with("command", "arg", :selector => :all).and_yield(
-           {'nanite-backup1' => 'my result', 'nanite-backup2' => 'other result'})
+           {'backup1' => 'my result', 'backup2' => 'other result'})
     list = BackupServer.nanite_query("command", "arg")
     list['backup1'].should == "my result"
   end
@@ -48,10 +48,10 @@ describe BackupServer do
   it "should select valid backup servers for a given server" do
     backup1 = Factory(:backup_server)
     backup2 = Factory(:backup_server)
-    BackupServer.should_receive(:nanites).and_return({"nanite-#{backup1.hostname}" => 'something', 
-                                                      "nanite-#{backup2.hostname}" => 'something'})
+    BackupServer.should_receive(:nanites).and_return({"#{backup1.hostname}" => 'something', 
+                                                      "#{backup2.hostname}" => 'something'})
     Nanite.should_receive(:request).once.with("/info/in_subnet?", "localhost", :selector => :all).and_yield(
-           {"nanite-#{backup1.hostname}" => true, "nanite-#{backup2.hostname}" => false})
+           {"#{backup1.hostname}" => true, "#{backup2.hostname}" => false})
     available = BackupServer.available_for("localhost")
     available.should be_instance_of Array
     available.size.should be 2

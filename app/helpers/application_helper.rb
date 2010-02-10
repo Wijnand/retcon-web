@@ -5,6 +5,9 @@ module ApplicationHelper
     @actions.push([text,url])
   end
 
+  def display_online(item)
+    item.online? ? "<span class='online'>Online</span>" : "<span class='offline'>Offline</span>"
+  end
   
   def build_action_list
     @actions ||= []

@@ -58,4 +58,12 @@ describe BackupServer do
     available[0].in_subnet.should == true
     available[1].in_subnet.should == false
   end
+  
+  it "should know if it's online" do
+    backup1 = Factory(:backup_server)
+    backup2 = Factory(:backup_server)
+    BackupServer.should_receive(:nanites).twice.and_return({"#{backup1.hostname}" => 'something'}) 
+    backup1.online?.should be true
+    backup2.online?.should be false
+  end
 end

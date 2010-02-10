@@ -64,7 +64,7 @@ class BackupServer < ActiveRecord::Base
   def self.nanites
     return [] if Nanite.mapper.nil? or Nanite.mapper.cluster.nil?
     Nanite.mapper.cluster.nanites.map do | nanite |
-      nanite.inspect
+      nanite[0].sub(/nanite-/,'')
     end
   end
   

@@ -2,14 +2,20 @@ class BackupServer < ActiveRecord::Base
   has_many :servers
   
   validates_presence_of :hostname, :zpool, :max_backups
+  attr_accessor :in_subnet
   
   def self.available_for(server)
     list = nanite_query("/info/in_subnet?", server)
-    available = []
+    recommended = []
     list.each_pair do | server, result |
-      available.push server if result == true
+      recommended.push server if result == true
     end
-    array_to_models available
+    available = all
+    available.each do | backup_server |
+      backup_server.in_subnet = false
+      backup_server.in_subnet = true if recommended.include? backup_server.hostname
+    end
+    available
   end
   
   def to_s

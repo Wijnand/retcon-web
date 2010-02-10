@@ -54,7 +54,8 @@ describe BackupServer do
            {"nanite-#{backup1.hostname}" => true, "nanite-#{backup2.hostname}" => false})
     available = BackupServer.available_for("localhost")
     available.should be_instance_of Array
-    available.size.should be 1
-    available[0].hostname.should == backup1.hostname
+    available.size.should be 2
+    available[0].in_subnet.should == true
+    available[1].in_subnet.should == false
   end
 end

@@ -658,3 +658,6 @@ div.page_header {
 .hide_js {
   display: none;
 }
+
+.online { color: green;}
+.offline { color: red;}

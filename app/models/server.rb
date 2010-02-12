@@ -1,5 +1,5 @@
 class Server < ActiveRecord::Base
-  validates_presence_of :hostname, :interval_hours
+  validates_presence_of :hostname, :interval_hours, :keep_snapshots
   
   validates_inclusion_of :window_start, :in => 0..23, 
          :message => 'Should be a valid hour! Ranging from 0 to 23', 
@@ -12,9 +12,7 @@ class Server < ActiveRecord::Base
   has_many :profiles, :through => :profilizations
   has_many :problems
   belongs_to :backup_server
-  
-  after_save :setup_backups
-  
+    
   def latest_problems
     problems.find(:all, :order => 'created_at DESC', :limit=>10)
   end
@@ -53,10 +51,6 @@ class Server < ActiveRecord::Base
     now = Time.new
     next_backup = last_started + (interval_hours * 3600)
     now > next_backup
-  end
-  
-  def setup_backups
-    backup_server.setup_for(self) if backup_server
   end
   
   def after_initialize

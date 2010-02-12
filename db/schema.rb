@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100119174353) do
+ActiveRecord::Schema.define(:version => 20100210222621) do
 
   create_table "backup_servers", :force => true do |t|
     t.string   "hostname"
@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 20100119174353) do
     t.datetime "updated_at"
     t.string   "zpool"
     t.integer  "max_backups"
+    t.string   "jid"
+    t.string   "disk_free"
   end
 
   create_table "excludes", :force => true do |t|
@@ -81,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20100119174353) do
     t.integer  "window_start"
     t.integer  "window_stop"
     t.integer  "interval_hours"
+    t.integer  "keep_snapshots"
   end
 
   create_table "sessions", :force => true do |t|

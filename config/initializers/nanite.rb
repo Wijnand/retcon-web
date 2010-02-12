@@ -66,3 +66,4 @@ if ENV["NO_NM"].nil? && RAILS_ENV != "test"
     end
   end
 end
+

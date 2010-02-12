@@ -5,9 +5,13 @@ module ApplicationHelper
     @actions.push([text,url])
   end
 
+  def display_online(item)
+    item.online? ? "<span class='online'>Online</span>" : "<span class='offline'>Offline</span>"
+  end
   
   def build_action_list
     @actions ||= []
+    return nil unless @actions.size > 1
     content_for :sidebar do
       "<h1>Actions</h1><ul>" +
       @actions.map do | action |

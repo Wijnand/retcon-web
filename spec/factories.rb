@@ -2,6 +2,7 @@ Factory.define :server do |f|
   f.sequence(:hostname) {|n| "server#{n}.example.com" }
   f.enabled true
   f.interval_hours 24
+  f.keep_snapshots 30
   f.association :backup_server
 end
 

@@ -2,37 +2,36 @@ class BackupServer < ActiveRecord::Base
   has_many :servers
   
   validates_presence_of :hostname, :zpool, :max_backups
+  attr_accessor :in_subnet
   
   def self.available_for(server)
     list = nanite_query("/info/in_subnet?", server)
-    available = []
+    recommended = []
     list.each_pair do | server, result |
-      available.push server if result == true
+      recommended.push server if result == true
     end
-    array_to_models available
+    available = all
+    available.each do | backup_server |
+      backup_server.in_subnet = false
+      backup_server.in_subnet = true if recommended.include? backup_server.hostname
+    end
+    available
   end
   
   def to_s
     hostname
   end
   
-  def setup_for(host)
-    # Currently this is the only step for provisioning I know of
-    status = create_fs("#{zpool}/#{host.hostname}")
-    if status[0] != 0
-      Problem.create!(:server => host, :backup_server => self, :message=> status[1])
-    else
-    end
-  end
-  
   def do_nanite(action, payload)
     res = 'undef'
-    return nil unless nanites["nanite-#{hostname}"]
+    return [1,'backup server was offline'] unless online?
     Nanite.request(action, payload, :target => "nanite-#{hostname}") do |result |
      key = "nanite-" + hostname
+     puts result
      res = result[key]
     end
     while res == 'undef'
+      puts "no result yet"
       sleep 0.1
     end
     return res
@@ -60,13 +59,27 @@ class BackupServer < ActiveRecord::Base
     self.class.nanites
   end
   
-  def create_fs(fs)
-    do_nanite("/zfs/create", fs)
+  def online?
+    nanites.include? hostname
+  end
+  
+  def update_disk_space
+    if online?
+      Nanite.request('/zfs/disk_free', nil, :target => "nanite-#{hostname}") do |result |
+       key = "nanite-" + hostname
+       puts result
+       res = result[key]
+       self.disk_free = res
+       self.save
+      end
+    end
   end
   
   def self.nanites
     return [] if Nanite.mapper.nil? or Nanite.mapper.cluster.nil?
-    Nanite.mapper.cluster.nanites
+    Nanite.mapper.cluster.nanites.map do | nanite |
+      nanite[0].sub(/nanite-/,'')
+    end
   end
   
   def self.array_to_models(arr)

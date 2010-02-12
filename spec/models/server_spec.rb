@@ -23,6 +23,12 @@ describe Server do
     s.valid?.should be false
   end
   
+  it "should not be valid when no keep_snapshots is given" do
+    s = Factory.build(:server)
+    s.keep_snapshots = nil
+    s.valid?.should be false
+  end
+  
   it "should not accept impossible hours" do
     s = Factory.build(:server)
     s.window_start = 25
@@ -171,18 +177,6 @@ describe Server do
     s.last_started = Time.new - ( 24 * 3600)
     s.interval_hours = 24
     s.should_backup?.should be true
-  end
-  
-  it "should call the setup_backups method after a save" do
-      server = Factory.build(:server)
-      server.should_receive(:setup_backups).once
-      server.save
-  end
-  
-  it "should order the backup server to provision after save" do
-    server = Factory.build(:server)
-    server.backup_server.should_receive(:setup_for).with(server)
-    server.save
   end
   
   it "should generate a list of includes with a sha" do

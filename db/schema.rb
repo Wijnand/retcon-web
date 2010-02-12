@@ -19,14 +19,6 @@ ActiveRecord::Schema.define(:version => 20100119174353) do
     t.integer  "max_backups"
   end
 
-  create_table "errors", :force => true do |t|
-    t.integer  "server_id"
-    t.integer  "backup_server_id"
-    t.text     "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "excludes", :force => true do |t|
     t.integer  "profile_id"
     t.string   "path"

@@ -65,7 +65,7 @@ class BackupServer < ActiveRecord::Base
   
   def update_disk_space
     if online?
-      Nanite.request('/zfs/disk_free', nil, :target => "nanite-#{hostname}") do |result |
+      Nanite.request('/zfs/disk_free', self.zpool, :target => "nanite-#{hostname}") do |result |
        key = "nanite-" + hostname
        puts result
        res = result[key]

@@ -10,8 +10,8 @@
 <% @profile.excludes.each do |exclude| %>
   <tr>
     <td><%= h exclude.path %></td>
-    <td><%= link_to 'Edit', edit_profile_exclude_path(@profile, exclude) %></td>
-    <td><%= link_to 'Destroy', [@profile, exclude], :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_profile_exclude_path(@profile, exclude) %> |
+    <%= link_to 'Destroy', [@profile, exclude], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

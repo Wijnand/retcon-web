@@ -10,8 +10,8 @@
 <% @profile.includes.each do |include| %>
   <tr>
     <td><%= h include.path %></td>
-    <td><%= link_to 'Edit', edit_profile_include_path(@profile, include) %></td>
-    <td><%= link_to 'Destroy', [@profile, include], :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_profile_include_path(@profile, include) %> | 
+    <%= link_to 'Destroy', [@profile, include], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

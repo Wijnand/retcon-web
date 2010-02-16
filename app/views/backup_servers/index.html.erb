@@ -10,8 +10,8 @@
 <% @backup_servers.each do |backup_server| %>
   <tr>
     <td><%=link_to h( backup_server.hostname), backup_server %></td>
-    <td><%= link_to 'Edit', edit_backup_server_path(backup_server) %></td>
-    <td><%= link_to 'Destroy', backup_server, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_backup_server_path(backup_server) %> | 
+    <%= link_to 'Destroy', backup_server, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

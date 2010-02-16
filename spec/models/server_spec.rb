@@ -179,17 +179,56 @@ describe Server do
     s.should_backup?.should be true
   end
   
-  it "should generate a list of includes with a sha" do
-    # should return 2 strings
-    # first the sha, for caching
-    # second a list of includes, newline separated
-    pending
+  it "should know the excludes inherited trough the profiles" do
+    s = Factory.build(:server) # we need one server
+    p1 = Factory.build(:profile, :name => 'linux') # profile one
+    p2 = Factory.build(:profile, :name => 'standard') # and another one
+    p1.excludes << Factory.build(:exclude, :path => '/') # exclude one
+    p2.excludes << Factory.build(:exclude, :path => '/var/log') # second exclude
+    s.profiles << p1
+    s.profiles << p2
+    s.excludes.size.should == 2
   end
   
-  it "should generate a list of excludes with a sha" do
-    # should return 2 strings
-    # first the sha, for caching
-    # second a list of excludes, newline separated
-    pending
+  it "should know the includes inherited trough the profiles" do
+    s = Factory.build(:server) # we need one server
+    p1 = Factory.build(:profile, :name => 'linux') # profile one
+    p2 = Factory.build(:profile, :name => 'standard') # and another one
+    p1.includes << Factory.build(:include, :path => '/') # include one
+    p2.includes << Factory.build(:include, :path => '/var/log') # second include
+    s.profiles << p1
+    s.profiles << p2
+    s.includes.size.should == 2
+  end
+  
+  it "should compile the list of excludes to valid rsync args" do
+    s = Factory.build(:server) # we need one server
+    p1 = Factory.build(:profile, :name => 'linux') # profile one
+    p2 = Factory.build(:profile, :name => 'standard') # and another one
+    p1.excludes << Factory.build(:exclude, :path => '/') # include one
+    p2.excludes << Factory.build(:exclude, :path => '/var/log') # second include
+    s.profiles << p1
+    s.profiles << p2
+    
+    s.rsync_excludes.should == '--exclude=/ --exclude=/var/log'
+  end
+  
+  it "should compile the list of includes to valid rsync args" do
+    s = Factory.build(:server) # we need one server
+    p1 = Factory.build(:profile, :name => 'linux') # profile one
+    p2 = Factory.build(:profile, :name => 'standard') # and another one
+    p1.includes << Factory.build(:include, :path => '/') # include one
+    p2.includes << Factory.build(:include, :path => '/var/log') # second include
+    s.profiles << p1
+    s.profiles << p2
+
+    s.rsync_includes.should == '--include=/ --include=/var/log'
+  end
+  
+  it "should know the path to store the backups" do
+    s = Factory.build(:server)
+    b = Factory.build(:backup_server, :zpool => 'backup')
+    s.backup_server = b
+    s.backup_path.should == '/backup/' + s.hostname 
   end
 end

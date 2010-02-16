@@ -43,14 +43,33 @@ class Server < ActiveRecord::Base
     start  = Time.parse( window_start == 0 ? "00:00" : "#{window_start}:00")
     ending = Time.parse( window_stop == 0 ? "23:59" : "#{window_stop}:00")
     now = Time.new
-    range = start..ending
-    range.include? now
+    (start..ending).include? now
+  end
+  
+  def excludes
+    self.profiles.map{ | p | p.excludes }.flatten
+  end
+  
+  def rsync_excludes
+    excludes.map { | e | "--exclude=#{e}"}.join(" ")
+  end
+  
+  def includes
+    self.profiles.map{ | p | p.includes }.flatten
+  end
+  
+  def rsync_includes
+    includes.map { | i | "--include=#{i}"}.join(" ")
   end
   
   def interval_passed?
     now = Time.new
     next_backup = last_started + (interval_hours * 3600)
     now > next_backup
+  end
+  
+  def backup_path
+    '/' + self.backup_server.zpool + '/' + self.hostname
   end
   
   def after_initialize

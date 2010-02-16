@@ -16,4 +16,9 @@ describe Exclude do
     e = Factory.build :exclude, :profile_id => nil
     e.valid?.should be false
   end
+  
+  it "should respond to to_s" do
+    e = Factory.build :exclude, :path => '/'
+    e.to_s.should == '/'
+  end
 end

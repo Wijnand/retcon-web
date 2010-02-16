@@ -27,11 +27,9 @@ class BackupServer < ActiveRecord::Base
     return [1,'backup server was offline'] unless online?
     Nanite.request(action, payload, :target => "nanite-#{hostname}") do |result |
      key = "nanite-" + hostname
-     puts result
      res = result[key]
     end
     while res == 'undef'
-      puts "no result yet"
       sleep 0.1
     end
     return res
@@ -67,7 +65,6 @@ class BackupServer < ActiveRecord::Base
     if online?
       Nanite.request('/zfs/disk_free', self.zpool, :target => "nanite-#{hostname}") do |result |
        key = "nanite-" + hostname
-       puts result
        res = result[key]
        self.disk_free = res
        self.save

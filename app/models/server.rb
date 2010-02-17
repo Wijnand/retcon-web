@@ -11,6 +11,7 @@ class Server < ActiveRecord::Base
   has_many :profilizations
   has_many :profiles, :through => :profilizations
   has_many :problems
+  has_many :backup_jobs
   belongs_to :backup_server
     
   def latest_problems

@@ -26,3 +26,10 @@ Factory.define :include do | f |
   f.sequence(:path) {|n| "/include/#{n}" }
   f.association :profile
 end
+
+Factory.define :backup_job do | f |
+  f.association :backup_server
+  f.association :server
+  f.status 'running'
+  f.pid '1028'
+end

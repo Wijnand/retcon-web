@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  backup_server: 1
+  server: 1
+  status: MyString
+  pid: 1
+  result: MyString
+  log: MyText
+
+two:
+  backup_server: 1
+  server: 1
+  status: MyString
+  pid: 1
+  result: MyString
+  log: MyText

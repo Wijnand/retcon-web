@@ -64,6 +64,7 @@ class Server < ActiveRecord::Base
   end
   
   def interval_passed?
+    return true if last_started.nil?
     now = Time.new
     next_backup = last_started + (interval_hours * 3600)
     now > next_backup

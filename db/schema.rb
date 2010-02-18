@@ -12,8 +12,8 @@
 ActiveRecord::Schema.define(:version => 20100217080250) do
 
   create_table "backup_jobs", :force => true do |t|
-    t.integer  "backup_server"
-    t.integer  "server"
+    t.integer  "backup_server_id"
+    t.integer  "server_id"
     t.string   "status"
     t.integer  "pid"
     t.string   "result"

@@ -67,6 +67,7 @@ describe BackupServer do
     backup2.online?.should be false
   end
   
+  # very bad test since it actually calls the methods on Server instances
   it "should know which servers it should backup" do
     b = Factory(:backup_server)
     s1 = Factory(:server, :hostname => 'server1.example.com', :backup_server => b)

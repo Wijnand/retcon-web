@@ -66,4 +66,17 @@ describe BackupServer do
     backup1.online?.should be true
     backup2.online?.should be false
   end
+  
+  it "should know which servers it should backup" do
+    b = Factory(:backup_server)
+    s1 = Factory(:server, :hostname => 'server1.example.com', :backup_server => b)
+    s2 = Factory(:server, :hostname => 'server2.example.com', :backup_server => b, 
+                 :last_backup => Time.new - (3 * 3600), 
+                 :last_started =>Time.new - ( 4 * 3600))
+    s3 = Factory(:server, :hostname => 'server3.example.com', :backup_server => b)
+    to_backup = b.should_start
+    to_backup.size.should == 2
+    to_backup[0].hostname.should == 'server1.example.com'
+    to_backup[1].hostname.should == 'server3.example.com'
+  end
 end

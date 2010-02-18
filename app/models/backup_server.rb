@@ -84,4 +84,8 @@ class BackupServer < ActiveRecord::Base
   def self.array_to_models(arr)
     find(:all, :conditions => [ "hostname IN (?)", arr])
   end
+  
+  def should_start
+    self.servers.select { | server | server.should_backup? }
+  end
 end

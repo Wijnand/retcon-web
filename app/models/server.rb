@@ -1,5 +1,5 @@
 class Server < ActiveRecord::Base
-  validates_presence_of :hostname, :interval_hours, :keep_snapshots
+  validates_presence_of :hostname, :interval_hours, :keep_snapshots, :ssh_port
   
   validates_inclusion_of :window_start, :in => 0..23, 
          :message => 'Should be a valid hour! Ranging from 0 to 23', 
@@ -76,5 +76,6 @@ class Server < ActiveRecord::Base
   
   def after_initialize
     @enabled = true
+    @ssh_port = 22
   end
 end

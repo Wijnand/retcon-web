@@ -10,7 +10,7 @@
   <dd><%=h (@server.connect_address) %></dd>
 
   <dt>Ssh port:</dt>
-  <dd><%=h (@server.ssh_port.to_s.empty? ? "22" : @server.ssh_port) %></dd>
+  <dd><%=h (@server.ssh_port) %></dd>
 
   <dt>Enabled:</dt>
   <dd><%=h @server.enabled %></dd>

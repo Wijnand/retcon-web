@@ -23,6 +23,12 @@ describe Server do
     s.valid?.should be false
   end
   
+  it "should not be valid when no ssh_port is given" do
+    s = Factory.build(:server)
+    s.ssh_port = nil
+    s.valid?.should be false
+  end
+  
   it "should not be valid when no keep_snapshots is given" do
     s = Factory.build(:server)
     s.keep_snapshots = nil
@@ -43,7 +49,6 @@ describe Server do
   it "should be valid when the other attributes are not given" do
     s = Factory.build(:server)
     s.connect_to = nil
-    s.ssh_port = nil
     s.enabled = nil
     s.backup_server_id = nil
     s.last_backup = nil

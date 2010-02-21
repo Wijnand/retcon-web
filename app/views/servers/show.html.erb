@@ -7,7 +7,7 @@
   <dd><%=h @server.hostname %></dd>
 
   <dt>Ssh address:</dt>
-  <dd><%=h (@server.connect_to.empty? ? @server.hostname : @server.connect_to) %></dd>
+  <dd><%=h (@server.connect_address) %></dd>
 
   <dt>Ssh port:</dt>
   <dd><%=h (@server.ssh_port.to_s.empty? ? "22" : @server.ssh_port) %></dd>

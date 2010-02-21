@@ -70,8 +70,8 @@ class Server < ActiveRecord::Base
     now > next_backup
   end
   
-  def backup_path
-    '/' + self.backup_server.zpool + '/' + self.hostname
+  def connect_address
+    self.connect_to.empty? ? self.hostname : self.connect_to
   end
   
   def after_initialize

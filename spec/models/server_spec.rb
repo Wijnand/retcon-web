@@ -225,10 +225,4 @@ describe Server do
     s.rsync_includes.should == '--include=/ --include=/var/log'
   end
   
-  it "should know the path to store the backups" do
-    s = Factory.build(:server)
-    b = Factory.build(:backup_server, :zpool => 'backup')
-    s.backup_server = b
-    s.backup_path.should == '/backup/' + s.hostname 
-  end
 end

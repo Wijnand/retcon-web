@@ -88,4 +88,19 @@ class BackupServer < ActiveRecord::Base
   def should_start
     self.servers.select { | server | server.should_backup? }
   end
+  
+  def queue_backups
+    should_start.each do | server |
+      BackupJob.create!(:backup_server => self, :server => server, :status => 'queued')
+    end
+  end
+  
+  def queued_backups
+    backup_jobs.all :conditions => { :status => 'queued'}, :limit => self.max_backups
+  end
+  
+  def running_backups
+    backup_jobs.all :conditions => { :status => 'running'}
+  end
+  
 end

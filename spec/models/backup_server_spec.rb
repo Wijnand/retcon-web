@@ -80,4 +80,38 @@ describe BackupServer do
     to_backup[0].hostname.should == 'server1.example.com'
     to_backup[1].hostname.should == 'server3.example.com'
   end
+  
+  it "should create a backup job for each server that should be backed up" do
+    b = Factory(:backup_server)
+    s1 = Factory(:server, :hostname => 'server1.example.com', :backup_server => b)
+    s2 = Factory(:server, :hostname => 'server2.example.com', :backup_server => b,
+                 :last_backup => Time.new - (3 * 3600), 
+                 :last_started =>Time.new - ( 4 * 3600))
+    s3 = Factory(:server, :hostname => 'server3.example.com', :backup_server => b)
+    BackupJob.should_receive(:create!).with(:backup_server => b, :server => s1, :status => 'queued')
+    BackupJob.should_receive(:create!).with(:backup_server => b, :server => s3, :status => 'queued')
+    b.queue_backups
+  end
+  
+  it "should know how to retrieve queued backups with at most max_backups" do
+    b = Factory(:backup_server, :max_backups => 2)
+    s1 = Factory(:server)
+    s2 = Factory(:server)
+    s3 = Factory(:server)
+    job1 = Factory(:backup_job, :server => s1, :backup_server => b, :status => 'queued')
+    job2 = Factory(:backup_job, :server => s2, :backup_server => b, :status => 'queued')
+    job3 = Factory(:backup_job, :server => s3, :backup_server => b, :status => 'queued')
+    b.queued_backups.size.should == 2
+  end
+
+  it "should know how many backups are running" do
+    b = Factory(:backup_server)
+    s1 = Factory(:server)
+    s2 = Factory(:server)
+    s3 = Factory(:server)
+    job1 = Factory(:backup_job, :server => s1, :backup_server => b, :status => 'running')
+    job2 = Factory(:backup_job, :server => s2, :backup_server => b, :status => 'running')
+    job3 = Factory(:backup_job, :server => s3, :backup_server => b, :status => 'running')
+    b.running_backups.size.should == 3
+  end
 end

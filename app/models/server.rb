@@ -78,4 +78,8 @@ class Server < ActiveRecord::Base
     @enabled = true
     @ssh_port = 22
   end
+  
+  def startdir
+    profiles.first.path
+  end
 end

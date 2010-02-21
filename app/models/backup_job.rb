@@ -23,7 +23,7 @@ class BackupJob < ActiveRecord::Base
   
   def rsync_command
     "rsync --stats -aHRW --del --timeout=600 --delete --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
-    self.server.excludes + " " + self.server.includes +
+    self.server.rsync_excludes + " " + self.server.rsync_includes +
     "--log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/ "
   end
 end

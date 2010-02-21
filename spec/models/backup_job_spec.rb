@@ -17,7 +17,8 @@ describe BackupJob do
   
   it "should build a valid rsync command line" do
     j = Factory(:backup_job)
-    #rsync_cmd = "#{PFEXEC} #{rsync_command} --log-file=/tmp/#{host}_debug root@#{connect_host}:#{startdir} /#{ZPOOL}/#{host}/ 2>&1 >> /tmp/#{host}.log"
+    j.server.should_receive(:startdir).and_return('/')
+    puts j.rsync_command
     pending
   end
 end

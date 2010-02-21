@@ -71,7 +71,7 @@ class Server < ActiveRecord::Base
   end
   
   def connect_address
-    self.connect_to.empty? ? self.hostname : self.connect_to
+    self.connect_to.nil? ? self.hostname : self.connect_to
   end
   
   def after_initialize

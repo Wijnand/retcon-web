@@ -21,7 +21,7 @@ class BackupJob < ActiveRecord::Base
     "ssh -c arcfour -p #{self.server.ssh_port}"
   end
   
-  def rsync_command
+  def to_rsync
     "rsync --stats -aHRW --del --timeout=600 --delete --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
     self.server.rsync_excludes + " " + self.server.rsync_includes +
     "--log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/ "

@@ -18,7 +18,7 @@ describe BackupJob do
   it "should build a valid rsync command line" do
     j = Factory(:backup_job)
     j.server.should_receive(:startdir).and_return('/')
-    puts j.rsync_command
+    puts j.to_rsync
     pending
   end
 end

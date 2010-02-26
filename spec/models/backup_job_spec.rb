@@ -16,9 +16,12 @@ describe BackupJob do
   end
   
   it "should build a valid rsync command line" do
-    j = Factory(:backup_job)
-    j.server.should_receive(:startdir).and_return('/')
-    puts j.to_rsync
-    pending
+    s = Factory.build(:server, :hostname => 'server1.example.com')
+    p = Factory.build(:profile, :name => 'linux')
+    p.includes << Factory.build(:include, :path => '/')
+    p.excludes << Factory.build(:exclude, :path => '/backup')
+    s.profiles << p
+    j = Factory.build(:backup_job, :server => s)
+    j.to_rsync.should == "rsync --stats -aHRW --del --timeout=600 --delete --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --exclude=/backup --include=/ --log-file=/tmp/server1.example.com_debug root@server1.example.com:/ /backup/server1.example.com/"
   end
 end

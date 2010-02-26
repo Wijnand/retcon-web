@@ -96,6 +96,10 @@ class BackupServer < ActiveRecord::Base
   end
   
   def queued_backups
+    backup_jobs.all :conditions => { :status => 'queued'}
+  end
+  
+  def next_queued
     backup_jobs.all :conditions => { :status => 'queued'}, :limit => self.max_backups
   end
   
@@ -103,4 +107,16 @@ class BackupServer < ActiveRecord::Base
     backup_jobs.all :conditions => { :status => 'running'}
   end
   
+  def run_queued
+    if online?
+      next_queued.each do | job |
+        Nanite.request('/command/syscmd', job.to_rsync, :target => "nanite-#{hostname}") do |result |
+         key = "nanite-" + hostname
+         res = result[key]
+        end
+        job.status = 'running'
+        job.save
+      end
+    end
+  end
 end

@@ -1,8 +1,18 @@
 require 'spec_helper'
 
 describe BackupServer do
-  before(:each) do
-
+  def setup_valid
+    @backupserver = Factory(:backup_server, :max_backups => 2)
+    @server1 = Factory(:server)
+    @server2 = Factory(:server)
+    @server3 = Factory(:server)
+    @profile= Factory(:profile)
+    @server1.profiles << @profile
+    @server2.profiles << @profile
+    @server3.profiles << @profile
+    @job1 = Factory(:backup_job, :server => @server1, :backup_server => @backupserver, :status => 'queued')
+    @job2 = Factory(:backup_job, :server => @server2, :backup_server => @backupserver, :status => 'queued')
+    @job3 = Factory(:backup_job, :server => @server3, :backup_server => @backupserver, :status => 'queued')
   end
 
   it "should create a new instance given valid attributes" do
@@ -101,7 +111,8 @@ describe BackupServer do
     job1 = Factory(:backup_job, :server => s1, :backup_server => b, :status => 'queued')
     job2 = Factory(:backup_job, :server => s2, :backup_server => b, :status => 'queued')
     job3 = Factory(:backup_job, :server => s3, :backup_server => b, :status => 'queued')
-    b.queued_backups.size.should == 2
+    b.queued_backups.size.should == 3
+    b.next_queued.size.should == 2
   end
 
   it "should know how many backups are running" do
@@ -113,5 +124,17 @@ describe BackupServer do
     job2 = Factory(:backup_job, :server => s2, :backup_server => b, :status => 'running')
     job3 = Factory(:backup_job, :server => s3, :backup_server => b, :status => 'running')
     b.running_backups.size.should == 3
+  end
+  
+  it "should start backups with the right rsync command" do
+    setup_valid
+    @backupserver.should_receive(:online?).and_return(true)
+    Nanite.should_receive(:request).with('/command/syscmd', @job1.to_rsync, :target => "nanite-#{@backupserver.hostname}")
+    Nanite.should_receive(:request).with('/command/syscmd', @job2.to_rsync, :target => "nanite-#{@backupserver.hostname}")
+    Nanite.should_not_receive(:request).with('/command/syscmd', @job3.to_rsync, :target => "nanite-#{@backupserver.hostname}")
+    @backupserver.run_queued
+    @backupserver.backup_jobs[0].status.should == 'running'
+    @backupserver.backup_jobs[1].status.should == 'running'
+    @backupserver.backup_jobs[2].status.should == 'queued'
   end
 end

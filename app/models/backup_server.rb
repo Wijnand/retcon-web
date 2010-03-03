@@ -146,8 +146,6 @@ class BackupServer < ActiveRecord::Base
   end
   
   def create_snapshot(job)
-    Nanite.request('/command/syscmd', "/usr/bin/pfexec /usr/sbin/zfs snapshot #{@job.fs}@#{Time.new.to_i}", :target => nanite) do | result |
-
-    end
+    Nanite.push('/command/syscmd', "/usr/bin/pfexec /usr/sbin/zfs snapshot #{job.fs}@#{Time.new.to_i}", :target => nanite)
   end
 end

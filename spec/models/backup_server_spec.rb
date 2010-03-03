@@ -217,12 +217,11 @@ describe BackupServer do
   end
   
   it "should know how to send a snapshot command" do
-    pending
     setup_valid
     now = Time.new
     Time.stub(:new).and_return(now)
-    Nanite.should_receive(:request).with("/command/syscmd", "/usr/bin/pfexec /usr/sbin/zfs snapshot #{@job1.fs}@#{now.to_i}", 
-           :target => "nanite-#{@backupserver.hostname}").and_yield("nanite-#{@backupserver.hostname}" => true)
+    Nanite.should_receive(:push).with("/command/syscmd", "/usr/bin/pfexec /usr/sbin/zfs snapshot #{@job1.fs}@#{now.to_i}", 
+           :target => "nanite-#{@backupserver.hostname}")
     @backupserver.create_snapshot @job1
   end
 end

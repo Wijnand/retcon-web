@@ -42,14 +42,14 @@ describe BackupServer do
 
   it "should have a way to call nanite jobs for a specific backup server" do
     b = Factory.build(:backup_server)
-    b.should_receive(:nanites).and_return({"#{b.hostname}" => 'something'})
+    b.stub(:nanites).and_return({"#{b.hostname}" => 'something'})
     Nanite.should_receive(:request).once.with("method", "arg", :target => "nanite-#{b.hostname}").and_yield("the result")
     b.send(:do_nanite, 'method', 'arg')
   end
 
   it "should be able to query using nanite" do
-    BackupServer.should_receive(:nanites).and_return({'backup2' => 'something', 'backup1' => 'something'})
-    Nanite.should_receive(:request).once.with("command", "arg", :selector => :all).and_yield(
+    BackupServer.stub(:nanites).and_return({'backup2' => 'something', 'backup1' => 'something'})
+    Nanite.stub(:request).once.with("command", "arg", :selector => :all).and_yield(
            {'backup1' => 'my result', 'backup2' => 'other result'})
     list = BackupServer.nanite_query("command", "arg")
     list['backup1'].should == "my result"
@@ -58,9 +58,9 @@ describe BackupServer do
   it "should select valid backup servers for a given server" do
     backup1 = Factory(:backup_server)
     backup2 = Factory(:backup_server)
-    BackupServer.should_receive(:nanites).and_return({"#{backup1.hostname}" => 'something',
+    BackupServer.stub(:nanites).and_return({"#{backup1.hostname}" => 'something',
                                                       "#{backup2.hostname}" => 'something'})
-    Nanite.should_receive(:request).once.with("/info/in_subnet?", "localhost", :selector => :all).and_yield(
+    Nanite.stub(:request).with("/info/in_subnet?", "localhost", :selector => :all).and_yield(
            {"#{backup1.hostname}" => true, "#{backup2.hostname}" => false})
     available = BackupServer.available_for("localhost")
     available.should be_instance_of Array
@@ -141,7 +141,7 @@ describe BackupServer do
   
   it "should only start backup jobs with at most next_queued" do
     setup_valid
-    @backupserver.should_receive(:online?).and_return(true)
+    @backupserver.stub(:online?).and_return(true)
     @backupserver.should_receive(:run_backup_job).with @backupserver.backup_jobs[0]
     @backupserver.should_receive(:run_backup_job).with @backupserver.backup_jobs[1]
     @backupserver.should_not_receive(:run_backup_job).with @backupserver.backup_jobs[2]
@@ -150,7 +150,7 @@ describe BackupServer do
 
   it "should not start the backup if the filesystem is ready" do
     setup_valid
-    @job1.should_receive(:prepare_fs).and_return false
+    @job1.stub(:prepare_fs).and_return false
     @backupserver.should_not_receive(:start_rsync)
     @backupserver.run_backup_job @job1
     @job1.status.should == 'failed'
@@ -158,7 +158,7 @@ describe BackupServer do
   
   it "should start the backup if the filesystem is ready" do
     setup_valid
-    @job1.should_receive(:prepare_fs).and_return true
+    @job1.stub(:prepare_fs).and_return true
     @backupserver.should_receive(:start_rsync)
     @backupserver.run_backup_job @job1
     @job1.status.should == 'running'
@@ -183,7 +183,7 @@ describe BackupServer do
   it "handle_backup_result should create a snapshot when the backup is OK" do
     setup_valid
     result = [0,'done']
-    BackupJob.should_receive(:code_to_success).and_return("OK")
+    BackupJob.stub(:code_to_success).and_return("OK")
     @backupserver.should_receive(:create_snapshot).with(@job1)
     @backupserver.handle_backup_result result, @job1
     @job1.status.should == 'OK'
@@ -192,7 +192,7 @@ describe BackupServer do
   it "handle_backup_result should not create a snapshot when the backup failed" do
     setup_valid
     result = [0,'done']
-    BackupJob.should_receive(:code_to_success).and_return("FAILED")
+    BackupJob.stub(:code_to_success).and_return("FAILED")
     @backupserver.should_not_receive(:create_snapshot).with(@job1)
     @backupserver.handle_backup_result result, @job1
     @job1.status.should == 'FAILED'
@@ -201,7 +201,7 @@ describe BackupServer do
   it "handle_backup_result should create a snapshot when the backup is partial" do
     setup_valid
     result = [0,'done']
-    BackupJob.should_receive(:code_to_success).and_return("PARTIAL")
+    BackupJob.stub(:code_to_success).and_return("PARTIAL")
     @backupserver.should_receive(:create_snapshot).with(@job1)
     @backupserver.handle_backup_result result, @job1
     @job1.status.should == 'PARTIAL'
@@ -210,7 +210,7 @@ describe BackupServer do
   it "handle_backup_result should create a snapshot when the backup status is unknown" do
     setup_valid
     result = [0,'done']
-    BackupJob.should_receive(:code_to_success).and_return("UNKNOWN")
+    BackupJob.stub(:code_to_success).and_return("UNKNOWN")
     @backupserver.should_receive(:create_snapshot).with(@job1)
     @backupserver.handle_backup_result result, @job1
     @job1.status.should == 'UNKNOWN'

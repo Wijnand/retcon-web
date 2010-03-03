@@ -27,9 +27,8 @@ class BackupServer < ActiveRecord::Base
   def do_nanite(action, payload)
     res = 'undef'
     return [1,'backup server was offline'] unless online?
-    Nanite.request(action, payload, :target => "nanite-#{hostname}") do |result |
-     key = "nanite-" + hostname
-     res = result[key]
+    Nanite.request(action, payload, :target => nanite) do |result |
+     res = result[nanite]
     end
     while res == 'undef'
       sleep 0.1
@@ -65,9 +64,8 @@ class BackupServer < ActiveRecord::Base
   
   def update_disk_space
     if online?
-      Nanite.request('/zfs/disk_free', self.zpool, :target => "nanite-#{hostname}") do |result |
-       key = "nanite-" + hostname
-       res = result[key]
+      Nanite.request('/zfs/disk_free', self.zpool, :target => nanite) do |result |
+       res = result[nanite]
        self.disk_free = res
        self.save
       end
@@ -100,23 +98,56 @@ class BackupServer < ActiveRecord::Base
   end
   
   def next_queued
-    backup_jobs.all :conditions => { :status => 'queued'}, :limit => self.max_backups
+    backup_jobs.all :conditions => { :status => 'queued'}, :limit => (self.max_backups - self.running_backups.size)
   end
   
   def running_backups
     backup_jobs.all :conditions => { :status => 'running'}
   end
   
-  def run_queued
+  def start_queued
     if online?
       next_queued.each do | job |
-        Nanite.request('/command/syscmd', job.to_rsync, :target => "nanite-#{hostname}") do |result |
-         key = "nanite-" + hostname
-         res = result[key]
-        end
-        job.status = 'running'
-        job.save
+        run_backup_job job
       end
+    end
+  end
+  
+  def run_backup_job(job)
+    if job.prepare_fs
+      job.status = 'running'
+      job.save
+      rsync_result = start_rsync job
+    else
+      job.status = 'failed'
+      job.save
+    end
+  end
+  
+  def nanite
+    "nanite-" + self.hostname
+  end
+  
+  def start_rsync(job)
+    Nanite.request('/command/syscmd', job.to_rsync, :target => nanite) do | result |
+     res = result[nanite]
+     handle_backup_result(res, job)
+    end
+  end
+  
+  def handle_backup_result(result, job)
+    job.status = BackupJob.code_to_success(result[0])
+    job.save
+    case job.status
+    when 'OK', 'PARTIAL', 'UNKNOWN'
+      create_snapshot(job)
+    when 'FAILED'
+    end
+  end
+  
+  def create_snapshot(job)
+    Nanite.request('/command/syscmd', "/usr/bin/pfexec /usr/sbin/zfs snapshot #{@job.fs}@#{Time.new.to_i}", :target => nanite) do | result |
+
     end
   end
 end

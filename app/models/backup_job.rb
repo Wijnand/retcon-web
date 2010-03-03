@@ -28,4 +28,11 @@ class BackupJob < ActiveRecord::Base
     self.server.rsync_excludes + " " + self.server.rsync_includes +
     " --log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/"
   end
+  
+  def self.code_to_success(num)
+    return "OK" if [0,24].include?(num)
+    return "PARTIAL" if [23,30, 20, 25].include?(num)
+    return "FAIL" if [12, 1, 2, 3, 5].include?(num)
+    return "UNKNOWN"
+  end
 end

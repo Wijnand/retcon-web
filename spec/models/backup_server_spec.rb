@@ -114,6 +114,19 @@ describe BackupServer do
     b.queued_backups.size.should == 3
     b.next_queued.size.should == 2
   end
+  
+  it "should should take the already running backups into account" do
+    b = Factory(:backup_server, :max_backups => 3)
+    s1 = Factory(:server)
+    s2 = Factory(:server)
+    s3 = Factory(:server)
+    job1 = Factory(:backup_job, :server => s1, :backup_server => b, :status => 'running')
+    job2 = Factory(:backup_job, :server => s2, :backup_server => b, :status => 'running')
+    job3 = Factory(:backup_job, :server => s3, :backup_server => b, :status => 'queued')
+    job4 = Factory(:backup_job, :server => s3, :backup_server => b, :status => 'queued')
+    b.queued_backups.size.should == 2
+    b.next_queued.size.should == 1
+  end
 
   it "should know how many backups are running" do
     b = Factory(:backup_server)
@@ -126,15 +139,90 @@ describe BackupServer do
     b.running_backups.size.should == 3
   end
   
-  it "should start backups with the right rsync command" do
+  it "should only start backup jobs with at most next_queued" do
     setup_valid
     @backupserver.should_receive(:online?).and_return(true)
-    Nanite.should_receive(:request).with('/command/syscmd', @job1.to_rsync, :target => "nanite-#{@backupserver.hostname}")
-    Nanite.should_receive(:request).with('/command/syscmd', @job2.to_rsync, :target => "nanite-#{@backupserver.hostname}")
-    Nanite.should_not_receive(:request).with('/command/syscmd', @job3.to_rsync, :target => "nanite-#{@backupserver.hostname}")
-    @backupserver.run_queued
-    @backupserver.backup_jobs[0].status.should == 'running'
-    @backupserver.backup_jobs[1].status.should == 'running'
-    @backupserver.backup_jobs[2].status.should == 'queued'
+    @backupserver.should_receive(:run_backup_job).with @backupserver.backup_jobs[0]
+    @backupserver.should_receive(:run_backup_job).with @backupserver.backup_jobs[1]
+    @backupserver.should_not_receive(:run_backup_job).with @backupserver.backup_jobs[2]
+    @backupserver.start_queued
+  end
+
+  it "should not start the backup if the filesystem is ready" do
+    setup_valid
+    @job1.should_receive(:prepare_fs).and_return false
+    @backupserver.should_not_receive(:start_rsync)
+    @backupserver.run_backup_job @job1
+    @job1.status.should == 'failed'
+  end
+  
+  it "should start the backup if the filesystem is ready" do
+    setup_valid
+    @job1.should_receive(:prepare_fs).and_return true
+    @backupserver.should_receive(:start_rsync)
+    @backupserver.run_backup_job @job1
+    @job1.status.should == 'running'
+  end
+  
+  it "should send a nanite command with the rsync line" do
+    setup_valid
+    Nanite.should_receive(:request).with("/command/syscmd", @job1.to_rsync, 
+           :target => "nanite-#{@backupserver.hostname}")
+    @backupserver.start_rsync @job1
+  end
+  
+  it "should process the result after a backup" do
+    setup_valid
+    result = [0, 'done']
+    Nanite.should_receive(:request).with("/command/syscmd", @job1.to_rsync, 
+           :target => "nanite-#{@backupserver.hostname}").and_yield("nanite-#{@backupserver.hostname}" => result)
+    @backupserver.should_receive(:handle_backup_result).with(result, @job1)
+    @backupserver.start_rsync @job1
+  end
+  
+  it "handle_backup_result should create a snapshot when the backup is OK" do
+    setup_valid
+    result = [0,'done']
+    BackupJob.should_receive(:code_to_success).and_return("OK")
+    @backupserver.should_receive(:create_snapshot).with(@job1)
+    @backupserver.handle_backup_result result, @job1
+    @job1.status.should == 'OK'
+  end
+  
+  it "handle_backup_result should not create a snapshot when the backup failed" do
+    setup_valid
+    result = [0,'done']
+    BackupJob.should_receive(:code_to_success).and_return("FAILED")
+    @backupserver.should_not_receive(:create_snapshot).with(@job1)
+    @backupserver.handle_backup_result result, @job1
+    @job1.status.should == 'FAILED'
+  end
+  
+  it "handle_backup_result should create a snapshot when the backup is partial" do
+    setup_valid
+    result = [0,'done']
+    BackupJob.should_receive(:code_to_success).and_return("PARTIAL")
+    @backupserver.should_receive(:create_snapshot).with(@job1)
+    @backupserver.handle_backup_result result, @job1
+    @job1.status.should == 'PARTIAL'
+  end
+  
+  it "handle_backup_result should create a snapshot when the backup status is unknown" do
+    setup_valid
+    result = [0,'done']
+    BackupJob.should_receive(:code_to_success).and_return("UNKNOWN")
+    @backupserver.should_receive(:create_snapshot).with(@job1)
+    @backupserver.handle_backup_result result, @job1
+    @job1.status.should == 'UNKNOWN'
+  end
+  
+  it "should know how to send a snapshot command" do
+    pending
+    setup_valid
+    now = Time.new
+    Time.stub(:new).and_return(now)
+    Nanite.should_receive(:request).with("/command/syscmd", "/usr/bin/pfexec /usr/sbin/zfs snapshot #{@job1.fs}@#{now.to_i}", 
+           :target => "nanite-#{@backupserver.hostname}").and_yield("nanite-#{@backupserver.hostname}" => true)
+    @backupserver.create_snapshot @job1
   end
 end

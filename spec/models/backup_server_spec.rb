@@ -164,6 +164,15 @@ describe BackupServer do
     @job1.status.should == 'running'
   end
   
+  it "should update the last_started field of the server" do
+    setup_valid
+    now = Time.new
+    Time.stub(:new).and_return(now)
+    @job1.stub(:prepare_fs).and_return true
+    @backupserver.should_receive(:start_rsync)
+    @backupserver.run_backup_job @job1
+    @server1.last_started.should == now
+  end
   it "should send a nanite command with the rsync line" do
     setup_valid
     Nanite.should_receive(:request).with("/command/syscmd", @job1.to_rsync, 
@@ -210,10 +219,13 @@ describe BackupServer do
   it "handle_backup_result should create a snapshot when the backup status is unknown" do
     setup_valid
     result = [0,'done']
+    now = Time.new
+    Time.stub(:new).and_return(now)
     BackupJob.stub(:code_to_success).and_return("UNKNOWN")
     @backupserver.should_receive(:create_snapshot).with(@job1)
     @backupserver.handle_backup_result result, @job1
     @job1.status.should == 'UNKNOWN'
+    @job1.server.last_backup.should == now
   end
   
   it "should know how to send a snapshot command" do

@@ -117,6 +117,8 @@ class BackupServer < ActiveRecord::Base
     if job.prepare_fs
       job.status = 'running'
       job.save
+      job.server.last_started = Time.new
+      job.server.save
       rsync_result = start_rsync job
     else
       job.status = 'failed'
@@ -142,7 +144,11 @@ class BackupServer < ActiveRecord::Base
     when 'OK', 'PARTIAL', 'UNKNOWN'
       create_snapshot(job)
     when 'FAILED'
+      # don't know what to do yet
     end
+    job.server.last_backup = Time.new
+    job.server.save
+    # report
   end
   
   def create_snapshot(job)

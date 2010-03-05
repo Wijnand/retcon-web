@@ -219,19 +219,15 @@ describe BackupServer do
   it "handle_backup_result should create a snapshot when the backup status is unknown" do
     setup_valid
     result = [0,'done']
-    now = Time.new
-    Time.stub(:new).and_return(now)
     BackupJob.stub(:code_to_success).and_return("UNKNOWN")
     @backupserver.should_receive(:create_snapshot).with(@job1)
     @backupserver.handle_backup_result result, @job1
     @job1.status.should == 'UNKNOWN'
-    @job1.server.last_backup.should == now
   end
   
   it "should know how to send a snapshot command" do
     setup_valid
     now = Time.new
-    Time.stub(:new).and_return(now)
     Nanite.should_receive(:push).with("/command/syscmd", "/usr/bin/pfexec /usr/sbin/zfs snapshot #{@job1.fs}@#{now.to_i}", 
            :target => "nanite-#{@backupserver.hostname}")
     @backupserver.create_snapshot @job1

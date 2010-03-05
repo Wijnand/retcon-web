@@ -48,3 +48,9 @@ Here we will describe in english how the backup configuration will apply. TODO
   <dt><%= problem.created_at %></dt>
   <dd><%=h problem.backup_server %>: <%=h problem.message %></dd>
 <% end %>
+
+<h2>Latest backup jobs</h2>
+<% @server.latest_jobs.each do | job | %>
+  <dt><%= h job.backup_server %></dt>
+  <dd>Status: <%=h job.status %></dd>
+<% end %>

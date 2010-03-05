@@ -18,6 +18,10 @@ class Server < ActiveRecord::Base
     problems.find(:all, :order => 'created_at DESC', :limit=>10)
   end
   
+  def latest_jobs
+    backup_jobs.find(:all, :order => 'created_at DESC', :limit => self.keep_snapshots)
+  end
+  
   def to_s
     hostname
   end

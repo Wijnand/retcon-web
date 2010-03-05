@@ -140,18 +140,20 @@ class BackupServer < ActiveRecord::Base
   def handle_backup_result(result, job)
     job.status = BackupJob.code_to_success(result[0])
     job.save
+    now = Time.new
     case job.status
     when 'OK', 'PARTIAL', 'UNKNOWN'
       create_snapshot(job)
     when 'FAILED'
       # don't know what to do yet
     end
-    job.server.last_backup = Time.new
+    job.server.last_backup = job.updated_at
     job.server.save
     # report
   end
   
   def create_snapshot(job)
-    Nanite.push('/command/syscmd', "/usr/bin/pfexec /usr/sbin/zfs snapshot #{job.fs}@#{Time.new.to_i}", :target => nanite)
+    time = job.updated_at
+    Nanite.push('/command/syscmd', "/usr/bin/pfexec /usr/sbin/zfs snapshot #{job.fs}@#{time.to_i}", :target => nanite)
   end
 end

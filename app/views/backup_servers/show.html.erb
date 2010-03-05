@@ -17,5 +17,11 @@
   <%=h @backup_server.max_backups %>
 </p>
 
+<h2>Latest backup jobs</h2>
+<% @backup_server.latest_jobs.each do | job | %>
+  <dt><%= h job.backup_server %></dt>
+  <dd>Status: <%=h job.status %></dd>
+<% end %>
+
 <%= link_to 'Edit', edit_backup_server_path(@backup_server) %> |
 <%= link_to 'Back', backup_servers_path %>

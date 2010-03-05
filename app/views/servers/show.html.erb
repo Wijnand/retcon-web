@@ -46,6 +46,12 @@
 
 <h2>Latest backup jobs</h2>
 <% @server.latest_jobs.each do | job | %>
-  <dt><%= h job.backup_server %></dt>
-  <dd>Status: <%=h job.status %></dd>
+  <dt>Backup server</dt>
+  <dd><%= h job.backup_server %></dd>
+  <dt>Status</dt>
+  <dd><%=h job.status %></dd>
+  <dt>Job created</dt>
+  <dd><%=h job.created_at %></dd>
+  <dt>Job created</dt>
+  <dd><%=h job.updated_at %></dd>
 <% end %>

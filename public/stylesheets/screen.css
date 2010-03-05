@@ -661,3 +661,4 @@ div.page_header {
 
 .online { color: green;}
 .offline { color: red;}
+dt { font-weight: bold; }

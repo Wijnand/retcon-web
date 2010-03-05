@@ -86,4 +86,7 @@ class Server < ActiveRecord::Base
   def startdir
     profiles.first.path
   end
+  
+  def report(result, job)
+  end
 end

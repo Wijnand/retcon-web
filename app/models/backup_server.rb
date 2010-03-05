@@ -153,7 +153,7 @@ class BackupServer < ActiveRecord::Base
     end
     job.server.last_backup = job.updated_at
     job.server.save
-    # report
+    job.server.report(result,  job)
   end
   
   def create_snapshot(job)

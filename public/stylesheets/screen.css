@@ -240,27 +240,6 @@ table th {
 	text-align: left;
 }
 
-/** IE junk */
-div#Header,
-div#Tabs li,
-div#swap_to,
-div.button_to_add_new a,
-div.button_to_add_new a img,
-div.recording div.nubbin a,
-div.frame div.hover_container,
-div.show_task,
-div.edit_task,
-div.new_task,
-div.new_task form,
-div.nubbin li a span,
-div.innercol,
-div.body,
-ul.attachments li a,
-body.groups div#screen_body,
-div.page_header {
-	zoom: 100%;
-}
-
 #submitbutton {
 	margin: 0.8em;
 	text-align: right;

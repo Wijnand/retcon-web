@@ -23,5 +23,5 @@
   <dd>Status: <%=h job.status %></dd>
 <% end %>
 
-<%= link_to 'Edit', edit_backup_server_path(@backup_server) %> |
-<%= link_to 'Back', backup_servers_path %>
+<% add_action 'Edit this backup server', edit_backup_server_path(@backup_server) %>
+<% add_action 'Backup server overview', backup_servers_path %>

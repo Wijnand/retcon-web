@@ -42,4 +42,5 @@ The backups will start at root path: <%=h @profile.path %>
 </div>
 
 <% add_action 'Edit this profile', edit_profile_path(@profile) %>
-<% add_action 'Profile overview', profiles_path %>
+<% add_action 'All profiles', profiles_path %>
+<% add_action 'Create new profile', new_profile_path %>

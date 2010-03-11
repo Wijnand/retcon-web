@@ -127,7 +127,7 @@ class BackupServer < ActiveRecord::Base
       job.save
       job.server.last_started = Time.new
       job.server.save
-      rsync_result = start_rsync job
+      start_rsync job
     else
       job.status = 'failed'
       job.save

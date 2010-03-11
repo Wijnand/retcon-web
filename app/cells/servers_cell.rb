@@ -1,5 +1,5 @@
 class ServersCell < Cell::Base
-  def count
+  def overview
     @servers = Server.all
     render
   end

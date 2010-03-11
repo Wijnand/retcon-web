@@ -1,0 +1,17 @@
+<table class="index">
+  <tr>
+    <th>Hostname</th>
+    <th>Backup Server</th>
+    <th>Last backup</th>
+    <th>Last status</th>
+  </tr>
+
+<% @servers.each do |server| %>
+  <tr>
+    <td><%=link_to h(server.hostname), server %></td>
+    <td><%=link_to h(server.backup_server), server.backup_server %></td>
+    <td><%=h server.last_backup || "None" %></td>
+    <td><%=h server.last_job_status || "None" %></td>
+  </tr>
+<% end %>
+</table>

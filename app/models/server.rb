@@ -13,7 +13,12 @@ class Server < ActiveRecord::Base
   has_many :problems
   has_many :backup_jobs
   belongs_to :backup_server
-    
+
+  def last_job_status
+    return nil unless backup_jobs.size > 0
+    backup_jobs.last.status
+  end
+  
   def latest_problems
     problems.find(:all, :order => 'created_at DESC', :limit=>10)
   end

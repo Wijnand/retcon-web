@@ -4,7 +4,7 @@ class ServersController < ApplicationController
   # GET /servers
   # GET /servers.xml
   def index
-   @servers = Server.all
+   @servers = Server.find(:all, :order => 'hostname')
 
     respond_to do |format|
       format.html # index.html.erb

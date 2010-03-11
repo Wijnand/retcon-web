@@ -4,7 +4,7 @@
       <%= f.input :hostname %>
       <%= f.input :enabled, :required => false, :label => 'Backups enabled?' %>
       <%= f.input :connect_to, :required => false, :label => 'Ssh address', :hint => 'If different from hostname' %>
-      <%= f.input :ssh_port, :required => false, :hint => 'If not port 22' %>
+      <%= f.input :ssh_port, :required => true, :hint => 'Probably port 22' %>
     <% end %>
     <% f.inputs :name => "Backup config", :class => 'separator' do %>
       <%= f.input :interval_hours, :required => true %>

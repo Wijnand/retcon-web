@@ -84,8 +84,8 @@ class Server < ActiveRecord::Base
   end
   
   def after_initialize
-    @enabled = true
-    @ssh_port = 22
+    self.enabled = true
+    self.ssh_port = 22
   end
   
   def startdir

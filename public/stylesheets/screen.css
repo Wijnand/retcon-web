@@ -245,13 +245,6 @@ table th {
 
 #main_menu li { float: left;}
 
-#includes, #excludes, #splits {
-  border: 1px solid #666;
-  background-color: #eee;
-	color: #000;
-	margin-top: 5px;
-	padding: 5px;
-}
 
 .hide_js {
   display: none;

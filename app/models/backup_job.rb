@@ -8,11 +8,13 @@ class BackupJob < ActiveRecord::Base
   
   def prepare_fs
     Nanite.request('/zfs/exists', fs, :target => self.backup_server.nanite) do | result |
-      if result == true
+      res = result[nanite]
+      if res == true
         self.backup_server.after_fs_prepare self
       else
         Nanite.request('/zfs/create', fs, :target => self.backup_server.nanite) do | result |
-          if result == true
+          res = result[nanite]
+          if res == true
             self.backup_server.after_fs_prepare self
           else
             Problem.create(:backup_server => self.backup_server, 

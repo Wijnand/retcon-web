@@ -122,16 +122,15 @@ class BackupServer < ActiveRecord::Base
   end
   
   def run_backup_job(job)
-    if job.prepare_fs
-      job.status = 'running'
-      job.save
-      job.server.last_started = Time.new
-      job.server.save
-      start_rsync job
-    else
-      job.status = 'failed'
-      job.save
-    end
+    job.prepare_fs
+  end
+  
+  def after_fs_prepare(job)
+    job.status = 'running'
+    job.save
+    job.server.last_started = Time.new
+    job.server.save
+    start_rsync job
   end
   
   def nanite

@@ -6,6 +6,10 @@ class BackupServer < ActiveRecord::Base
   validates_presence_of :hostname, :zpool, :max_backups
   attr_accessor :in_subnet
   
+  def latest_problems
+    problems.find(:all, :order => 'created_at DESC', :limit=>10)
+  end
+  
   def latest_jobs
     backup_jobs.find(:all, :order => 'created_at DESC', :limit => 50)
   end

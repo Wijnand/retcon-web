@@ -39,19 +39,35 @@
 <% add_action 'Servers overview', servers_path %>
 
 <h2>Latest problems</h2>
+<table class="index">
+<tr>
+  <th>Backup Server</th>
+  <th>When</th>
+  <th>Message</th>
+</tr>
 <% @server.latest_problems.each do | problem | %>
-  <dt><%= problem.created_at %></dt>
-  <dd><%=h problem.backup_server %>: <%=h problem.message %></dd>
+  <tr>
+    <td><%=h problem.backup_server %></td>
+    <td><%= problem.created_at %></td>
+    <td><%=h problem.message %></td>
+  </tr>
 <% end %>
+</table>
 
 <h2>Latest backup jobs</h2>
+<table class="index">
+  <tr>
+    <th>Backup server</th>
+    <th>Status</th>
+    <th>Job created</th>
+    <th>Last updated</th>
+  </tr>
 <% @server.latest_jobs.each do | job | %>
-  <dt>Backup server</dt>
-  <dd><%= h job.backup_server %></dd>
-  <dt>Status</dt>
-  <dd><%=h job.status %></dd>
-  <dt>Job created</dt>
-  <dd><%=h job.created_at %></dd>
-  <dt>Job created</dt>
-  <dd><%=h job.updated_at %></dd>
+  <tr>
+    <td><%= h job.backup_server %></td>
+    <td><%=h job.status %></td>
+    <td><%=h job.created_at %></td>
+    <td><%=h job.updated_at %></td>
+  </tr>
 <% end %>
+</table>

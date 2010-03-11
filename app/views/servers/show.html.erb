@@ -34,6 +34,11 @@
   <li><%= link_to h(profile.name), profile %></li>
 <% end %>
 </ul>
+
+<% if @server.backup_server %>
+  <% job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
+  <p>This resolves to the following rsync command:<br/> <%= job.to_rsync %></p>
+<% end %>
 <% add_action 'Edit this server', edit_server_path( @server) %>
 <% add_action 'Add Server', new_server_path %>
 <% add_action 'Servers overview', servers_path %>

@@ -1,16 +1,16 @@
 <% content_for :header do %>
   <%=h @server.hostname %>
 <% end %>
-<h2>Generic information</h2>
+<h2>General info</h2>
 <p>
   <dt>Hostname:</dt>
   <dd><%=h @server.hostname %></dd>
 
   <dt>Ssh address:</dt>
-  <dd><%=h (@server.connect_to.empty? ? @server.hostname : @server.connect_to) %></dd>
+  <dd><%=h (@server.connect_address) %></dd>
 
   <dt>Ssh port:</dt>
-  <dd><%=h (@server.ssh_port.to_s.empty? ? "22" : @server.ssh_port) %></dd>
+  <dd><%=h (@server.ssh_port) %></dd>
 
   <dt>Enabled:</dt>
   <dd><%=h @server.enabled %></dd>
@@ -28,11 +28,6 @@
 <% end %>
 </p>
 
-<p>
-Here we will describe in english how the backup configuration will apply. TODO
-</p>
-
-
 <h2>Applied profiles</h2>
 <ul class="profile_list">
 <% @server.profiles.each do | profile | %>
@@ -44,7 +39,35 @@ Here we will describe in english how the backup configuration will apply. TODO
 <% add_action 'Servers overview', servers_path %>
 
 <h2>Latest problems</h2>
+<table class="index">
+<tr>
+  <th>Backup Server</th>
+  <th>When</th>
+  <th>Message</th>
+</tr>
 <% @server.latest_problems.each do | problem | %>
-  <dt><%= problem.created_at %></dt>
-  <dd><%=h problem.backup_server %>: <%=h problem.message %></dd>
+  <tr>
+    <td><%=h problem.backup_server %></td>
+    <td><%= problem.created_at %></td>
+    <td><%=h problem.message %></td>
+  </tr>
 <% end %>
+</table>
+
+<h2>Latest backup jobs</h2>
+<table class="index">
+  <tr>
+    <th>Backup server</th>
+    <th>Status</th>
+    <th>Job created</th>
+    <th>Last updated</th>
+  </tr>
+<% @server.latest_jobs.each do | job | %>
+  <tr>
+    <td><%= h job.backup_server %></td>
+    <td><%=h job.status %></td>
+    <td><%=h job.created_at %></td>
+    <td><%=h job.updated_at %></td>
+  </tr>
+<% end %>
+</table>

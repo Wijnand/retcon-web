@@ -16,4 +16,9 @@ describe Include do
     i = Factory.build :include, :profile_id => nil
     i.valid?.should be false
   end
+  
+  it "should respond to to_s" do
+    i = Factory.build :include, :path => '/'
+    i.to_s.should == '/'
+  end
 end

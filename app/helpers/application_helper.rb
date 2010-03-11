@@ -11,7 +11,7 @@ module ApplicationHelper
   
   def build_action_list
     @actions ||= []
-    return nil unless @actions.size > 1
+    return nil unless @actions.size > 0
     content_for :sidebar do
       "<h1>Actions</h1><ul>" +
       @actions.map do | action |

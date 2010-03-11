@@ -11,8 +11,8 @@
     <td><%=h roles_user.user_id %></td>
     <td><%=h roles_user.role_id %></td>
     <td><%= link_to 'Show', roles_user %></td>
-    <td><%= link_to 'Edit', edit_roles_user_path(roles_user) %></td>
-    <td><%= link_to 'Destroy', roles_user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_roles_user_path(roles_user) %> | 
+    <%= link_to 'Destroy', roles_user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

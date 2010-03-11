@@ -2,6 +2,7 @@
   <%= @backup_server.hostname %>
 <% end %>
 
+<h2>General info</h2>
 
 <p>
   <b>Hostname:</b>
@@ -17,5 +18,39 @@
   <%=h @backup_server.max_backups %>
 </p>
 
-<%= link_to 'Edit', edit_backup_server_path(@backup_server) %> |
-<%= link_to 'Back', backup_servers_path %>
+<h2>Latest backup jobs</h2>
+<table class="index">
+  <tr>
+    <th>Server</th>
+    <th>Status</th>
+    <th>Job created</th>
+    <th>Last updated</th>
+  </tr>
+<% @backup_server.latest_jobs.each do | job | %>
+  <tr>
+    <td><%=h job.backup_server %></td>
+    <td><%=h job.status %></td>
+    <td><%=h job.created_at %></td>
+    <td><%=h job.updated_at %></td>
+  </tr>
+<% end %>
+</table>
+
+<h2>Latest problems</h2>
+<table class="index">
+<tr>
+  <th>Server</th>
+  <th>When</th>
+  <th>Message</th>
+</tr>
+<% @backup_server.latest_problems.each do | problem | %>
+  <tr>
+    <td><%=h problem.server %></td>
+    <td><%= problem.created_at %></td>
+    <td><%=h problem.message %></td>
+  </tr>
+<% end %>
+</table>
+
+<% add_action 'Edit this backup server', edit_backup_server_path(@backup_server) %>
+<% add_action 'Backup server overview', backup_servers_path %>

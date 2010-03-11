@@ -12,8 +12,8 @@
   <tr>
     <td><%= link_to h(user.username), user %></td>
     <td><%= h user.email %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %> | 
+    <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

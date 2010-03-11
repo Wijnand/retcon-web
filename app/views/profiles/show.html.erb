@@ -1,6 +1,7 @@
 <% content_for :header do %>
   Profile <%=h @profile.name %>
 <% end %>
+<h2>General info</h2>
 
 <p>
 These are the settings of the <b><%=h @profile.name %></b> profile. Using profiles you can finetune the backup process using predefined settings.
@@ -13,7 +14,7 @@ The backups will start at root path: <%=h @profile.path %>
 </p>
 <p class="hide_js">Use the buttons below to finetune this profile</p><p><button class="hide_js" id="toggle_excludes">Excludes</button>
 <button class="hide_js" id="toggle_includes">Includes</button>
-<button class="hide_js" id="toggle_splits">Splits</button></p>
+<!--<button class="hide_js" id="toggle_splits">Splits</button> --></p>
 
 <div id="excludes">
 <h2>Excludes</h2>
@@ -42,4 +43,5 @@ The backups will start at root path: <%=h @profile.path %>
 </div>
 
 <% add_action 'Edit this profile', edit_profile_path(@profile) %>
-<% add_action 'Profile overview', profiles_path %>
+<% add_action 'All profiles', profiles_path %>
+<% add_action 'Create new profile', new_profile_path %>

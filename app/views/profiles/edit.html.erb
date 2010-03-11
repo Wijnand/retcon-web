@@ -4,6 +4,6 @@
 
 <%= render :partial => 'form' %>
 
-<% add_action 'Show', @profile %>
-<% add_action 'Profile overview', profiles_path %>
-<% add_action 'Add profile', new_profile_path %>
+<% add_action 'Show Profile', @profile %>
+<% add_action 'All profiles', profiles_path %>
+<% add_action 'Create new profile', new_profile_path %>

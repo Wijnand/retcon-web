@@ -1,5 +1,5 @@
 class Server < ActiveRecord::Base
-  validates_presence_of :hostname, :interval_hours, :keep_snapshots
+  validates_presence_of :hostname, :interval_hours, :keep_snapshots, :ssh_port
   
   validates_inclusion_of :window_start, :in => 0..23, 
          :message => 'Should be a valid hour! Ranging from 0 to 23', 
@@ -11,10 +11,15 @@ class Server < ActiveRecord::Base
   has_many :profilizations
   has_many :profiles, :through => :profilizations
   has_many :problems
+  has_many :backup_jobs
   belongs_to :backup_server
     
   def latest_problems
     problems.find(:all, :order => 'created_at DESC', :limit=>10)
+  end
+  
+  def latest_jobs
+    backup_jobs.find(:all, :order => 'created_at DESC', :limit => self.keep_snapshots)
   end
   
   def to_s
@@ -43,17 +48,45 @@ class Server < ActiveRecord::Base
     start  = Time.parse( window_start == 0 ? "00:00" : "#{window_start}:00")
     ending = Time.parse( window_stop == 0 ? "23:59" : "#{window_stop}:00")
     now = Time.new
-    range = start..ending
-    range.include? now
+    (start..ending).include? now
+  end
+  
+  def excludes
+    self.profiles.map{ | p | p.excludes }.flatten
+  end
+  
+  def rsync_excludes
+    excludes.map { | e | "--exclude=#{e}"}.join(" ")
+  end
+  
+  def includes
+    self.profiles.map{ | p | p.includes }.flatten
+  end
+  
+  def rsync_includes
+    includes.map { | i | "--include=#{i}"}.join(" ")
   end
   
   def interval_passed?
+    return true if last_started.nil?
     now = Time.new
     next_backup = last_started + (interval_hours * 3600)
     now > next_backup
   end
   
+  def connect_address
+    self.connect_to.nil? ? self.hostname : self.connect_to
+  end
+  
   def after_initialize
     @enabled = true
+    @ssh_port = 22
+  end
+  
+  def startdir
+    profiles.first.path
+  end
+  
+  def report(result, job)
   end
 end

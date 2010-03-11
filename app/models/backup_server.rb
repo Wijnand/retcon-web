@@ -138,7 +138,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def start_rsync(job)
-    Nanite.request('/command/syscmd', job.to_rsync, :target => nanite) do | result |
+    Nanite.request('/command/syscmd', "/usr/bin/pfexec #{job.to_rsync}", :target => nanite) do | result |
      res = result[nanite]
      handle_backup_result(res, job)
     end

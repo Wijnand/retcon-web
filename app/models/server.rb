@@ -32,7 +32,7 @@ class Server < ActiveRecord::Base
   
   def backup_running?
     return false if last_started.blank?
-    last_started > last_backup ? true : false
+    last_started.to_i > last_backup.to_i ? true : false
   end
   
   def should_backup?
@@ -75,7 +75,7 @@ class Server < ActiveRecord::Base
   end
   
   def connect_address
-    self.connect_to.nil? ? self.hostname : self.connect_to
+    self.connect_to.blank? ? self.hostname : self.connect_to
   end
   
   def after_initialize

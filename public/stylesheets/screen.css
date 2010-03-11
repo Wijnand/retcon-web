@@ -58,7 +58,7 @@ ul {
 }
 #left {
 	background-color: #fff;
-	width: 66%;
+	width: 80%;
 }
 #left .head {
 	color: #204ca0;
@@ -127,7 +127,7 @@ ul {
 
 /** Right column */
 #right {
-	width: 30%;
+	width: 17%;
 	padding: 0 0 1em 1.5em;
 	margin: 0;
 	color: #666;

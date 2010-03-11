@@ -7,15 +7,24 @@ class BackupJob < ActiveRecord::Base
   end
   
   def prepare_fs
-    fs_created = self.backup_server.do_nanite('/zfs/exists', fs)
-    unless fs_created
-      fs_created = self.backup_server.do_nanite('/zfs/create', fs)
+    Nanite.request('/zfs/exists', fs, :target => self.backup_server.nanite) do | result |
+      if result == true
+        return true
+      else
+        Nanite.request('/zfs/create', fs, :target => self.backup_server.nanite) do | result |
+          if result == true
+            return true
+          else
+            Problem.create(:backup_server => self.backup_server, 
+                           :server => self.server, 
+                           :message => "Can not backup: filesystem #{fs} missing on backup server")
+            return false
+          end
+        end
+      end
     end
-    unless fs_created
-      Problem.create(:backup_server => self.backup_server, 
-                     :server => self.server, 
-                     :message => "Can not backup: filesystem #{fs} missing on backup server")
-      false
+    loop do
+      sleep 0.1
     end
   end
   

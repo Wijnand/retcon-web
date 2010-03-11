@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(:version => 20100217080250) do
     t.datetime "updated_at"
     t.string   "zpool"
     t.integer  "max_backups"
-    t.string   "jid"
     t.string   "disk_free"
   end
 

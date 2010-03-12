@@ -2,8 +2,8 @@
   <% content_for :header do %>
   Dashboard
   <% end %>
-<h2>Backup status</h2>
-<%= render_cell :servers, :overview %>
+<h2>Now running</h2>
+<%= render_cell :backup_jobs, :running %>
 <h2>Backup server information</h2>
 <%= render_cell :backup_servers, :count %>
 <%= render_cell :backup_servers, :status %>

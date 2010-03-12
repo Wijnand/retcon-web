@@ -1,7 +1,9 @@
 class BackupJob < ActiveRecord::Base
   belongs_to :server
   belongs_to :backup_server
-    
+  
+  named_scope :running, :conditions => {:status => 'running'}, :order => 'updated_at DESC'
+  
   def fs
     self.backup_server.zpool + '/' + self.server.hostname
   end

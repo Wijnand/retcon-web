@@ -1,0 +1,19 @@
+<% if @backup_jobs.size > 0 %>
+  <table class="index">
+    <tr>
+      <th>Server</th>
+      <th>Backup Server</th>
+      <th>Started</th>
+    </tr>
+
+  <% @backup_jobs.each do |job| %>
+    <tr>
+      <td><%=link_to h(job.server), server %></td>
+      <td><%=link_to h(job.backup_server), job.backup_server %></td>
+      <td><%=h job.server.last_started || "None" %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+<p>Nothing at all! I guess all backup servers are slacking their ass off...</p>
+<% end %>

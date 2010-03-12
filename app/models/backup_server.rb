@@ -95,6 +95,12 @@ class BackupServer < ActiveRecord::Base
     self.servers.select { | server | server.should_backup? }
   end
   
+  def should_queue
+    should_start.select do | server |
+      server.backup_jobs.size == 0 or server.backup_jobs.last.status != 'queued'
+    end
+  end
+  
   def queue_backups
     should_start.each do | server |
       BackupJob.create!(:backup_server => self, :server => server, :status => 'queued')

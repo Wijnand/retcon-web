@@ -3,17 +3,19 @@
     <tr>
       <th>Server</th>
       <th>Backup Server</th>
-      <th>Started</th>
+      <th>Last change</th>
+      <th>Backup result</th>
     </tr>
 
   <% @backup_jobs.each do |job| %>
     <tr>
       <td><%=link_to h(job.server), job.server %></td>
       <td><%=link_to h(job.backup_server), job.backup_server %></td>
-      <td><%=h job.server.last_started || "None" %></td>
+      <td><%=h job.server.updated_at %></td>
+      <td><%=h job.status %></td>
     </tr>
   <% end %>
   </table>
 <% else %>
-<p>Nothing at all! I guess all backup servers are slacking their ass off...</p>
+<p>Nothing at all! I guess all backup servers are doing quite well</p>
 <% end %>

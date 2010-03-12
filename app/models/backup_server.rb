@@ -102,7 +102,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def queue_backups
-    should_start.each do | server |
+    should_queue.each do | server |
       BackupJob.create!(:backup_server => self, :server => server, :status => 'queued')
     end
   end

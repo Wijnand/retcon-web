@@ -1,3 +1,7 @@
+<% if !@server.backup_server and !@server.new_record? %>
+  <p style="color: red">Please select one or more backup profiles and a backup server below.</p>
+<% end %>
+
 <% semantic_form_for(@server) do |f| %>
   <% f.inputs do %>
     <% f.inputs :name => "General", :class => 'separator' do %>
@@ -17,7 +21,7 @@
                                     :collection => @server.possible_backup_servers,
                                     :label_method => Proc.new { |a| a.in_subnet ? a.hostname + " (within subnet)" : a.hostname },
                                     :include_blank => (@server.backup_server.nil? ? true : false )%>
-                                    <p>When moving to another server the backup data will currently not be moved!</p>
+                                    <p>When moving to another backup server the backup data will currently not be moved!</p>
       <% else %>
         <p>You can only select a backup server here when you save this record to the database first</p>
       <% end %>

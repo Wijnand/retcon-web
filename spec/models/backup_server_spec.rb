@@ -153,7 +153,7 @@ describe BackupServer do
     @job1.stub(:prepare_fs).and_return false
     @backupserver.should_not_receive(:start_rsync)
     @backupserver.run_backup_job @job1
-    @job1.status.should == 'failed'
+    @job1.status.should == 'Filesystem preparation failed'
   end
   
   it "should start the backup if the filesystem is ready" do

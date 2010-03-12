@@ -20,7 +20,7 @@ class BackupJob < ActiveRecord::Base
             Problem.create(:backup_server => self.backup_server, 
                            :server => self.server, 
                            :message => "Can not backup: filesystem #{fs} missing on backup server")
-             self.status = 'failed'
+             self.status = 'Filesystem preparation failed'
              self.save
           end
         end

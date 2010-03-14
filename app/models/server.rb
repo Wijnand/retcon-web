@@ -83,11 +83,6 @@ class Server < ActiveRecord::Base
     self.connect_to.blank? ? self.hostname : self.connect_to
   end
   
-  def after_initialize
-    self.enabled = true
-    self.ssh_port = 22
-  end
-  
   def startdir
     profiles.first.path
   end

@@ -1,12 +1,14 @@
 <table class="overview">
   <tr>
     <th>Backup Server</th>
+    <th>Number of servers</th>
     <th>Disk Free</th>
     <th>Status</th>
   </tr>
   <% @backup_servers.each do | backup_server | %>
     <tr>
       <td><%=h backup_server.hostname %></td>
+      <td><%=h backup_server.servers.size %></td>
       <td><%=h backup_server.disk_free %></td>
       <td><%= display_online backup_server %></td>
     </tr>

@@ -4,7 +4,7 @@
       <th>Server</th>
       <th>Backup Server</th>
       <th>Started</th>
-      <th>When</th>
+      <th>Time in seconds</th>
     </tr>
 
   <% @backup_jobs.each do |job| %>
@@ -12,7 +12,7 @@
       <td><%=link_to h(job.server), job.server %></td>
       <td><%=link_to h(job.backup_server), job.backup_server %></td>
       <td><%=h job.updated_at %></td>
-      <td><%=h job.updated_at.to_natural_language %></td>
+      <td><%=h (Time.new.to_i - job.updated_at.to_i) %></td>
     </tr>
   <% end %>
   </table>

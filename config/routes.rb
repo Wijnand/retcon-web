@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :settings
+
   map.resources :roles_users
 
   map.resources :users, :has_many => :roles

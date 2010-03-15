@@ -79,6 +79,11 @@ class Server < ActiveRecord::Base
     now > next_backup
   end
   
+  def last_backup
+    return nil if self.backup_jobs.size == 0
+    self.backup_jobs.last.updated_at
+  end
+  
   def connect_address
     self.connect_to.blank? ? self.hostname : self.connect_to
   end

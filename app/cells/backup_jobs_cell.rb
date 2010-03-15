@@ -8,4 +8,9 @@ class BackupJobsCell < Cell::Base
     @backup_jobs = BackupJob.latest_problems
     render
   end
+  
+  def queued
+    @backup_jobs = BackupJob.queued
+    render
+  end
 end

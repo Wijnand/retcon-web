@@ -12,7 +12,7 @@
       <td><%=link_to h(job.server), job.server %></td>
       <td><%=link_to h(job.backup_server), job.backup_server %></td>
       <td><%=h job.updated_at %></td>
-      <td><%=h job.updated_at.to_natural_language %></td>
+      <td><%=h (Time.new - job.updated_at).to_natural_language %></td>
     </tr>
   <% end %>
   </table>

@@ -3,7 +3,7 @@
   <% f.inputs do %>
     <%= f.input :name %>
     <%= f.input :path %>
-    <%= f.input :servers, :collection => Server.find(:all, :order => 'hostname DESC'), :as => :check_boxes, :label => 'Apply to', :hint => 'Quickly apply this profile to all these servers' %>
+    <%= f.input :servers, :collection => Server.find(:all, :order => 'hostname ASC'), :as => :check_boxes, :label => 'Apply to', :hint => 'Quickly apply this profile to all these servers' %>
   <% end %>
   <%= f.buttons %>
 <% end %>

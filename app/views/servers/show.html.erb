@@ -66,6 +66,7 @@
     <th>Status</th>
     <th>Job created</th>
     <th>Last updated</th>
+    <th>Duration (from the moment of queueing)</th>
   </tr>
 <% @server.latest_jobs.each do | job | %>
   <tr>
@@ -73,6 +74,7 @@
     <td><%=h job.status %></td>
     <td><%=h job.created_at %></td>
     <td><%=h job.updated_at %></td>
+    <td><%= distance_of_time_in_words(job.created_at, job.updated_at )%>
   </tr>
 <% end %>
 </table>

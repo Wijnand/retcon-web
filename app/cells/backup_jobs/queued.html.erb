@@ -1,0 +1,22 @@
+<% if @backup_jobs.size > 0 %>
+<p>A big queue may be a sign backup servers are not able to keep up. Keep an eye on this!</p>
+  <table class="index">
+    <tr>
+      <th>Server</th>
+      <th>Backup Server</th>
+      <th>Queued since</th>
+      <th>Run time</th>
+    </tr>
+
+  <% @backup_jobs.each do |job| %>
+    <tr>
+      <td><%=link_to h(job.server), job.server %></td>
+      <td><%=link_to h(job.backup_server), job.backup_server %></td>
+      <td><%=h job.created_at %></td>
+      <td><%=h time_ago_in_words(job.created_at) %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+<p>This is good! The backup servers are able to keep up</p>
+<% end %>

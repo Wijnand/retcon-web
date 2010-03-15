@@ -11,7 +11,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def latest_jobs
-    backup_jobs.find(:all, :order => 'created_at DESC', :limit => 50)
+    backup_jobs.find(:all, :order => 'updated_at DESC', :limit => 50)
   end
   
   def self.available_for(server)

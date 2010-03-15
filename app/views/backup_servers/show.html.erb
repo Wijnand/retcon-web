@@ -28,7 +28,7 @@
   </tr>
 <% @backup_server.latest_jobs.each do | job | %>
   <tr>
-    <td><%=h job.server %></td>
+    <td><%=link_to h(job.server.hostname), job.server %></td>
     <td><%=h job.status %></td>
     <td><%=h job.created_at %></td>
     <td><%=h job.updated_at %></td>

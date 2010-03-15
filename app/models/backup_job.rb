@@ -3,7 +3,7 @@ class BackupJob < ActiveRecord::Base
   belongs_to :backup_server
   
   named_scope :running, :conditions => {:status => 'running'}, :order => 'updated_at DESC'
-  named_scope :running, :conditions => {:status => 'queued'}, :order => 'created_at DESC'
+  named_scope :queued, :conditions => {:status => 'queued'}, :order => 'created_at DESC'
   named_scope :latest_problems, :conditions => "status NOT IN ('OK','running','queued')", :order => 'updated_at DESC', :limit => 20
   
   def fs

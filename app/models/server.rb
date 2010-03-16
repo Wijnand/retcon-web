@@ -9,7 +9,7 @@ class Server < ActiveRecord::Base
          :unless => Proc.new { |server| server.window_stop.blank?  }
   
   has_many :profilizations
-  has_many :profiles, :through => :profilizations, :include => [:include, :exclude]
+  has_many :profiles, :through => :profilizations
   has_many :problems, :include => :backup_server
   has_many :backup_jobs, :include => :backup_server
   belongs_to :backup_server

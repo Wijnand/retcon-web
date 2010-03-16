@@ -9,9 +9,9 @@ class Server < ActiveRecord::Base
          :unless => Proc.new { |server| server.window_stop.blank?  }
   
   has_many :profilizations
-  has_many :profiles, :through => :profilizations
-  has_many :problems
-  has_many :backup_jobs
+  has_many :profiles, :through => :profilizations, :include => [:include, :exclude]
+  has_many :problems, :include => :backup_server
+  has_many :backup_jobs, :include => :backup_server
   belongs_to :backup_server
 
   def last_job_status
@@ -20,11 +20,11 @@ class Server < ActiveRecord::Base
   end
   
   def latest_problems
-    problems.find(:all, :order => 'created_at DESC', :limit=>10)
+    problems.find(:all, :order => 'created_at DESC', :limit=>10, :include => :backup_server)
   end
   
   def latest_jobs
-    backup_jobs.find(:all, :order => 'created_at DESC', :limit => self.keep_snapshots)
+    backup_jobs.find(:all, :order => 'created_at DESC', :limit => self.keep_snapshots, :include => :backup_server)
   end
   
   def to_s

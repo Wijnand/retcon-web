@@ -1,7 +1,7 @@
 class BackupServer < ActiveRecord::Base
-  has_many :servers
-  has_many :backup_jobs
-  has_many :problems
+  has_many :servers, :include => [:backup_jobs, :problems]
+  has_many :backup_jobs, :include => :server
+  has_many :problems, :include => :server
   
   validates_presence_of :hostname, :zpool, :max_backups
   attr_accessor :in_subnet

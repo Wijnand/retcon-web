@@ -9,15 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100315221709) do
+ActiveRecord::Schema.define(:version => 20100318225309) do
 
   create_table "backup_jobs", :force => true do |t|
     t.integer  "backup_server_id"
     t.integer  "server_id"
     t.string   "status"
-    t.integer  "pid"
-    t.string   "result"
-    t.text     "log"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

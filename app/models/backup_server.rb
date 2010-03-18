@@ -83,7 +83,6 @@ class BackupServer < ActiveRecord::Base
     when 'FAILED'
       # don't know what to do yet
     end
-    job.log = result[1]
     job.server.save
     job.server.report(result,  job)
   end

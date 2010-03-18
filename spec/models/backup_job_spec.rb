@@ -8,7 +8,7 @@ describe BackupJob do
     p.excludes << Factory.build(:exclude, :path => '/backup')
     s.profiles << p
     j = Factory.build(:backup_job, :server => s)
-    j.to_rsync.should == "/usr/bin/pfexec rsync --stats -aHRW --del --timeout=600 --delete --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --exclude=/backup --include=/ --log-file=/tmp/server1.example.com_debug root@server1.example.com:/ /backup/server1.example.com/"
+    j.to_rsync.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --include=/ --exclude=/backup --log-file=/tmp/server1.example.com_debug root@server1.example.com:/ /backup/server1.example.com/"
   end
   
   it "should have a class method to convert exit statusses to a string representation" do

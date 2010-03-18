@@ -66,6 +66,9 @@ class BackupServer < ActiveRecord::Base
     start_rsync job
   end
 
+  def create_snapshot(job)
+  end
+  
   def start_rsync(job)
 
   end

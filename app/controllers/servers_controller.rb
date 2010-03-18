@@ -48,7 +48,7 @@ class ServersController < ApplicationController
     respond_to do |format|
       if @server.save
         flash[:notice] = 'Server was successfully created.'
-        format.html { render :action => 'edit' }
+        format.html { redirect_to(@server) }
         format.xml  { render :xml => @server, :status => :created, :location => @server }
       else
         format.html { render :action => "new" }

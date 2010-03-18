@@ -1,5 +1,5 @@
 class Server < ActiveRecord::Base
-  validates_presence_of :hostname, :interval_hours, :keep_snapshots, :ssh_port
+  validates_presence_of :hostname, :interval_hours, :keep_snapshots, :ssh_port, :backup_server
   
   validates_inclusion_of :window_start, :in => 0..23, 
          :message => 'Should be a valid hour! Ranging from 0 to 23', 

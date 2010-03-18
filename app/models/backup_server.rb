@@ -14,81 +14,8 @@ class BackupServer < ActiveRecord::Base
     backup_jobs.find(:all, :order => 'updated_at DESC', :limit => 50)
   end
   
-  def self.available_for(server)
-    list = nanite_query("/info/in_subnet?", server)
-    recommended = []
-    list.each_pair do | server, result |
-      recommended.push server if result == true
-    end
-    available = all
-    available.each do | backup_server |
-      backup_server.in_subnet = false
-      backup_server.in_subnet = true if recommended.include? backup_server.hostname
-    end
-    available
-  end
-  
   def to_s
     hostname
-  end
-  
-  def do_nanite(action, payload)
-    res = 'undef'
-    return [1,'backup server was offline'] unless online?
-    Nanite.request(action, payload, :target => nanite) do |result |
-     res = result[nanite]
-    end
-    while res == 'undef'
-      sleep 0.1
-    end
-    return res
-  end
-  
-  def self.nanite_query(action, payload)
-    res = 'undef'
-    servers = {}
-    return servers if nanites.size == 0
-    Nanite.request(action, payload, :selector => :all) do | result |
-      result.each_pair do | key, value |
-        # Strip the nanite- prefix in the hash key
-        new_key = key.sub(/nanite-/,'')
-        servers[new_key] = value
-      end
-      res = servers
-    end
-    while res == 'undef'
-      sleep 0.1
-    end
-    return res
-  end
-  
-  def nanites
-    self.class.nanites
-  end
-  
-  def online?
-    nanites.include? hostname
-  end
-  
-  def update_disk_space
-    if online?
-      Nanite.request('/zfs/disk_free', self.zpool, :target => nanite) do |result |
-       res = result[nanite]
-       self.disk_free = res
-       self.save
-      end
-    end
-  end
-  
-  def self.nanites
-    return [] if Nanite.mapper.nil? or Nanite.mapper.cluster.nil?
-    Nanite.mapper.cluster.nanites.map do | nanite |
-      nanite[0].sub(/nanite-/,'')
-    end
-  end
-  
-  def self.array_to_models(arr)
-    find(:all, :conditions => [ "hostname IN (?)", arr])
   end
   
   def should_start
@@ -138,16 +65,9 @@ class BackupServer < ActiveRecord::Base
     job.server.save
     start_rsync job
   end
-  
-  def nanite
-    "nanite-" + self.hostname
-  end
-  
+
   def start_rsync(job)
-    Nanite.request('/command/syscmd', job.to_rsync, :target => nanite) do | result |
-     res = result[nanite]
-     handle_backup_result(res, job)
-    end
+
   end
   
   def handle_backup_result(result, job)
@@ -164,9 +84,5 @@ class BackupServer < ActiveRecord::Base
     job.server.save
     job.server.report(result,  job)
   end
-  
-  def create_snapshot(job)
-    time = job.updated_at
-    Nanite.push('/command/syscmd', "/usr/bin/pfexec /usr/sbin/zfs snapshot #{job.fs}@#{time.to_i}", :target => nanite)
-  end
+
 end

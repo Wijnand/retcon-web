@@ -7,6 +7,7 @@
     <th>Hostname</th>
     <th>Last backup</th>
     <th>Last backup result</th>
+    <th>Last backup duration</th>
   </tr>
 
 <% @servers.each do |server| %>
@@ -14,6 +15,7 @@
     <td><%=link_to h(server.hostname), server %></td>
     <td><%=h server.last_backup || "None" %></td>
     <td><%=h (server.last_backup ? server.backup_jobs.last.status : 'Nothing yet') %></td>
+    <td><%= display_backup_duration (job) %></td>
     <td><%= link_to 'Edit', edit_server_path(server) %> | 
     <%= link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

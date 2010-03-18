@@ -74,7 +74,7 @@
     <td><%=h job.status %></td>
     <td><%=h job.created_at %></td>
     <td><%=h job.updated_at %></td>
-    <td><%= distance_of_time_in_words(job.created_at, job.updated_at )%>
+    <td><%= display_backup_duration (job) %></td>
   </tr>
 <% end %>
 </table>

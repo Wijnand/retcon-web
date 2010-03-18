@@ -5,7 +5,6 @@
 <table class="index">
   <tr>
     <th>Hostname</th>
-    <th>Enabled</th>
     <th>Last backup</th>
     <th>Last backup result</th>
   </tr>
@@ -13,7 +12,6 @@
 <% @servers.each do |server| %>
   <tr>
     <td><%=link_to h(server.hostname), server %></td>
-    <td><%=h server.enabled %></td>
     <td><%=h server.last_backup || "None" %></td>
     <td><%=h (server.last_backup ? server.backup_jobs.last.status : 'Nothing yet') %></td>
     <td><%= link_to 'Edit', edit_server_path(server) %> | 

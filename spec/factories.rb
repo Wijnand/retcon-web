@@ -32,5 +32,4 @@ Factory.define :backup_job do | f |
   f.association :backup_server
   f.association :server
   f.status 'running'
-  f.pid '1028'
 end

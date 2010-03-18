@@ -20,7 +20,7 @@ class BackupJob < ActiveRecord::Base
   
   def to_rsync
     "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
-    self.server.rsync_excludes + " " + self.server.rsync_includes +
+    self.server.rsync_includes + " " + self.server.rsync_excludes +
     " --log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/"
   end
   

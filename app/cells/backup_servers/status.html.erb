@@ -6,7 +6,7 @@
   </tr>
   <% @backup_servers.each do | backup_server | %>
     <tr>
-      <td><%=h backup_server.hostname %></td>
+      <td><%=link_to h( backup_server.hostname), backup_server %></td>
       <td><%=h backup_server.servers.size %></td>
       <td><%=h backup_server.disk_free %></td>
     </tr>

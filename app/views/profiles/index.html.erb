@@ -5,13 +5,11 @@
 <table class="index">
   <tr>
     <th>Name</th>
-    <th>Root Path</th>
   </tr>
 
 <% @profiles.each do |profile| %>
   <tr>
     <td><%= link_to h(profile.name), profile %></td>
-    <td><%= h profile.path %></td>
     <td><%= link_to 'Edit', edit_profile_path(profile) %> | 
     <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

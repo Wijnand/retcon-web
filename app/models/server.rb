@@ -36,8 +36,8 @@ class Server < ActiveRecord::Base
   end
   
   def backup_running?
-    return false if last_started.blank?
-    last_started.to_i > last_backup.to_i ? true : false
+    return false if self.backup_jobs.size == 0
+    ['running','queued'].include? self.backup_jobs.last.status
   end
   
   def should_backup?
@@ -82,6 +82,11 @@ class Server < ActiveRecord::Base
   def last_backup
     return nil if self.backup_jobs.size == 0
     self.backup_jobs.last.updated_at
+  end
+  
+  def last_started
+    return nil if self.backup_jobs.size == 0
+    self.backup_jobs.last.created_at
   end
   
   def connect_address

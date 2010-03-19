@@ -81,7 +81,7 @@ class BackupServer < ActiveRecord::Base
     when 'OK', 'PARTIAL', 'UNKNOWN'
       create_snapshot(job)
     when 'FAILED'
-      # don't know what to do yet
+      create_snapshot(job)
     end
     job.server.save
     job.server.report(result,  job)

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  backup_job_id: 1
+  command: 
+  exitstatus: 1
+  output: MyText
+
+two:
+  backup_job_id: 1
+  command: 
+  exitstatus: 1
+  output: MyText

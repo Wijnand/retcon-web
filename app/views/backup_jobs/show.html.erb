@@ -1,0 +1,18 @@
+<p>
+  <b>Backup server:</b>
+  <%=h @backup_job.backup_server_id %>
+</p>
+
+<p>
+  <b>Server:</b>
+  <%=h @backup_job.server_id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @backup_job.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_backup_job_path(@backup_job) %> |
+<%= link_to 'Back', backup_jobs_path %>

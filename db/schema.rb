@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100318225309) do
+ActiveRecord::Schema.define(:version => 20100319110356) do
 
   create_table "backup_jobs", :force => true do |t|
     t.integer  "backup_server_id"
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(:version => 20100318225309) do
     t.string   "zpool"
     t.integer  "max_backups"
     t.string   "disk_free"
+  end
+
+  create_table "commands", :force => true do |t|
+    t.integer  "backup_job_id"
+    t.integer  "exitstatus"
+    t.text     "output"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "excludes", :force => true do |t|

@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :commands
+
+  map.resources :backup_jobs
+
   map.resources :settings
 
   map.resources :roles_users

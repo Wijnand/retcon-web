@@ -4,7 +4,7 @@ class CommandsController < ApplicationController
   # GET /commands
   # GET /commands.xml
   def index
-    @commands = current_user.commands.all
+    @commands = current_user.commands.all(:conditions => { :exitstatus => nil})
 
     respond_to do |format|
       format.xml  { render :xml => @commands }

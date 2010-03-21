@@ -1,5 +1,6 @@
 class BackupJobsController < ApplicationController
-
+  filter_resource_access
+  
   # GET /backup_jobs/1
   # GET /backup_jobs/1.xml
   def show

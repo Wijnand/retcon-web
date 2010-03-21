@@ -7,6 +7,7 @@ class CreateRoles < ActiveRecord::Migration
     end
     Role.create(:name => 'admin')
     Role.create(:name => 'user')
+    Role.create(:name => 'agent')
   end
 
   def self.down

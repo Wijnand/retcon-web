@@ -68,32 +68,31 @@ describe Server do
     s = Factory.build(:server)
     s.to_s.should == s.hostname
   end
-  
-  it "should not backup when backups are disabled" do
-    server = Factory.build(:server, :enabled => false, 
-                                    :interval_hours => 1)
-    server.should_backup?.should be false
-  end
-  
-  it "should not backup when no backup server is selected" do
-    server = Factory.build(:server, :enabled => true, :backup_server => nil, 
-                                    :interval_hours => 1)
-    server.should_backup?.should be false
-  end
-  
+
   it "should know if a backup is running" do
-    s1 = Factory.build(:server)
-    s1.backup_running?.should be false
-    s2 = Factory.build(:server)
-    s2.backup_running?.should be true
+    server = Factory.build(:server)
+    job = Factory(:backup_job, :server => server, :status => 'running')
+    server.backup_running?.should be true
   end
   
-  it "should not backup when a backup is already running" do
-    s = Factory.build(:server)
-    s.backup_running?.should be true
-    s.should_backup?.should be false
+  it "should know when a backup is already queued" do
+    server = Factory.build(:server)
+    job = Factory(:backup_job, :server => server, :status => 'queued')
+    server.backup_running?.should be true
   end
   
+  it "should not mark a backup as running when the status is not queued or running" do
+    server = Factory.build(:server)
+    job = Factory(:backup_job, :server => server, :status => 'OK')
+    server.backup_running?.should be false
+  end
+  
+  it "knows no backup is running when there are 0 backup jobs" do
+    server = Factory.build(:server)
+    server.backup_jobs.size.should == 0
+    server.backup_running?.should be false
+  end
+
   it "should always be in the backup window when no start or end is given" do
     server = Factory.build(:server)
     server.in_backup_window?.should be true
@@ -137,30 +136,47 @@ describe Server do
   end
   
   it "should know when its past the interval" do
-    s = Factory.build(:server, :last_started => (Time.new - (2 * 3600)), :interval_hours => 1)
+    s = Factory.build(:server, :interval_hours => 1)
+    j = Factory(:backup_job, :created_at => (Time.new - 3601), :server => s)
     s.interval_passed?.should be true
     
     s.interval_hours = 3
     s.interval_passed?.should be false
   end
   
+  it "should not backup when backups are not enabled" do
+    s = Factory.build(:server, :enabled => false)
+    s.should_backup?.should be false
+  end
+  
+  it "should not backup when there is no backup server configured" do
+    s = Factory.build(:server, :backup_server => nil)
+    s.should_backup?.should be false
+  end
+  
+  it "should not backup when a backup is already running" do
+    s = Factory.build(:server)
+    s.stub(:backup_running?).and_return true
+    s.should_backup?.should be false
+  end
+  
+  it "should not backup when its outside of the window" do
+    s = Factory.build(:server)
+    s.stub(:in_backup_window?).and_return false
+    s.should_backup?.should be false
+  end
+  
+  it "should not backup when the interval didnt pass" do
+    s = Factory.build(:server)
+    s.stub(:interval_passed?).and_return false
+    s.should_backup?.should be false
+  end
+  
   it "should know when to backup" do
     s = Factory.build(:server)
-    s.interval_hours = 1
-    s.should_backup?.should be true
-    
-    # already running
-    s.interval_hours = 24
-    s.should_backup?.should be false
-    
-    # already did one in the window
-    s.interval_hours = 24
-    s.should_backup?.should be false
-    
-    # The most common case
-    s.window_start = nil
-    s.window_stop = nil
-    s.interval_hours = 24
+    s.stub(:backup_running?).and_return false
+    s.stub(:in_backup_window?).and_return true
+    s.stub(:interval_passed?).and_return true
     s.should_backup?.should be true
   end
   

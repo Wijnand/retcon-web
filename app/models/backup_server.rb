@@ -54,44 +54,9 @@ class BackupServer < ActiveRecord::Base
   end
   
   def start_queued
-    if online?
-      next_queued.each do | job |
-        run_backup_job job
-      end
+    next_queued.each do | job |
+      job.run
     end
-  end
-  
-  def run_backup_job(job)
-    job.prepare_fs
-  end
-  
-  def after_fs_prepare(job)
-    job.status = 'running'
-    job.save
-    job.server.last_started = Time.new
-    job.server.save
-    start_rsync job
-  end
-
-  def create_snapshot(job)
-  end
-  
-  def start_rsync(job)
-
-  end
-  
-  def handle_backup_result(result, job)
-    job.status = BackupJob.code_to_success(result[0])
-    job.save
-    now = Time.new
-    case job.status
-    when 'OK', 'PARTIAL', 'UNKNOWN'
-      create_snapshot(job)
-    when 'FAILED'
-      create_snapshot(job)
-    end
-    job.server.save
-    job.server.report(result,  job)
   end
 
 end

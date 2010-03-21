@@ -12,9 +12,18 @@ describe BackupJob do
   end
   
   it "should have a class method to convert exit statusses to a string representation" do
-    BackupJob.code_to_success(0).should == 'OK'
-    BackupJob.code_to_success(100).should == 'UNKNOWN'
-    BackupJob.code_to_success(1).should == 'FAIL'
-    BackupJob.code_to_success(25).should == 'PARTIAL'
+    job = Factory(:backup_job)
+    job.code_to_success(0).should == 'OK'
+    job.code_to_success(100).should == 'UNKNOWN'
+    job.code_to_success(1).should == 'FAIL'
+    job.code_to_success(25).should == 'PARTIAL'
+  end
+  
+  it "should create commands with a specific label" do
+    job = Factory(:backup_job)
+    job.run_command('ls', 'listing')
+    job.commands.size.should be 1
+    job.commands.last.label.should be 'listing'
+    job.commands.last.command.should be 'ls'
   end
 end

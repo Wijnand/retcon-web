@@ -5,6 +5,7 @@
 <table class="index">
   <tr>
     <th>Hostname</th>
+    <th>Usage</th>
     <th>Last backup</th>
     <th>Last backup result</th>
     <th>Last backup duration</th>
@@ -13,6 +14,7 @@
 <% @servers.each do |server| %>
   <tr>
     <td><%=link_to h(server.hostname), server %></td>
+    <td><%=number_to_human_size server.usage %></td>
     <td><%=h server.last_backup || "None" %></td>
     <td><%=h (server.last_backup ? server.backup_jobs.last.status : 'Nothing yet') %></td>
     <td><%= display_backup_duration (server.backup_jobs.last) %></td>

@@ -226,12 +226,4 @@ describe Server do
     s.rsync_includes.should == '--include=/ --include=/var/log'
   end
   
-  it "should use the path of the first profile as start dir" do
-    s = Factory.build(:server) # we need one server
-    p1 = Factory.build(:profile, :name => 'linux', :path => '/') # profile one
-    p2 = Factory.build(:profile, :name => 'standard', :path => '/verybogus') # and another one
-    s.profiles << p1
-    s.profiles << p2
-    s.startdir.should == '/'
-  end
 end

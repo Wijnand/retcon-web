@@ -87,4 +87,13 @@ class BackupJob < ActiveRecord::Base
     save
     run_command("/bin/pfexec /sbin/zfs snapshot #{self.fs}@#{self.updated_at.to_i}", "snapshot")
   end
+  
+  def after_snapshot(command)
+    run_command("/sbin/zfs get -Hp #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
+  end
+  
+  def after_diskusage(command)
+    self.server.usage = command.output
+    self.server.save
+  end
 end

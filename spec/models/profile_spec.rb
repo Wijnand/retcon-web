@@ -7,11 +7,6 @@ describe Profile do
     p.valid?.should be true
   end
   
-  it "should not allow a missing path" do
-    p = Factory.build(:profile, :path => nil)
-    p.valid?.should be false
-  end
-  
   it "should not allow a missing name" do
     p = Factory.build(:profile, :name => nil)
     p.valid?.should be false

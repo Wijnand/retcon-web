@@ -1,5 +1,5 @@
 class Server < ActiveRecord::Base
-  validates_presence_of :hostname, :interval_hours, :keep_snapshots, :ssh_port, :backup_server
+  validates_presence_of :hostname, :interval_hours, :keep_snapshots, :ssh_port, :backup_server, :path
   
   validates_inclusion_of :window_start, :in => 0..23, 
          :message => 'Should be a valid hour! Ranging from 0 to 23', 
@@ -94,7 +94,7 @@ class Server < ActiveRecord::Base
   end
   
   def startdir
-    profiles.first.path
+    self.path || '/'
   end
   
   def report(result, job)

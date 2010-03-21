@@ -5,6 +5,7 @@ Factory.define :server do |f|
   f.interval_hours 24
   f.keep_snapshots 30
   f.association :backup_server
+  f.path '/'
 end
 
 Factory.define :backup_server do | f |
@@ -16,7 +17,6 @@ end
 
 Factory.define :profile do | f |
   f.sequence(:name) {|n| "profile#{n}" }
-  f.path  '/'
 end
 
 Factory.define :user do | f |

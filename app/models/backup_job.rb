@@ -94,7 +94,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def after_snapshot(command)
-    run_command("/sbin/zfs get -Hp #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
+    run_command("/sbin/zfs get -Hp used #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
   end
   
   def after_diskusage(command)

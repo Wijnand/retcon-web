@@ -137,7 +137,7 @@ describe BackupJob do
   it "should ask for the disk usage after the snapshot" do
     job = Factory(:backup_job)
     command = Factory(:command, :exitstatus => 0)
-    job.should_receive(:run_command).with("/sbin/zfs get -Hp #{job.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
+    job.should_receive(:run_command).with("/sbin/zfs get -Hp used #{job.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
     job.after_snapshot(command)
   end
   

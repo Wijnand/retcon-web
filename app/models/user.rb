@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :roles_users
   has_many :roles_users
   has_many :commands
-  
+  belongs_to :backup_server
+
   def role_symbols
     roles.map {|r| r.name.to_sym}
   end

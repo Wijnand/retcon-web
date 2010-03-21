@@ -1,9 +1,12 @@
-<% semantic_form_for @user do |f| %>  
-    <%= f.error_messages %>  
-    <%= f.inputs :username %>  
-    <%= f.inputs :email %>  
-    <%= f.inputs :password %>   
-    <%= f.inputs :password_confirmation %>
-    <%= f.inputs :roles, :as => :check_boxes, :collection => Role.all %>
-    <%= f.buttons %>   
+<% semantic_form_for @user do |f| %>
+  <% f.inputs do %>
+    <%= f.error_messages %>
+    <%= f.input :username %>  
+    <%= f.input :email %>  
+    <%= f.input :password %>   
+    <%= f.input :password_confirmation %>
+    <%= f.input :roles, :as => :check_boxes, :collection => Role.all %>
+    <%= f.input :backup_server, :hint => 'This user is used by this backup server for API connections. You should also set the role to agent' %>
+  <% end %>
+  <%= f.buttons %>   
 <% end %>

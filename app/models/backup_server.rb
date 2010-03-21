@@ -2,10 +2,17 @@ class BackupServer < ActiveRecord::Base
   has_many :servers, :include => [:backup_jobs, :problems]
   has_many :backup_jobs, :include => :server
   has_many :problems, :include => :server
-  
+  has_one :user
+      
   validates_presence_of :hostname, :zpool, :max_backups
+  
   attr_accessor :in_subnet
   
+  
+  def self.user_missing
+    self.all.select { | b | b.user.nil? }
+  end
+
   def latest_problems
     problems.find(:all, :order => 'created_at DESC', :limit=>10)
   end

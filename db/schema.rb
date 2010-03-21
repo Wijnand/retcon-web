@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100321150906) do
+ActiveRecord::Schema.define(:version => 20100321160529) do
 
   create_table "backup_jobs", :force => true do |t|
     t.integer  "backup_server_id"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20100321150906) do
     t.string   "persistence_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "backup_server_id"
   end
 
 end

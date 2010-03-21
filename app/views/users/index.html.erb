@@ -5,13 +5,13 @@
 <table class="index">
   <tr>
     <th>Username</th>
-    <th>Email</th>
+    <th>In use by backup server</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
     <td><%= link_to h(user.username), user %></td>
-    <td><%= h user.email %></td>
+    <td><%= h user.backup_server %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %> | 
     <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

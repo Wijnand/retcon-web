@@ -26,6 +26,14 @@
   <b>Backup last finished:</b>
   <%=h @server.last_backup %>
 <% end %>
+<% unless @server.backup_running? %>
+	<% form_for(@server.backup_jobs.build(:backup_server => @server.backup_server, :status => 'queued')) do |f| %>
+	    <%= f.hidden_field :backup_server_id %>
+	    <%= f.hidden_field :server_id %>
+	    <%= f.hidden_field :status %>
+	  <%= f.submit "Queue now" %>
+	<% end %>
+<% end %>
 </p>
 
 <h2>Applied profiles</h2>

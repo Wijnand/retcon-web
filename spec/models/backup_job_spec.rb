@@ -66,6 +66,7 @@ describe BackupJob do
     job.should_receive(:prepare_fs)
     job.run
     job.status.should == 'running'
+    job.finished.should == false
   end
   
   it "prepare_fs should ask if the filesystem exists" do
@@ -100,6 +101,7 @@ describe BackupJob do
     command = Factory(:command, :exitstatus => 1)
     job.after_create_fs(command)
     job.status.should == 'Unable to create filesystem'
+    job.finished.should == true
   end
   
   it "should fail if the filesystem confimation fails" do
@@ -107,6 +109,7 @@ describe BackupJob do
     command = Factory(:command, :exitstatus => 1)
     job.after_fs_exists_confirm(command)
     job.status.should == 'Unable to create filesystem'
+    job.finished.should == true
   end
   
   it "should start the rsyncs when the confirmation is positive" do
@@ -143,5 +146,6 @@ describe BackupJob do
     command = Factory(:command, :exitstatus => 0, :output => '11')
     job.after_diskusage(command)
     job.server.usage.should == 11
+    job.finished.should == true
   end
 end

@@ -2,7 +2,7 @@ class BackupJob < ActiveRecord::Base
   belongs_to :server
   belongs_to :backup_server
   has_many :commands
-  named_scope :running, :conditions => {:status => 'running'}, :order => 'updated_at DESC', :include => [:server, :backup_server]
+  named_scope :running, :conditions => {:finished => false}, :order => 'updated_at DESC', :include => [:server, :backup_server]
   named_scope :queued, :conditions => {:status => 'queued'}, :order => 'created_at ASC', :include => [:server, :backup_server]
   named_scope :latest_problems, :conditions => "status NOT IN ('OK','running','queued')", :order => 'updated_at DESC', :limit => 20, :include => [:server, :backup_server]
   
@@ -16,6 +16,7 @@ class BackupJob < ActiveRecord::Base
   
   def run
     self.status = 'running'
+    self.finished = false
     save
     prepare_fs
   end
@@ -67,6 +68,8 @@ class BackupJob < ActiveRecord::Base
       run_command("/sbin/zfs list #{self.fs}", "fs_exists_confirm")
     else
       self.status = 'Unable to create filesystem'
+      self.finished = true
+      save
     end
   end
   
@@ -75,6 +78,8 @@ class BackupJob < ActiveRecord::Base
       start_rsyncs
     else
       self.status = 'Unable to create filesystem'
+      self.finished = true
+      save
     end
   end
   
@@ -95,5 +100,7 @@ class BackupJob < ActiveRecord::Base
   def after_diskusage(command)
     self.server.usage = command.output
     self.server.save
+    self.finished=true
+    save
   end
 end

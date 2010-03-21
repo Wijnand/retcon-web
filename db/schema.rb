@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100321222901) do
+ActiveRecord::Schema.define(:version => 20100321232045) do
 
   create_table "backup_jobs", :force => true do |t|
     t.integer  "backup_server_id"
@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20100321222901) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "finished"
   end
 
   add_index "backup_jobs", ["status"], :name => "index_backup_jobs_on_status"

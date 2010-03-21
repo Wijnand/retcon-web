@@ -20,8 +20,10 @@ authorization do
   
   role :agent do
     includes :guest
-    has_permission_on :commands, :to => [:show, :index,:update] do
-      if_attribute :agent_id => contains { user.id }
+    has_permission_on :commands, :to => [:show, :update] do
+      if_attribute :agent => is { user.username }
     end
+    
+    has_permission_on :commands, :to => [:index]
   end
 end

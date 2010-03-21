@@ -4,6 +4,6 @@
     <%= f.inputs :email %>  
     <%= f.inputs :password %>   
     <%= f.inputs :password_confirmation %>
-    <%= f.inputs :roles %>
+    <%= f.inputs :roles, :as => :check_boxes, :collection => Role.all %>
     <%= f.buttons %>   
 <% end %>

@@ -23,7 +23,112 @@ describe BackupJob do
     job = Factory(:backup_job)
     job.run_command('ls', 'listing')
     job.commands.size.should be 1
-    job.commands.last.label.should be 'listing'
-    job.commands.last.command.should be 'ls'
+    job.commands.last.label.should == 'listing'
+    job.commands.last.command.should == 'ls'
   end
+  
+  it "should create commands for the right user" do
+    job = Factory(:backup_job)
+    job.run_command('ls', 'listing')
+    job.commands.last.user.should == job.backup_server.user
+  end
+  
+  it "should pull the database for commands to pick up and run the callback" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :backup_job => job)
+    job.should_receive(:run_callback).once.with(command)
+    job.wakeup
+  end
+  
+  it "it should not run the callback when the command has no exitstatus" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :backup_job => job, :exitstatus => nil)
+    job.should_not_receive(:run_callback).with(command)
+    job.wakeup
+  end
+  
+  it "should call the right method when being called back" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :label => 'snapshot')
+    job.should_receive(:after_snapshot).with(command)
+    job.run_callback(command)
+  end
+  
+  it "should parse the rest of the label as command args" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :label => 'rsync 1')
+    job.should_receive(:after_rsync).with(command, '1')
+    job.run_callback(command)
+  end
+  
+  it "should prepare the filesystem when it starts running and set its status to running" do
+    job = Factory(:backup_job, :status => 'queued')
+    job.should_receive(:prepare_fs)
+    job.run
+    job.status.should == 'running'
+  end
+  
+  it "prepare_fs should ask if the filesystem exists" do
+    job = Factory(:backup_job)
+    job.should_receive(:run_command).with("/sbin/zfs list #{job.fs}", "fs_exists")
+    job.prepare_fs
+  end
+  
+  it "should start the rsyncs if the filesystem exists" do
+    job =  Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 0)
+    job.should_receive(:start_rsyncs)
+    job.after_fs_exists(command)
+  end
+  
+  it "should give out an order to create a filesystem if it does not exist" do
+    job =  Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 1)
+    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs create #{job.fs}", "create_fs")
+    job.after_fs_exists(command)
+  end
+  
+  it "should check again after filesystem creation" do
+    job =  Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 0)
+    job.should_receive(:run_command).with("/sbin/zfs list #{job.fs}", "fs_exists_confirm")
+    job.after_create_fs(command)
+  end
+  
+  it "should fail when the filesystem could not be created" do
+    job =  Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 1)
+    job.after_create_fs(command)
+    job.status.should == 'Unable to create filesystem'
+  end
+  
+  it "should fail if the filesystem confimation fails" do
+    job =  Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 1)
+    job.after_fs_exists_confirm(command)
+    job.status.should == 'Unable to create filesystem'
+  end
+  
+  it "should start the rsyncs when the confirmation is positive" do
+    job =  Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 0)
+    job.should_receive(:start_rsyncs)
+    job.after_fs_exists_confirm(command)
+  end
+  
+  it "should create a rsync command" do
+    job =  Factory(:backup_job)
+    job.stub(:to_rsync).and_return('stub_for_rsync')
+    job.should_receive(:run_command).with('stub_for_rsync', "rsync")
+    job.start_rsyncs
+  end
+  
+  it "should create a snapshot after the rsync and update its status" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 0)
+    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs snapshot #{job.fs}@#{job.updated_at.to_i}", "snapshot")
+    job.after_rsync(command)
+    job.status.should == 'OK'
+  end
+  
 end

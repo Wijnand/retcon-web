@@ -11,10 +11,13 @@ class BackupJob < ActiveRecord::Base
   end
   
   def prepare_fs
-
+     run_command("/sbin/zfs list #{self.fs}", "fs_exists")
   end
   
   def run
+    self.status = 'running'
+    save
+    prepare_fs
   end
   
   def ssh_command
@@ -35,6 +38,53 @@ class BackupJob < ActiveRecord::Base
   end
   
   def run_command(command, label)
-    commands.create!(:command => command, :label => label)
+    commands.create!(:command => command, :label => label, :user => backup_server.user)
+  end
+  
+  def wakeup
+    last = commands.last
+    if last.exitstatus
+      run_callback(last)
+    end
+  end
+  
+  def run_callback(command)
+    args = command.label.split(/ /)
+    method = args.delete_at(0)
+    send('after_' + method, command, *args)
+  end
+  
+  def after_fs_exists(command)
+    if command.exitstatus == 0
+      start_rsyncs
+    else
+      run_command("/bin/pfexec /sbin/zfs create #{self.fs}", "create_fs")
+    end
+  end
+  
+  def after_create_fs(command)
+    if command.exitstatus == 0
+      run_command("/sbin/zfs list #{self.fs}", "fs_exists_confirm")
+    else
+      self.status = 'Unable to create filesystem'
+    end
+  end
+  
+  def after_fs_exists_confirm(command)
+    if command.exitstatus == 0
+      start_rsyncs
+    else
+      self.status = 'Unable to create filesystem'
+    end
+  end
+  
+  def start_rsyncs
+    run_command(self.to_rsync, "rsync")
+  end
+  
+  def after_rsync(command)
+    self.status = code_to_success(command.exitstatus)
+    save
+    run_command("/bin/pfexec /sbin/zfs snapshot #{self.fs}@#{self.updated_at.to_i}", "snapshot")
   end
 end

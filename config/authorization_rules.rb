@@ -21,7 +21,7 @@ authorization do
   role :agent do
     includes :guest
     has_permission_on :commands, :to => [:show, :update] do
-      if_attribute :agent => is { user.username }
+      if_attribute :user => is { user }
     end
     
     has_permission_on :commands, :to => [:index]

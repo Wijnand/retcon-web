@@ -51,8 +51,6 @@ describe Server do
     s.connect_to = nil
     s.enabled = nil
     s.backup_server_id = nil
-    s.last_backup = nil
-    s.last_started = nil
     s.valid?.should be true
   end
   
@@ -73,35 +71,25 @@ describe Server do
   
   it "should not backup when backups are disabled" do
     server = Factory.build(:server, :enabled => false, 
-                                    :last_started => (Time.new - ( 4 * 3600)),
-                                    :last_backup => (Time.new - (3* 3600)),
                                     :interval_hours => 1)
     server.should_backup?.should be false
   end
   
   it "should not backup when no backup server is selected" do
     server = Factory.build(:server, :enabled => true, :backup_server => nil, 
-                                    :last_started => (Time.new - ( 4 * 3600)),
-                                    :last_backup => (Time.new - (3* 3600)),
                                     :interval_hours => 1)
     server.should_backup?.should be false
   end
   
   it "should know if a backup is running" do
     s1 = Factory.build(:server)
-    s1.last_backup = Time.new
-    s1.last_started = Time.new - 3600
     s1.backup_running?.should be false
     s2 = Factory.build(:server)
-    s2.last_backup = Time.new - 3600
-    s2.last_started = Time.new
     s2.backup_running?.should be true
   end
   
   it "should not backup when a backup is already running" do
     s = Factory.build(:server)
-    s.last_backup = Time.new - 3600
-    s.last_started = Time.new
     s.backup_running?.should be true
     s.should_backup?.should be false
   end
@@ -158,28 +146,20 @@ describe Server do
   
   it "should know when to backup" do
     s = Factory.build(:server)
-    s.last_backup = Time.new - (2 * 3600)
-    s.last_started = Time.new - ( 4 * 3600)
     s.interval_hours = 1
     s.should_backup?.should be true
     
     # already running
-    s.last_backup = Time.new - (24 * 3600)
-    s.last_started = Time.new - ( 4 * 3600)
     s.interval_hours = 24
     s.should_backup?.should be false
     
     # already did one in the window
-    s.last_backup = Time.new - (3 * 3600)
-    s.last_started = Time.new - ( 4 * 3600)
     s.interval_hours = 24
     s.should_backup?.should be false
     
     # The most common case
     s.window_start = nil
     s.window_stop = nil
-    s.last_backup = Time.new - (23 * 3600)
-    s.last_started = Time.new - ( 24 * 3600)
     s.interval_hours = 24
     s.should_backup?.should be true
   end

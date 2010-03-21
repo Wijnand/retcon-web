@@ -98,7 +98,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def after_diskusage(command)
-    self.server.usage = command.output
+    self.server.usage = command.output.to_i
     self.server.save
     self.finished=true
     save

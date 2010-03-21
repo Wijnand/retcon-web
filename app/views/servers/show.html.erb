@@ -19,7 +19,7 @@
   <dd><%=h @server.backup_server %></dd>
 
   <dt>Disk usage:</dt>
-  <dd><%=number_to_human_size @server.usage %></dd>
+  <dd><%=number_to_human_size @server.usage || 'NaN '%></dd>
 </p>
 
 <p>

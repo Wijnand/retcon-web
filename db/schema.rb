@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100321211500) do
+ActiveRecord::Schema.define(:version => 20100321215123) do
 
   create_table "backup_jobs", :force => true do |t|
     t.integer  "backup_server_id"
@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(:version => 20100321211500) do
     t.text     "output"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "command"
     t.integer  "user_id"
     t.string   "label"
+    t.text     "command"
   end
 
   create_table "excludes", :force => true do |t|

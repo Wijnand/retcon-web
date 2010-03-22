@@ -129,7 +129,9 @@ describe BackupJob do
   it "should create a snapshot after the rsync and update its status" do
     job = Factory(:backup_job)
     command = Factory(:command, :exitstatus => 0)
-    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs snapshot #{job.fs}@#{job.updated_at.to_i}", "snapshot")
+    now = Time.new
+    Time.stub(:new).and_return now
+    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs snapshot #{job.fs}@#{now.to_i}", "snapshot")
     job.after_rsync(command)
     job.status.should == 'OK'
   end
@@ -141,11 +143,21 @@ describe BackupJob do
     job.after_snapshot(command)
   end
   
-  it "should update the disk usage" do
+  it "should update the disk usage and ask for the list of snapshots" do
     job = Factory(:backup_job)
     command = Factory(:command, :exitstatus => 0, :output => '11')
+    job.should_receive(:run_command).with("/sbin/zfs list -H -r -o name -t snapshot #{job.fs} | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
     job.after_diskusage(command)
     job.server.usage.should == 11
+  end
+  
+  it "should something" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 0, :output => '1234
+5678
+90')
+    job.after_get_snapshots(command)
+    job.server.snapshots.should == '1234,5678,90'
     job.finished.should == true
   end
 end

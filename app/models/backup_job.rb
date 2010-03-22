@@ -100,7 +100,15 @@ class BackupJob < ActiveRecord::Base
   def after_diskusage(command)
     self.server.usage = command.output.to_i
     self.server.save
+    run_command("/sbin/zfs list -H -r -o name -t snapshot #{self.fs} | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
+  end
+  
+  def after_get_snapshots(command)
+    snapshots = command.output.split(/\n/).join(',')
+    self.server.snapshots = snapshots
+    self.server.save
     self.finished=true
     save
   end
+  
 end

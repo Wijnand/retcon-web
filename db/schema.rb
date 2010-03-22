@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100321232045) do
+ActiveRecord::Schema.define(:version => 20100322193331) do
 
   create_table "backup_jobs", :force => true do |t|
     t.integer  "backup_server_id"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(:version => 20100321232045) do
     t.integer  "keep_snapshots"
     t.string   "path"
     t.integer  "usage"
+    t.text     "snapshots"
   end
 
   create_table "sessions", :force => true do |t|

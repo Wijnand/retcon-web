@@ -21,6 +21,7 @@
 <h2>Latest backup jobs</h2>
 <table class="index">
   <tr>
+	<th>Job</th>
     <th>Server</th>
     <th>Status</th>
     <th>Last updated</th>
@@ -28,6 +29,7 @@
   </tr>
 <% @backup_server.latest_jobs.each do | job | %>
   <tr>
+	<td><%= link_to job.id, job %></td>
     <td><%=link_to h(job.server.hostname), job.server %></td>
     <td><%=h job.status %></td>
     <td><%=h job.updated_at %></td>

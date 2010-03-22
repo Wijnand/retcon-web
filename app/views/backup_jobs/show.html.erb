@@ -1,11 +1,15 @@
+<% content_for :header do %>
+  Backup job <%=h @backup_job.id %>
+<% end %>
+
 <p>
   <b>Backup server:</b>
-  <%=h @backup_job.backup_server_id %>
+  <%=link_to h(@backup_job.backup_server), @backup_job.backup_server %>
 </p>
 
 <p>
   <b>Server:</b>
-  <%=h @backup_job.server_id %>
+  <%=link_to h(@backup_job.server), @backup_job.server %>
 </p>
 
 <p>
@@ -13,6 +17,22 @@
   <%=h @backup_job.status %>
 </p>
 
-
-<%= link_to 'Edit', edit_backup_job_path(@backup_job) %> |
-<%= link_to 'Back', backup_jobs_path %>
+<h2>Commands and results</h2>
+<table class="index">
+  <tr>
+	<th>When</th>
+	<th>Command</th>
+	<th>Exit status</th>
+	<th>Output</th>
+	<th>Label</th>
+  </tr>
+<% @backup_job.commands.each do | command | %>
+  <tr>
+	<td><%= command.created_at %></td>
+	<td><%= h command.command %></td>
+	<td><%= h command.exitstatus %></td>
+	<td><%= h command.output %></th>
+	<td><%= h command.label %></th>
+  </tr>
+<% end %>
+</table>

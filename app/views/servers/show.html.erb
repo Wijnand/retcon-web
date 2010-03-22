@@ -44,7 +44,7 @@
 
 <h2>Known snapshots</h2>
 <% @server.current_snapshots.each do | snapshot | %>
-  <dt><%= Time.at snapshot %></dt>
+  <dt><%= Time.at snapshot.to_i %></dt>
   <dd><%= snapshot %></dd>
 <% end %>
 

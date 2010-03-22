@@ -253,3 +253,5 @@ table th {
 .online { color: green;}
 .offline { color: red;}
 dt { font-weight: bold; }
+
+table.commands { overflow: scroll;}

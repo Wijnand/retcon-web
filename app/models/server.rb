@@ -103,4 +103,8 @@ class Server < ActiveRecord::Base
   def current_snapshots
     (self.snapshots || '').split(',')
   end
+  
+  def queue_backup
+    backup_jobs.create(:backup_server => self.backup_server, :status => 'queued')
+  end
 end

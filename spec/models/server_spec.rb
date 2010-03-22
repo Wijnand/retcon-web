@@ -232,4 +232,13 @@ describe Server do
     s.current_snapshots[0].should == '1234'
     s.current_snapshots[2].should == '90'
   end
+  
+  it "should queue a backup when queue_backup is called" do
+    s = Factory.build(:server)
+    s.save
+    s.backup_jobs.size.should == 0
+    s.queue_backup
+    s.backup_jobs.size.should == 1
+    s.backup_jobs.last.status.should == 'queued'
+  end
 end

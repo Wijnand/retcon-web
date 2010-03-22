@@ -101,6 +101,6 @@ class Server < ActiveRecord::Base
   end
   
   def current_snapshots
-    self.snapshots.split(',')
+    (self.snapshots || '').split(',')
   end
 end

@@ -42,6 +42,12 @@
 <% end %>
 </p>
 
+<h2>Known snapshots</h2>
+<% @server.current_snapshots.each do | snapshot | %>
+  <dt><%= Time.at snapshot %></dt>
+  <dd><%= snapshot %></dd>
+<% end %>
+
 <h2>Applied profiles</h2>
 <ul class="profile_list">
 <% @server.profiles.each do | profile | %>

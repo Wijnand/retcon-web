@@ -226,4 +226,10 @@ describe Server do
     s.rsync_includes.should == '--include=/ --include=/var/log'
   end
   
+  it "should turn the snapshots property into a array" do
+    s = Factory(:server, :snapshots => '1234,5678,90')
+    s.current_snapshots.size.should == 3
+    s.current_snapshots[0].should == '1234'
+    s.current_snapshots[2].should == '90'
+  end
 end

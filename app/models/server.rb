@@ -99,4 +99,8 @@ class Server < ActiveRecord::Base
   
   def report(result, job)
   end
+  
+  def current_snapshots
+    self.snapshots.split(',')
+  end
 end

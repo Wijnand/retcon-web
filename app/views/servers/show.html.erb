@@ -42,16 +42,20 @@
 <% end %>
 </p>
 
+<% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
+
 <h2>Known snapshots</h2>
 <table class="index">
 <tr>
   <th>Name</th>
   <th>When</th>
+  <th>Path on backup server</th>
 </tr>
 <% @server.current_snapshots.each do | snapshot | %>
 <tr>
 	<td><%= snapshot %></td>
 	<td><%= Time.at snapshot.to_i %></td>
+	<td>/<%= @job.fs %>/.zfs/snapshots/<%= snapshot %></td>
 </t>
 <% end %>
 </table>
@@ -64,8 +68,8 @@
 </ul>
 
 <% if @server.backup_server %>
-  <% job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
-  <p>This resolves to the following rsync command:<br/> <%= job.to_rsync %></p>
+  <% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
+  <p>This resolves to the following rsync command:<br/> <%= @job.to_rsync %></p>
 <% end %>
 <% add_action 'Edit this server', edit_server_path( @server) %>
 <% add_action 'Add Server', new_server_path %>

@@ -14,7 +14,7 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
 
 <div id="excludes">
 <h2>Excludes</h2>
-<p>The following directories within <%=h @profile.path %> will be excluded from the backups. Wildcards are allowed.</p>
+<p>The following directories will be excluded from the backups. Wildcards are allowed.</p>
 <ul>
   <% @profile.excludes.each do | exclude | %>
     <li><%=h exclude.path %> (<%= link_to 'Edit', edit_profile_exclude_path(@profile, exclude) %> | <%= link_to 'Destroy', [@profile, exclude], :confirm => 'Are you sure?', :method => :delete %>)</li>

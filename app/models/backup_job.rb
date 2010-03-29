@@ -39,6 +39,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def run_command(command, label)
+    command += ' 2>&1'
     commands.create!(:command => command, :label => label, :user => backup_server.user)
   end
   

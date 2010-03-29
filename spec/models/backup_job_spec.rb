@@ -24,7 +24,7 @@ describe BackupJob do
     job.run_command('ls', 'listing')
     job.commands.size.should be 1
     job.commands.last.label.should == 'listing'
-    job.commands.last.command.should == 'ls'
+    job.commands.last.command.should == 'ls 2>&1'
   end
   
   it "should create commands for the right user" do

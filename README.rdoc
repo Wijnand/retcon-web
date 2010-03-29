@@ -1,0 +1,45 @@
+== Retcon
+Retcon (short for Retroactive Continuation) is a backup system which levarages the power of ZFS.
+In short: a backup is a rsync with a snapshot afterwards. It is currently not in a state where it is usable for everyone.
+It is however in production use at Cyso Managed Hosting ( http://www.cyso.nl )
+
+== Installation
+The repository you are looking at now is where most of the code lives.
+All other components are tiny or not even Retcon specific.
+
+The webinterface (this repository) should be installed as a standard Rails application in a directory named retcon-web. The directory name is important!
+After getting the sources from git:
+   cd retcon-web
+   rake gems:install
+   cp config/database.yml.sample config/database.yml
+Edit config/database.yml to suit your needs and make sure the database, user and permissions included, exists.
+If you plan to use sqlite3 you only have to run rake db:prepare
+
+After that:
+   rake db:migrate RAILS_ENV=production
+You should now be able to login at the webinterface and login using admin:admin
+
+You should also checkout the retcon-manager repository within the directory where retcon-web is installed.
+retcon-manager uses the code from retcon-web and only expects it to be there. Maybe this will be configurable later, maybe not.
+
+You should be able to start the manager using retcon-manager/bin/retcon-manager start
+
+Add each backup server to the interface and you add a user and you only give it the 'agent' role. Also select the proper backup server.
+
+On the backup server, as a user who has permissions to run everything using pfexec, install http://github.com/Wijnand/commander and configure config/commander.yml
+Run it with bin/commander start
+
+== Issues
+Please report issues to http://github.com/Wijnand/retcon-web/issues
+
+== Contributing
+The github way off course!
+
+=== Note on Patches/Pull Requests
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a future version unintentionally.
+* Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself in another branch so I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
+

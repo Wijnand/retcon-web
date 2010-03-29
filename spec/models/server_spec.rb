@@ -71,7 +71,7 @@ describe Server do
 
   it "should know if a backup is running" do
     server = Factory.build(:server)
-    job = Factory(:backup_job, :server => server, :status => 'running')
+    job = Factory(:backup_job, :server => server, :status => 'running', :finished => false)
     server.backup_running?.should be true
   end
   
@@ -83,7 +83,7 @@ describe Server do
   
   it "should not mark a backup as running when the status is not queued or running" do
     server = Factory.build(:server)
-    job = Factory(:backup_job, :server => server, :status => 'OK')
+    job = Factory(:backup_job, :server => server, :status => 'OK', :finished => true)
     server.backup_running?.should be false
   end
   

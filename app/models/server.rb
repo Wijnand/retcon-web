@@ -37,7 +37,9 @@ class Server < ActiveRecord::Base
   
   def backup_running?
     return false if self.backup_jobs.size == 0
-    ['running','queued'].include? self.backup_jobs.last.status
+    return true if self.backup_jobs.queued.size > 0
+    return true if self.backup_jobs.running.size > 0
+    false
   end
   
   def should_backup?

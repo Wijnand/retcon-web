@@ -2,12 +2,14 @@
   <tr>
     <th>Backup Server</th>
     <th>Number of servers</th>
+    <th>Running backups</th>
     <th>Disk Free</th>
   </tr>
   <% @backup_servers.each do | backup_server | %>
     <tr>
       <td><%=link_to h( backup_server.hostname), backup_server %></td>
       <td><%=h backup_server.servers.size %></td>
+      <td><%=h backup_server.running_backups.size %></td>
       <td><%=h backup_server.disk_free %></td>
     </tr>
   <% end %>

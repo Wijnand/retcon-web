@@ -52,10 +52,12 @@ class Server < ActiveRecord::Base
   
   def in_backup_window?
     return true if window_start.blank? or window_stop.blank?
-    start  = Time.parse( window_start == 0 ? "00:00" : "#{window_start}:00")
-    ending = Time.parse( window_stop == 0 ? "23:59" : "#{window_stop}:00")
     now = Time.new
-    (start..ending).include? now
+    window_stop < window_start ? endday=now.tomorrow : endday = now
+    endday = endday.strftime('%Y-%m-%d')
+    start  = Time.parse( window_start == 0 ? "#00:00" : "#{window_start}:00").to_i
+    ending = Time.parse( window_stop == 0 ? "#{endday} 23:59" : "#{endday} #{window_stop}:00").to_i
+    (start..ending).include? now.to_i
   end
   
   def excludes

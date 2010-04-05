@@ -135,6 +135,16 @@ describe Server do
     server.in_backup_window?.should be true
   end
   
+  it "should handle windows that cross midnight" do
+    server = Factory(:server)
+    server.window_start = 22
+    server.window_stop = 2
+    next_day = Time.new.tomorrow
+    parsed_when = Time.parse("#{next_day.strftime('%Y-%m-%d')} 01:00")
+    Time.should_receive(:new).and_return(parsed_when)
+    server.in_backup_window?.should be true
+  end
+  
   it "should know when its past the interval" do
     s = Factory.build(:server, :interval_hours => 1)
     j = Factory(:backup_job, :created_at => (Time.new - 3601), :server => s)

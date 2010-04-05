@@ -108,8 +108,13 @@ class BackupJob < ActiveRecord::Base
     snapshots = command.output.split(/\n/).join(',')
     self.server.snapshots = snapshots
     self.server.save
-    self.finished=true
+    run_command("/sbin/zpool list -H #{self.backup_server.zpool} | awk '{print $4}'", "backupserver_diskspace")
     save
   end
   
+  def after_backupserver_diskspace(command)
+    self.backup_server.disk_free = command.output
+    self.backup_server.save
+    self.finished = true
+  end
 end

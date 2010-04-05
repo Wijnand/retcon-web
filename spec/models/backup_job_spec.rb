@@ -151,13 +151,21 @@ describe BackupJob do
     job.server.usage.should == 11
   end
   
-  it "should something" do
+  it "should update the snapshots for a server and ask the disk_free for the backup_server" do
     job = Factory(:backup_job)
     command = Factory(:command, :exitstatus => 0, :output => '1234
 5678
 90')
+    job.should_receive(:run_command).with("/sbin/zpool list -H backup | awk '{print $4}'", "backupserver_diskspace")
     job.after_get_snapshots(command)
     job.server.snapshots.should == '1234,5678,90'
+  end
+  
+  it "should update the diskspace for the backup server" do
+    job = Factory(:backup_job)
+    command = Factory(:command, :exitstatus => 0, :output => '630G')
+    job.after_backupserver_diskspace(command)
+    job.backup_server.disk_free.should == '630G'
     job.finished.should == true
   end
 end

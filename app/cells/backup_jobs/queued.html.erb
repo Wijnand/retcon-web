@@ -1,5 +1,6 @@
 <% if @backup_jobs.size > 0 %>
 <p>A big queue may be a sign backup servers are not able to keep up. Keep an eye on this!</p>
+<p>Now queued: <%= @backup_jobs.size %> backup jobs</p>
   <table class="index">
     <tr>
       <th>Server</th>

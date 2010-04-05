@@ -5,7 +5,9 @@ class BackupJobsCell < Cell::Base
   end
   
   def problems
-    @backup_jobs = BackupJob.latest_problems
+    @backup_jobs = BackupJob.latest_problems.select do | job |
+      job.server.backup_jobs.last == job
+    end
     render
   end
   

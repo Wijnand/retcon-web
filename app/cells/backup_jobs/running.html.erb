@@ -1,13 +1,15 @@
 <% if @backup_jobs.size > 0 %>
   <p>Now running: <%= @backup_jobs.size %> backup jobs</p>
-  <table class="index">
+  <table class="index sortable">
+    <thead>
     <tr>
       <th>Server</th>
       <th>Backup Server</th>
       <th>Started</th>
       <th>Run time</th>
     </tr>
-
+    </thead>
+    <tbody>
   <% @backup_jobs.each do |job| %>
     <tr>
       <td><%=link_to h(job.server), job.server %></td>
@@ -16,6 +18,7 @@
       <td><%=h time_ago_in_words(job.updated_at) %></td>
     </tr>
   <% end %>
+  </tbody>
   </table>
 <% else %>
 <p>Nothing at all! I guess all backup servers are slacking their ass off...</p>

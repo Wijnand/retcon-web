@@ -1,10 +1,10 @@
 body {
-	font-family: "Lucida Grande", verdana, arial, helvetica, sans-serif;
+	font-family: arial;
 	color: #000;
 	background-color: #d4d4d4;
 	margin: 0;
 	padding: 0;
-	font-size: 0.8em;
+	font-size: 0.9em;
 	min-width: 900px;
 }
 a:link, a:visited {
@@ -255,3 +255,41 @@ table th {
 dt { font-weight: bold; }
 
 table.commands { overflow: scroll;}
+
+/* tables */
+table.sortable {
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: 8pt;
+	width: 100%;
+	text-align: left;
+}
+table.sortable thead tr th, table.sortable tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	padding: 4px;
+}
+table.sortable thead tr .header {
+	background-image: url(/images/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.sortable tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.sortable tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.sortable thead tr .headerSortUp {
+	background-image: url(/images/asc.gif);
+}
+table.sortable thead tr .headerSortDown {
+	background-image: url(/images/desc.gif);
+}
+table.sortable thead tr .headerSortDown, table.sortable thead tr .headerSortUp {
+background-color: #8dbdd8;
+}

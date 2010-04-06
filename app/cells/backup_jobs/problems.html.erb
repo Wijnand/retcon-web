@@ -1,12 +1,14 @@
 <% if @backup_jobs.size > 0 %>
-  <table class="index">
+  <table class="index sortable">
+  <thead>
     <tr>
       <th>Server</th>
       <th>Backup Server</th>
       <th>Last change</th>
       <th>Backup result</th>
     </tr>
-
+  </thead>
+  <tbody>
   <% @backup_jobs.each do |job| %>
     <tr>
       <td><%=link_to h(job.server), job.server %></td>
@@ -15,6 +17,7 @@
       <td><%=h job.status %></td>
     </tr>
   <% end %>
+  </tbody>
   </table>
 <% else %>
 <p>Nothing at all! I guess all backup servers are doing quite well</p>

@@ -10,7 +10,8 @@
 <% end %>
 </p>
 
-<table class="index">
+<table class="index sortable">
+  <thead>
   <tr>
     <th>Hostname</th>
     <th>Usage</th>
@@ -18,7 +19,8 @@
     <th>Last backup result</th>
     <th>Last backup duration</th>
   </tr>
-
+  </thead>
+  <tbody>
 <% @servers.each do |server| %>
   <tr>
     <td><%=link_to h(server.hostname), server %></td>
@@ -30,6 +32,7 @@
     <%= link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
+</tbody>
 </table>
 
 <br />

@@ -2,9 +2,11 @@
    Server overview
 <% end %>
 
-<p>Find server(s): 
+<p>
 <% form_for @search do |f| %>
+    <%= f.label :hostname_like, 'Hostname' %>
     <%= f.text_field :hostname_like %>
+    <%= f.submit 'Search' %>
 <% end %>
 </p>
 

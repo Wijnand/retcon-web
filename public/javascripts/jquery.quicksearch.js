@@ -1,3 +1,7 @@
+/* This great piece of jQuery code was found and shamelessly stolen from
+   http://github.com/riklomas/quicksearch
+*/
+
 jQuery(function ($) {
 	$.fn.quicksearch = function (target, opt) {
 		

@@ -1,8 +1,18 @@
 <% semantic_form_for(@profile) do |f| %>
   <%= f.error_messages %>
   <% f.inputs do %>
-    <%= f.input :name %>
+    <% f.inputs :name => "General", :class => 'separator' do %>
+     <%= f.input :name %>
+    <% end %>
+    <% f.inputs :name => "Apply to", :class => 'separator' do %>
+    <form action="#">
+     <li id="server_search_input"><label for="server_search">Filter servers</label>
+     <input id="server_search" maxlength="255" size="50" type="text" /></li>
+    </form>
+    <div id="server_list">
     <%= f.input :servers, :collection => Server.find(:all, :order => 'hostname ASC'), :as => :check_boxes, :label => 'Apply to', :hint => 'Quickly apply this profile to all these servers' %>
+    </div>
+    <% end %>
   <% end %>
   <%= f.buttons %>
 <% end %>

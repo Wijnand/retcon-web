@@ -41,16 +41,16 @@ class BackupServer < ActiveRecord::Base
     end
   end
   
-  def queued_backups
-    backup_jobs.all :conditions => { :status => 'queued'}
+  def queued_backups(opts={})
+    backup_jobs.all({:conditions => { :status => 'queued'}, :order => 'created_at DESC' }.merge(opts))
   end
   
   def next_queued
-    backup_jobs.all :conditions => { :status => 'queued'}, :limit => (self.max_backups - self.running_backups.size)
+    queued_backups :limit => (self.max_backups - self.running_backups.size)
   end
   
   def running_backups
-    backup_jobs.all :conditions => { :status => 'running'}
+    backup_jobs.all(:conditions => { :status => 'running'})
   end
   
   def start_queued

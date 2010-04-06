@@ -1,7 +1,7 @@
 class BackupServer < ActiveRecord::Base
   has_many :servers, :include => [:backup_jobs, :problems]
-  has_many :backup_jobs, :include => :server
-  has_many :problems, :include => :server
+  has_many :backup_jobs, :include => :server, :dependent => :destroy
+  has_many :problems, :include => :server, :dependent => :destroy
   has_one :user
       
   validates_presence_of :hostname, :zpool, :max_backups

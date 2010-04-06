@@ -265,7 +265,7 @@ table.sortable {
 	text-align: left;
 }
 table.sortable thead tr th, table.sortable tfoot tr th {
-	background-color: #e6EEEE;
+	background-color: #d3dbff;
 	border: 1px solid #FFF;
 	padding: 4px;
 }

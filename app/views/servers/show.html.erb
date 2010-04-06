@@ -45,12 +45,15 @@
 <% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
 
 <h2>Known snapshots</h2>
-<table class="index">
+<table class="index sortable">
+<thead>
 <tr>
   <th>Name</th>
   <th>When</th>
   <th>Path on backup server</th>
 </tr>
+</thead>
+<tbody>
 <% @server.current_snapshots.each do | snapshot | %>
 <tr>
 	<td><%= snapshot %></td>
@@ -58,6 +61,7 @@
 	<td>/<%= @job.fs %>/.zfs/snapshot/<%= snapshot %></td>
 </t>
 <% end %>
+</tbody>
 </table>
 
 <h2>Applied profiles</h2>
@@ -76,12 +80,15 @@
 <% add_action 'Servers overview', servers_path %>
 
 <h2>Latest problems</h2>
-<table class="index">
+<table class="index sortable">
+<thead>
 <tr>
   <th>Backup Server</th>
   <th>When</th>
   <th>Message</th>
 </tr>
+</thead>
+<tbody>
 <% @server.latest_problems.each do | problem | %>
   <tr>
     <td><%=h problem.backup_server %></td>
@@ -89,10 +96,12 @@
     <td><%=h problem.message %></td>
   </tr>
 <% end %>
+</tbody>
 </table>
 
 <h2>Latest backup jobs</h2>
-<table class="index">
+<table class="index sortable">
+  <thead>
   <tr>
 	<th>Job</th>
     <th>Backup server</th>
@@ -101,6 +110,8 @@
     <th>Last updated</th>
     <th>Duration (from the moment of queueing)</th>
   </tr>
+  </thead>
+  <tbody>
 <% @server.latest_jobs.each do | job | %>
   <tr>
 	<td><%= link_to job.id, job %></td>
@@ -111,4 +122,5 @@
     <td><%= display_backup_duration (job) %></td>
   </tr>
 <% end %>
+  </tbody>
 </table>

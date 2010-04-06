@@ -2,11 +2,13 @@
   Excludes
 <% end %>
 
-<table class="index">
+<table class="index sortable">
+  <thead>
   <tr>
     <th>Path</th>
   </tr>
-
+  </thead>
+  <tbody>
 <% @profile.excludes.each do |exclude| %>
   <tr>
     <td><%= h exclude.path %></td>
@@ -14,6 +16,7 @@
     <%= link_to 'Destroy', [@profile, exclude], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
+  </body>
 </table>
 
 <br />

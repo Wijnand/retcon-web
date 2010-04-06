@@ -2,12 +2,14 @@
   Users
 <% end %>
 
-<table class="index">
+<table class="index sortable">
+  <thead>
   <tr>
     <th>Username</th>
     <th>In use by backup server</th>
   </tr>
-
+  </thead>
+  <tbody>
 <% @users.each do |user| %>
   <tr>
     <td><%= link_to h(user.username), user %></td>
@@ -16,6 +18,7 @@
     <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <br />

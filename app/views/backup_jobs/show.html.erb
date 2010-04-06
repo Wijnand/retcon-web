@@ -18,7 +18,8 @@
 </p>
 
 <h2>Commands and results</h2>
-<table class="index commands">
+<table class="index commands sortable">
+  <thead>
   <tr>
 	<th>When</th>
 	<th>Command</th>
@@ -26,6 +27,8 @@
 	<th>Output</th>
 	<th>Label</th>
   </tr>
+  </thead>
+  <tbody>
 <% @backup_job.commands.each do | command | %>
   <tr>
 	<td><%= command.created_at %></td>
@@ -34,5 +37,6 @@
 	<td><%= h command.output %></th>
 	<td><%= h command.label %></th>
   </tr>
+  </tbody>
 <% end %>
 </table>

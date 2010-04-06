@@ -2,11 +2,13 @@
   Backup Profiles
 <% end %>
 
-<table class="index">
+<table class="index sortable">
+  <thead>
   <tr>
     <th>Name</th>
   </tr>
-
+  </thead>
+  <tbody>
 <% @profiles.each do |profile| %>
   <tr>
     <td><%= link_to h(profile.name), profile %></td>
@@ -14,6 +16,7 @@
     <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <br />

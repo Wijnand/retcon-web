@@ -5,7 +5,7 @@ class ServersController < ApplicationController
   # GET /servers.xml
   def index
    @search = Server.search(params[:search])
-   @servers = @search.all(:order => 'hostname').paginate(:page => params[:page])
+   @servers = @search.all(:order => 'hostname', :include => :backup_jobs).paginate(:page => params[:page])
    
     respond_to do |format|
       format.html # index.html.erb

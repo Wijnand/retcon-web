@@ -19,6 +19,13 @@ describe BackupJob do
     job.code_to_success(25).should == 'PARTIAL'
   end
   
+  it "should have a method for finishing" do
+    job = Factory(:backup_job)
+    job.finished.should_not be true
+    job.finish
+    job.finished.should == true
+  end
+  
   it "should create commands with a specific label" do
     job = Factory(:backup_job)
     job.run_command('ls', 'listing')

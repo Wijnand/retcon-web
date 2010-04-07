@@ -15,6 +15,11 @@ class BackupJob < ActiveRecord::Base
      run_command("/sbin/zfs list #{self.fs}", "fs_exists")
   end
   
+  def finish
+    self.finished = true
+    save
+  end
+  
   def run
     self.status = 'running'
     self.finished = false
@@ -115,7 +120,6 @@ class BackupJob < ActiveRecord::Base
   def after_backupserver_diskspace(command)
     self.backup_server.disk_free = command.output
     self.backup_server.save
-    self.finished = true
-    save
+    finish
   end
 end

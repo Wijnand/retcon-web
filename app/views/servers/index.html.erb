@@ -1,13 +1,15 @@
 <% content_for :header do %>
    Server overview
 <% end %>
-
 <p>
 <% form_for @search do |f| %>
     <%= f.label :hostname_like, 'Hostname' %>
     <%= f.text_field :hostname_like %>
     <%= f.submit 'Search' %>
 <% end %>
+<br />
+<%= will_paginate @servers %>
+
 </p>
 
 <table class="index sortable">
@@ -35,6 +37,8 @@
 </tbody>
 </table>
 
-<br />
+<p>
+<%= will_paginate @servers %>
+</p>
 <% add_action 'Add Server', new_server_path %>
 

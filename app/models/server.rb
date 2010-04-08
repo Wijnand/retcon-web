@@ -14,6 +14,10 @@ class Server < ActiveRecord::Base
   has_many :backup_jobs, :include => :backup_server
   belongs_to :backup_server
 
+  def previous_jobs
+    backup_jobs.find(:all, :order => 'created_at ASC')
+  end
+  
   def last_job_status
     return nil unless backup_jobs.size > 0
     backup_jobs.last.status
@@ -85,12 +89,12 @@ class Server < ActiveRecord::Base
   
   def last_backup
     return nil if self.backup_jobs.size == 0
-    self.backup_jobs.last.updated_at
+    self.previous_jobs.last.updated_at
   end
   
   def last_started
     return nil if self.backup_jobs.size == 0
-    self.backup_jobs.last.created_at
+    self.previous_jobs.last.created_at
   end
   
   def connect_address

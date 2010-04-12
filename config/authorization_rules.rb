@@ -1,7 +1,7 @@
 authorization do
   role :admin do
     has_permission_on [:users, :servers, 
-                       :backup_servers, :profiles, :excludes, :includes,
+                       :backup_servers, :profiles, :excludes, :includes, :splits,
                        :roles, :roles_users, :dashboard, :backup_jobs, :commands], 
                        :to => [:index, :show, :new, :create, :edit, :update, :destroy]
   end

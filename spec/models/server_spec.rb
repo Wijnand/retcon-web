@@ -233,6 +233,13 @@ describe Server do
     s.rsync_includes.should == '--include=/ --include=/var/log'
   end
   
+  it "should compile a list of splits in order to protect them" do
+    s = Factory.build(:server)
+    p1 = Factory.build(:profile, :name => 'linux') # profile one
+    p2 = Factory.build(:profile, :name => 'standard') # and another one 
+    pending 
+  end
+  
   it "should turn the snapshots property into a array" do
     s = Factory(:server, :snapshots => '1234,5678,90')
     s.current_snapshots.size.should == 3

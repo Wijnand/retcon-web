@@ -38,6 +38,19 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
 <%= render :partial => 'includes/form' %>
 </div>
 
+<div id="splits">
+<h2>Splits</h2>
+<p>The following directories will be split in rsyncs for A-Z, a-z and 0-9. This increases performance for very large directories. Files and directories starting with other characters will not be backupped!</p>
+<ul>
+  <% @profile.splits.each do | split | %>
+    <li><%=h split.path %> (<%= link_to 'Edit', edit_profile_split_path(@profile, split) %> | <%= link_to 'Destroy', [@profile, split], :confirm => 'Are you sure?', :method => :delete %>)</li>
+  <% end %>
+</ul>
+<h3>Add split</h3>
+<% @split = @profile.splits.build %>
+<%= render :partial => 'splits/form' %>
+</div>
+
 <% add_action 'Edit this profile', edit_profile_path(@profile) %>
 <% add_action 'All profiles', profiles_path %>
 <% add_action 'Create new profile', new_profile_path %>

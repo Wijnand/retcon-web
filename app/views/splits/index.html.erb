@@ -1,0 +1,24 @@
+<% content_for :header do %>
+  Splits
+<% end %>
+
+<table class="index sortable">
+  <thead>
+  <tr>
+    <th>Path</th>
+  </tr>
+  </thead>
+  <tbody>
+<% @profile.splits.each do |split| %>
+  <tr>
+    <td><%= h split.path %></td>
+    <td><%= link_to 'Edit', edit_profile_split_path(@profile, split) %> |
+    <%= link_to 'Destroy', [@profile, split], :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+  </body>
+</table>
+
+<br />
+
+<% add_action 'Add split', new_profile_split_path(@profile) %>

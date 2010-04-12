@@ -81,6 +81,14 @@ class Server < ActiveRecord::Base
     includes.map { | i | "--include=#{i}"}.join(" ")
   end
   
+  def splits
+    self.profiles.map{ | p | p.splits }.flatten
+  end
+  
+  def rsync_protects
+    splits.map { | split | '--filter="protect ' + split.to_s + '"'}.join(" ")
+  end
+  
   def interval_passed?
     return true if last_started.nil?
     now = Time.new

@@ -35,6 +35,11 @@ Factory.define :include do | f |
   f.association :profile
 end
 
+Factory.define :split do | f |
+  f.path "/home/"
+  f.association :profile
+end
+
 Factory.define :backup_job do | f |
   f.association :backup_server
   f.association :server

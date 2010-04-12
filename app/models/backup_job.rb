@@ -31,17 +31,16 @@ class BackupJob < ActiveRecord::Base
     "ssh -c arcfour -p #{self.server.ssh_port}"
   end
   
-  def to_rsync
+  def main_rsync
     "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
-    self.server.rsync_includes + " " + self.server.rsync_excludes +
+    server.rsync_protects + " " + server.rsync_includes + " " + 
+    server.rsync_split_excludes + " " + server.rsync_excludes +
     " --log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/"
   end
   
   def code_to_success(num)
     return "OK" if [0,24].include?(num)
-    return "PARTIAL" if [23,30, 20, 25].include?(num)
-    return "FAIL" if [12, 1, 2, 3, 5].include?(num)
-    return "UNKNOWN"
+    return "PARTIAL"
   end
   
   def run_command(command, label)
@@ -91,10 +90,10 @@ class BackupJob < ActiveRecord::Base
   end
   
   def start_rsyncs
-    run_command(self.to_rsync, "rsync")
+    run_command(self.main_rsync, "main_rsync")
   end
   
-  def after_rsync(command)
+  def after_main_rsync(command)
     self.status = code_to_success(command.exitstatus)
     save
     run_command("/bin/pfexec /sbin/zfs snapshot #{self.fs}@#{self.updated_at.to_i}", "snapshot")

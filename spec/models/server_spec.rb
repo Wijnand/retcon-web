@@ -241,7 +241,18 @@ describe Server do
     p2.splits << Factory.build(:split, :path => '/home')
     s.profiles << p1
     s.profiles << p2
-    s.rsync_protects.should == '--filter="protect /var/spool/mqueue" --filter="protect /home"' 
+    s.rsync_protects.should == "--filter='protect /var/spool/mqueue' --filter='protect /home'" 
+  end
+  
+  it "should compile a list of splits in order to exclude them" do
+    s = Factory.build(:server)
+    p1 = Factory.build(:profile, :name => 'linux')
+    p2 = Factory.build(:profile, :name => 'standard')
+    p1.splits << Factory.build(:split, :path => '/var/spool/mqueue')
+    p2.splits << Factory.build(:split, :path => '/home')
+    s.profiles << p1
+    s.profiles << p2
+    s.rsync_split_excludes.should == '--exclude=/var/spool/mqueue --exclude=/home'
   end
   
   it "should turn the snapshots property into a array" do

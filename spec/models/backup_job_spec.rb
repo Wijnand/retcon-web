@@ -1,21 +1,20 @@
 require 'spec_helper'
 
 describe BackupJob do
-  it "should build a valid rsync command line" do
+  it "should build a valid main rsync command line" do
     s = Factory.build(:server, :hostname => 'server1.example.com')
     p = Factory.build(:profile, :name => 'linux')
     p.includes << Factory.build(:include, :path => '/')
     p.excludes << Factory.build(:exclude, :path => '/backup')
+    p.splits << Factory.build(:split, :path => '/home')
     s.profiles << p
     j = Factory.build(:backup_job, :server => s)
-    j.to_rsync.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --include=/ --exclude=/backup --log-file=/tmp/server1.example.com_debug root@server1.example.com:/ /backup/server1.example.com/"
+    j.main_rsync.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/home --exclude=/backup --log-file=/tmp/server1.example.com_debug root@server1.example.com:/ /backup/server1.example.com/"
   end
   
   it "should have a class method to convert exit statusses to a string representation" do
     job = Factory(:backup_job)
     job.code_to_success(0).should == 'OK'
-    job.code_to_success(100).should == 'UNKNOWN'
-    job.code_to_success(1).should == 'FAIL'
     job.code_to_success(25).should == 'PARTIAL'
   end
   
@@ -128,8 +127,8 @@ describe BackupJob do
   
   it "should create a rsync command" do
     job =  Factory(:backup_job)
-    job.stub(:to_rsync).and_return('stub_for_rsync')
-    job.should_receive(:run_command).with('stub_for_rsync', "rsync")
+    job.stub(:main_rsync).and_return('stub_for_rsync')
+    job.should_receive(:run_command).with('stub_for_rsync', "main_rsync")
     job.start_rsyncs
   end
   
@@ -139,7 +138,7 @@ describe BackupJob do
     now = Time.new
     Time.stub(:new).and_return now
     job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs snapshot #{job.fs}@#{now.to_i}", "snapshot")
-    job.after_rsync(command)
+    job.after_main_rsync(command)
     job.status.should == 'OK'
   end
   

@@ -86,7 +86,11 @@ class Server < ActiveRecord::Base
   end
   
   def rsync_protects
-    splits.map { | split | '--filter="protect ' + split.to_s + '"'}.join(" ")
+    splits.map { | split | "--filter='protect " + split.to_s + "'"}.join(" ")
+  end
+  
+  def rsync_split_excludes
+    splits.map { | e | "--exclude=#{e}"}.join(" ")
   end
   
   def interval_passed?

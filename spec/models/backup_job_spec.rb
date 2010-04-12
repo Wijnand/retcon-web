@@ -163,7 +163,7 @@ describe BackupJob do
     command = Factory(:command, :exitstatus => 0, :output => '1234
 5678
 90')
-    job.should_receive(:run_command).with("/sbin/zpool list -H backup | awk '{print $4}'", "backupserver_diskspace")
+    job.should_receive(:run_command).with("/sbin/zfs list -H backup | awk '{print $3}'", "backupserver_diskspace")
     job.after_get_snapshots(command)
     job.server.snapshots.should == '1234,5678,90'
   end

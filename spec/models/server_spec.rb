@@ -93,13 +93,10 @@ describe Server do
     server.backup_running?.should be false
   end
 
-  it "should always be in the backup window when no start or end is given" do
+  it "should always be in the backup window when no start and end is given" do
     server = Factory.build(:server)
-    server.in_backup_window?.should be true
-    server.window_start = 0
-    server.in_backup_window?.should be true
     server.window_start = nil
-    server.window_stop = 0
+    server.window_stop = nil
     server.in_backup_window?.should be true
   end
   

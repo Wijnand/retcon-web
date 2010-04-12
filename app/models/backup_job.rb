@@ -38,6 +38,31 @@ class BackupJob < ActiveRecord::Base
     " --log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/"
   end
   
+  def rsync_template
+    "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
+    server.rsync_protects + " " + server.rsync_includes + " " + 
+    server.rsync_excludes +
+    " --log-file=/tmp/#{self.server}_debug root@#{self.server.connect_address}:DIR /#{fs}/"
+  end
+  
+  def rsyncs
+    if stored_rsyncs.blank?
+      syncs = self.server.splits.map do | split |
+        arr = []
+        split_dir = self.server.startdir + split.to_s
+        arr.concat(('a'..'z').to_a)
+        arr.concat(('A'..'Z').to_a)
+        arr.concat((0..9).to_a)
+        arr.map do | letter |
+          rsync_template.sub('DIR', split_dir + "/#{letter}*")
+        end
+      end.flatten.join('!RSYNC!')
+      self.stored_rsyncs=syncs
+      save
+    end
+    stored_rsyncs.split('!RSYNC!')
+  end
+  
   def code_to_success(num)
     return "OK" if [0,24].include?(num)
     return "PARTIAL"

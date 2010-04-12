@@ -12,6 +12,19 @@ describe BackupJob do
     j.main_rsync.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/home --exclude=/backup --log-file=/tmp/server1.example.com_debug root@server1.example.com:/ /backup/server1.example.com/"
   end
   
+  it "should store a list of rsyncs" do
+    s = Factory.build(:server, :hostname => 'server1.example.com')
+    p = Factory.build(:profile, :name => 'linux')
+    p.includes << Factory.build(:include, :path => '/')
+    p.excludes << Factory.build(:exclude, :path => '/backup')
+    p.splits << Factory.build(:split, :path => '/home')
+    s.profiles << p
+    j = Factory.build(:backup_job, :server => s)
+    j.rsyncs.size.should == 62 # a-z,A-Z,0-9
+    j.rsyncs.first.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/backup --log-file=/tmp/server1.example.com_debug root@server1.example.com://home/a* /backup/server1.example.com/"
+    j.rsyncs.last.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/backup --log-file=/tmp/server1.example.com_debug root@server1.example.com://home/9* /backup/server1.example.com/"
+  end
+  
   it "should have a class method to convert exit statusses to a string representation" do
     job = Factory(:backup_job)
     job.code_to_success(0).should == 'OK'

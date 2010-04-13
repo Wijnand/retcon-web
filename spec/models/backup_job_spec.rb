@@ -150,9 +150,40 @@ describe BackupJob do
     command = Factory(:command, :exitstatus => 0)
     now = Time.new
     Time.stub(:new).and_return now
-    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs snapshot #{job.fs}@#{now.to_i}", "snapshot")
+    job.should_receive(:run_split_rsyncs)
     job.after_main_rsync(command)
     job.status.should == 'OK'
+  end
+  
+  it "should run the first rsync in the array" do
+    job = Factory(:backup_job)
+    job.stub(:get_rsyncs).and_return('0!RSYNC!1!RSYNC!2')
+    job.should_receive(:run_command).with('0', "split_rsync")
+    job.run_split_rsyncs(true)
+    job.rsyncs.size.should == 3
+  end
+  
+  it "should delete the first rsync in the array if its not the first call" do
+    job = Factory(:backup_job)
+    job.stub(:get_rsyncs).and_return('0!RSYNC!1!RSYNC!2')
+    job.should_receive(:run_command).with('0', "split_rsync")
+    job.run_split_rsyncs(true)
+    job.rsyncs.size.should == 3
+    job.should_receive(:run_command).with('1', "split_rsync")
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 2
+  end
+  
+  it "should create the snapshot after the last rsync command" do
+    job = Factory(:backup_job)
+    job.stub(:get_rsyncs).and_return('0!RSYNC!1')
+    job.run_split_rsyncs(true)
+    job.rsyncs.size.should == 2
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 1
+    job.should_receive(:do_snapshot)
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 0
   end
   
   it "should ask for the disk usage after the snapshot" do
@@ -178,6 +209,12 @@ describe BackupJob do
     job.should_receive(:run_command).with("/sbin/zfs list -H backup | awk '{print $3}'", "backupserver_diskspace")
     job.after_get_snapshots(command)
     job.server.snapshots.should == '1234,5678,90'
+  end
+  
+  it "should run split_rsyncs after one rsync is finished" do
+    job = Factory(:backup_job)
+    job.should_receive(:run_split_rsyncs)
+    job.after_split_rsync(true)
   end
   
   it "should update the diskspace for the backup server" do

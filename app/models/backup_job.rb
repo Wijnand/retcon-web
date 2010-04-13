@@ -46,21 +46,29 @@ class BackupJob < ActiveRecord::Base
   end
   
   def rsyncs
-    if stored_rsyncs.blank?
-      syncs = self.server.splits.map do | split |
-        arr = []
-        split_dir = self.server.startdir + split.to_s
-        arr.concat(('a'..'z').to_a)
-        arr.concat(('A'..'Z').to_a)
-        arr.concat((0..9).to_a)
-        arr.map do | letter |
-          rsync_template.sub('DIR', split_dir + "/#{letter}*")
-        end
-      end.flatten.join('!RSYNC!')
-      self.stored_rsyncs=syncs
-      save
+    if stored_rsyncs.blank? and !@last
+      populate_rsyncs
     end
     stored_rsyncs.split('!RSYNC!')
+  end
+  
+  def populate_rsyncs
+    syncs = get_rsyncs
+    self.stored_rsyncs=syncs
+    save
+  end
+  
+  def get_rsyncs
+    self.server.splits.map do | split |
+      arr = []
+      split_dir = self.server.startdir + split.to_s
+      arr.concat(('a'..'z').to_a)
+      arr.concat(('A'..'Z').to_a)
+      arr.concat((0..9).to_a)
+      arr.map do | letter |
+        rsync_template.sub('DIR', split_dir + "/#{letter}*")
+      end
+    end.flatten.join('!RSYNC!')
   end
   
   def code_to_success(num)
@@ -121,11 +129,36 @@ class BackupJob < ActiveRecord::Base
   def after_main_rsync(command)
     self.status = code_to_success(command.exitstatus)
     save
+    run_split_rsyncs
+  end
+  
+  def run_split_rsyncs(first = false)
+    if rsync = get_first_rsync(!first)
+      run_command(rsync, "split_rsync")
+    else
+      do_snapshot
+    end
+  end
+  
+  def get_first_rsync(delete = true)
+    stored = rsyncs
+    @last = true if rsyncs.size == 1
+    stored.delete_at 0 if delete
+    self.stored_rsyncs = stored.join('!RSYNC!')
+    save
+    rsyncs.first
+  end
+  
+  def do_snapshot
     run_command("/bin/pfexec /sbin/zfs snapshot #{self.fs}@#{self.updated_at.to_i}", "snapshot")
   end
   
   def after_snapshot(command)
     run_command("/sbin/zfs get -Hp used #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
+  end
+  
+  def after_split_rsync(command)
+    run_split_rsyncs
   end
   
   def after_diskusage(command)

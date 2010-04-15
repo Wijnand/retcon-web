@@ -161,6 +161,10 @@ class BackupJob < ActiveRecord::Base
     run_split_rsyncs
   end
   
+  def cleanup
+    server.cleanup_old_jobs
+  end
+  
   def after_diskusage(command)
     self.server.usage = command.output.to_i
     self.server.save

@@ -211,6 +211,12 @@ describe BackupJob do
     job.server.snapshots.should == '1234,5678,90'
   end
   
+  it "should remove old backup jobs for a server" do
+    job = Factory(:backup_job)
+    job.server.should_receive(:cleanup_old_jobs)
+    job.cleanup
+  end
+  
   it "should run split_rsyncs after one rsync is finished" do
     job = Factory(:backup_job)
     job.should_receive(:run_split_rsyncs)
@@ -224,4 +230,5 @@ describe BackupJob do
     job.backup_server.disk_free.should == '630G'
     job.finished.should == true
   end
+  
 end

@@ -270,4 +270,15 @@ describe Server do
     s.backup_jobs.size.should == 1
     s.backup_jobs.last.status.should == 'queued'
   end
+  
+  it "should cleanup old backupjobs" do
+    server = Factory.create(:server, :keep_snapshots => 5)
+    6.times do
+      Factory.create(:backup_job, :backup_server => server.backup_server, :server => server, :status => 'OK')
+    end
+    job = server.backup_jobs.last
+    server.backup_jobs.size.should == 6
+    server.cleanup_old_jobs
+    server.backup_jobs.size.should == 5
+  end
 end

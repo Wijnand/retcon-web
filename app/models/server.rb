@@ -27,8 +27,8 @@ class Server < ActiveRecord::Base
     problems.find(:all, :order => 'created_at DESC', :limit=>10, :include => :backup_server)
   end
   
-  def latest_jobs
-    backup_jobs.find(:all, :order => 'created_at DESC', :limit => self.keep_snapshots, :include => :backup_server)
+  def latest_jobs(offset = 0)
+    backup_jobs.find(:all, :order => 'created_at DESC', :limit => self.keep_snapshots, :include => :backup_server, :offset => offset)
   end
   
   def to_s
@@ -127,5 +127,13 @@ class Server < ActiveRecord::Base
   
   def queue_backup
     backup_jobs.create(:backup_server => self.backup_server, :status => 'queued')
+  end
+  
+  def cleanup_old_jobs
+    offset = keep_snapshots
+    count = backup_jobs.all.size - offset
+    backup_jobs.find(:all, :order => 'created_at DESC', :offset => offset, :limit => count).each do | job |
+      job.destroy
+    end
   end
 end

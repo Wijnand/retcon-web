@@ -1,26 +1,49 @@
 <% content_for :header do %>
   <%=h @server.hostname %>
 <% end %>
-<h2>General info</h2>
-<p>
-  <dt>Hostname:</dt>
-  <dd><%=h @server.hostname %></dd>
+<table class="index sortable">
+<thead>
+  <tr>
+  <td>Hostname:</td>
+  <td>Ssh address</td>
+  <td>Ssh port</td>
+  <td>Enabled</td>
+  <td>Backup server</td>
+  <td>Disk usage</td>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <td><%=h @server.hostname %></td>
+  <td><%=h (@server.connect_address) %></td>
+  <td><%=h (@server.ssh_port || 22 ) %></td>
+  <td><%=h @server.enabled %></td>
+  <td><%=h @server.backup_server %></td>
+  <td><%=number_to_human_size @server.usage || 'NaN '%></td>
+</tr>
+</tbody>
+</table>
 
-  <dt>Ssh address:</dt>
-  <dd><%=h (@server.connect_address) %></dd>
-
-  <dt>Ssh port:</dt>
-  <dd><%=h (@server.ssh_port) %></dd>
-
-  <dt>Enabled:</dt>
-  <dd><%=h @server.enabled %></dd>
-
-  <dt>Backup server:</dt>
-  <dd><%=h @server.backup_server %></dd>
-
-  <dt>Disk usage:</dt>
-  <dd><%=number_to_human_size @server.usage || 'NaN '%></dd>
-</p>
+<table class="index sortable">
+<thead>
+  <tr>
+  <td>Rsync start path</td>
+  <td>Snapshots to keep</td>
+  <td>Backup interval</td>
+  <td>Start of queuing window</td>
+  <td>End of queuing window</td>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <td><%=h @server.path || '/' %></td>
+  <td><%=h @server.keep_snapshots %></td>
+  <td><%=h @server.interval_hours %></td>
+  <td><%=h @server.window_start %></td>
+  <td><%=h @server.window_stop %></td>
+</tr>
+</tbody>
+</table>
 
 <p>
 <% if !@server.last_backup %>
@@ -44,7 +67,10 @@
 
 <% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
 
-<h2>Known snapshots</h2>
+<% if @server.current_snapshots.size > 0 %>
+  <hr/>
+  
+<h3>Known snapshots</h3>
 <table class="index sortable">
 <thead>
 <tr>
@@ -63,8 +89,10 @@
 <% end %>
 </tbody>
 </table>
+<% end %> 
+<hr/>
 
-<h2>Applied profiles</h2>
+<h3>Applied profiles</h3>
 <ul class="profile_list">
 <% @server.profiles.each do | profile | %>
   <li><%= link_to h(profile.name), profile %></li>
@@ -79,7 +107,10 @@
 <% add_action 'Add Server', new_server_path %>
 <% add_action 'Servers overview', servers_path %>
 
-<h2>Latest problems</h2>
+<% if @server.problems.size > 0 %>
+  <hr/>
+
+<h3>Latest problems</h3>
 <table class="index sortable">
 <thead>
 <tr>
@@ -98,8 +129,11 @@
 <% end %>
 </tbody>
 </table>
+<% end %>
 
-<h2>Latest backup jobs</h2>
+<% if @server.backup_jobs.size > 0 %>
+  <hr/>
+<h3>Latest backup jobs</h3>
 <table class="index sortable">
   <thead>
   <tr>
@@ -124,3 +158,4 @@
 <% end %>
   </tbody>
 </table>
+<% end %>

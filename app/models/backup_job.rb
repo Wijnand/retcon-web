@@ -28,6 +28,16 @@ class BackupJob < ActiveRecord::Base
     prepare_fs
   end
   
+  def display_status
+    if self.status == 'queued'
+      'queued'
+    elsif self.finished == false
+      'running'
+    else
+      self.status
+    end
+  end
+  
   def ssh_command
     "ssh -c arcfour -p #{self.server.ssh_port}"
   end

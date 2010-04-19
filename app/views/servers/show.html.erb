@@ -116,7 +116,7 @@
   <tr>
 	<td><%= link_to job.id, job %></td>
     <td><%= h job.backup_server %></td>
-    <td><%=h job.status %></td>
+    <td><%=h job.display_status %></td>
     <td><%=h job.created_at %></td>
     <td><%=h (job.started || job.updated_at) %></td>
     <td><%= display_backup_duration (job) %></td>

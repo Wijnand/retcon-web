@@ -154,7 +154,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def after_snapshot(command)
-    run_command("/sbin/zfs get -Hp used #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
+    cleanup
   end
   
   def after_split_rsync(command)
@@ -163,19 +163,36 @@ class BackupJob < ActiveRecord::Base
   
   def cleanup
     server.cleanup_old_jobs
+    remove_old_snapshots
+  end
+  
+  def remove_old_snapshots
+    snaps = server.current_snapshots
+    if snaps.size > server.keep_snapshots
+      snap = snaps.delete_at(0)
+      run_command("/bin/pfexec /sbin/zfs destroy #{self.fs}@#{snap}", "remove_snapshot #{snap}")
+      server.snapshots = snaps.join(',')
+      server.save
+    else
+      run_command("/sbin/zfs list -H -r -o name -t snapshot #{self.fs} | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
+    end
+  end
+  
+  def after_remove_snapshot(command)
+    remove_old_snapshots
   end
   
   def after_diskusage(command)
     self.server.usage = command.output.to_i
     self.server.save
-    run_command("/sbin/zfs list -H -r -o name -t snapshot #{self.fs} | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
+    run_command("/sbin/zfs list -H #{self.backup_server.zpool} | awk '{print $3}'", "backupserver_diskspace")
   end
   
   def after_get_snapshots(command)
     snapshots = command.output.split(/\n/).join(',')
     self.server.snapshots = snapshots
     self.server.save
-    run_command("/sbin/zfs list -H #{self.backup_server.zpool} | awk '{print $3}'", "backupserver_diskspace")
+    run_command("/sbin/zfs get -Hp used #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
   end
   
   def after_backupserver_diskspace(command)

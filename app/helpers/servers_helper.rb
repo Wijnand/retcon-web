@@ -3,7 +3,7 @@ module ServersHelper
   def display_backup_duration(job)
     return 'Unknown' unless job
     return 'Not yet started' if job.status == 'queued'
-    start_time = job.created_at
+    start_time = job.started || job.created_at
     end_time = job.updated_at
     
     if job.status == 'running'

@@ -50,7 +50,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def running_backups
-    backup_jobs.all(:conditions => { :status => 'running'})
+    backup_jobs.all(:conditions => { :finished => false })
   end
   
   def start_queued

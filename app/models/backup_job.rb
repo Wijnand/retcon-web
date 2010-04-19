@@ -132,21 +132,22 @@ class BackupJob < ActiveRecord::Base
     run_split_rsyncs
   end
   
-  def run_split_rsyncs(first = false)
-    if rsync = get_first_rsync(!first)
+  def run_split_rsyncs
+    if rsync = get_first_rsync
       run_command(rsync, "split_rsync")
     else
       do_snapshot
     end
   end
   
-  def get_first_rsync(delete = true)
+  def get_first_rsync
     stored = rsyncs
     @last = true if stored.size == 1
-    stored.delete_at 0 if delete
+    command = rsyncs.first
+    stored.delete_at 0
     self.stored_rsyncs = stored.join('!RSYNC!')
     save
-    rsyncs.first
+    command
   end
   
   def do_snapshot

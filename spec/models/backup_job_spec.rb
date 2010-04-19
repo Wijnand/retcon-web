@@ -159,28 +159,28 @@ describe BackupJob do
     job = Factory(:backup_job)
     job.stub(:get_rsyncs).and_return('0!RSYNC!1!RSYNC!2')
     job.should_receive(:run_command).with('0', "split_rsync")
-    job.run_split_rsyncs(true)
-    job.rsyncs.size.should == 3
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 2
   end
   
   it "should delete the first rsync in the array if its not the first call" do
     job = Factory(:backup_job)
     job.stub(:get_rsyncs).and_return('rsync0!RSYNC!rsync1!RSYNC!rsync2')
     job.should_receive(:run_command).with('rsync0', "split_rsync")
-    job.run_split_rsyncs(true)
-    job.rsyncs.size.should == 3
-    job.should_receive(:run_command).with('rsync1', "split_rsync")
     job.run_split_rsyncs
     job.rsyncs.size.should == 2
+    job.should_receive(:run_command).with('rsync1', "split_rsync")
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 1
   end
   
   it "should create the snapshot after the last rsync command" do
     job = Factory(:backup_job)
     job.stub(:get_rsyncs).and_return('0!RSYNC!1')
-    job.run_split_rsyncs(true)
-    job.rsyncs.size.should == 2
     job.run_split_rsyncs
     job.rsyncs.size.should == 1
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 0
     job.should_receive(:do_snapshot)
     job.run_split_rsyncs
     job.rsyncs.size.should == 0

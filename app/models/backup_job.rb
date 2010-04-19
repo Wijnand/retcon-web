@@ -22,6 +22,7 @@ class BackupJob < ActiveRecord::Base
   
   def run
     self.status = 'running'
+    self.started = Time.now
     self.finished = false
     save
     prepare_fs

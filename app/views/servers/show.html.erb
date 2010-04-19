@@ -4,7 +4,6 @@
 <table class="index sortable">
 <thead>
   <tr>
-  <td>Hostname:</td>
   <td>Ssh address</td>
   <td>Ssh port</td>
   <td>Enabled</td>
@@ -14,7 +13,6 @@
 </thead>
 <tbody>
 <tr>
-  <td><%=h @server.hostname %></td>
   <td><%=h (@server.connect_address) %></td>
   <td><%=h (@server.ssh_port || 22 ) %></td>
   <td><%=h @server.enabled %></td>

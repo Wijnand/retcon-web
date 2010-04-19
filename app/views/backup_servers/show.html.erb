@@ -5,7 +5,6 @@
 <table class="index sortable">
 <thead>
   <tr>
-    <td>Hostname</td>
     <td>Zpool</td>
     <td>Max concurrent backups</td>
     <td>Disk free</td>
@@ -15,7 +14,6 @@
 </thead>
 <tbody>
 <tr>
-  <td><%=h @backup_server.hostname %></td>
   <td><%=h @backup_server.zpool %></td>
   <td><%=h @backup_server.max_backups %></td>
   <td><%=number_to_human_size @backup_server.disk_free %></td>

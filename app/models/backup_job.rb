@@ -46,7 +46,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def rsyncs
-    if stored_rsyncs.blank? and !@last
+    if stored_rsyncs.blank? and !self.last_rsync
       populate_rsyncs
     end
     self.stored_rsyncs.split('!RSYNC!')
@@ -142,7 +142,7 @@ class BackupJob < ActiveRecord::Base
   
   def get_first_rsync
     stored = rsyncs
-    @last = true if stored.size == 1
+    self.last_rsync = true if stored.size == 1
     command = stored.first
     stored.delete_at 0
     self.stored_rsyncs = stored.join('!RSYNC!')

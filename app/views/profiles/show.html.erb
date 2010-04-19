@@ -1,19 +1,15 @@
 <% content_for :header do %>
   Profile <%=h @profile.name %>
 <% end %>
-<h2>General info</h2>
+<h3>General info</h3>
 
 <p>
 These are the settings of the <b><%=h @profile.name %></b> profile. Using profiles you can finetune the backup process using predefined settings.
 </p>
 
-</p>
-<p class="hide_js">Use the buttons below to finetune this profile</p><p><button class="hide_js" id="toggle_excludes">Excludes</button>
-<button class="hide_js" id="toggle_includes">Includes</button>
-<!--<button class="hide_js" id="toggle_splits">Splits</button> --></p>
-
+<hr/>
 <div id="excludes">
-<h2>Excludes</h2>
+<h3>Excludes</h3>
 <p>The following directories will be excluded from the backups. Wildcards are allowed.</p>
 <ul>
   <% @profile.excludes.each do | exclude | %>
@@ -25,8 +21,10 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
 <%= render :partial => 'excludes/form' %>
 </div>
 
+<hr/>
+
 <div id="includes">
-<h2>Includes</h2>
+<h3>Includes</h3>
 <p>The following directories will be included in the backups, even if there is a matching exclude rule. Wildcards are allowed.</p>
 <ul>
   <% @profile.includes.each do | include | %>
@@ -38,8 +36,9 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
 <%= render :partial => 'includes/form' %>
 </div>
 
+<hr/>
 <div id="splits">
-<h2>Splits</h2>
+<h3>Splits</h3>
 <p>The following directories will be split in rsyncs for A-Z, a-z and 0-9. This increases performance for very large directories. Files and directories starting with other characters will not be backupped!</p>
 <ul>
   <% @profile.splits.each do | split | %>

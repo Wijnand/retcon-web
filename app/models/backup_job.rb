@@ -179,7 +179,7 @@ class BackupJob < ActiveRecord::Base
     end
   end
   
-  def after_remove_snapshot(command)
+  def after_remove_snapshot(command, snap)
     remove_old_snapshots
   end
   

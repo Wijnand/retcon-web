@@ -14,6 +14,14 @@ class Server < ActiveRecord::Base
   has_many :backup_jobs, :include => :backup_server
   belongs_to :backup_server
 
+  def after_initialize 
+    return unless new_record?
+    self.ssh_port = 22
+    self.path = '/'
+    self.interval_hours=24
+    self.keep_snapshots = 21
+  end
+  
   def previous_jobs
     backup_jobs.find(:all, :order => 'created_at ASC')
   end

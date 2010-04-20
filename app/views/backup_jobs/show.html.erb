@@ -2,20 +2,49 @@
   Backup job <%=h @backup_job.id %>
 <% end %>
 
-<p>
-  <b>Backup server:</b>
-  <%=link_to h(@backup_job.backup_server), @backup_job.backup_server %>
-</p>
+<table class="index sortable">
+<thead>
+  <tr>
+    <td>Backup server</td>
+    <td>Server</td>
+    <td>Status</td>
+    <td>Finished</td>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <td><%=link_to h(@backup_job.backup_server), @backup_job.backup_server %></td>
+  <td><%=link_to h(@backup_job.server), @backup_job.server %></td>
+  <td><%=h @backup_job.display_status %></td>
+  <td><%=h @backup_job.finished? %></td>
+</tr>
+</tbody>
+</table>
 
-<p>
-  <b>Server:</b>
-  <%=link_to h(@backup_job.server), @backup_job.server %>
-</p>
-
-<p>
-  <b>Status:</b>
-  <%=h @backup_job.status %>
-</p>
+<table class="index sortable">
+<thead>
+  <tr>
+    <td>Queued since</td>
+    <td>Started since</td>
+    <td>Last update</td>
+    <td>Waited in queue</td>
+    <% if @backup_job.started %>
+    <td>Backup run time</td>
+    <% end %>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <td><%=h @backup_job.created_at %></td>
+  <td><%=h @backup_job.started %></td>
+  <td><%=h @backup_job.updated_at %></td>
+  <td><%= distance_of_time_in_words(@backup_job.created_at , (@backup_job.started || Time.new) )%></td>
+  <% if @backup_job.started %>
+  <td><%= distance_of_time_in_words(@backup_job.started , @backup_job.updated_at )%></td>
+  <% end %> 
+</tr>
+</tbody>
+</table>
 
 <h3>Commands and results</h3>
 <table class="index commands sortable">

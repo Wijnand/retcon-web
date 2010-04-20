@@ -43,7 +43,7 @@
     <td><%=link_to h(job.server.hostname), job.server %></td>
     <td><%=h job.display_status %></td>
     <td><%=h (job.started || job.updated_at) %></td>
-    <td><%= distance_of_time_in_words((job.started || job.updated_at), job.updated_at )%>
+    <td><%= distance_of_time_in_words((job.started || job.updated_at), job.updated_at )%></td>
   </tr>
   </tbody>
 <% end %>

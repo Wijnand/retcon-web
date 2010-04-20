@@ -1,6 +1,6 @@
 class CommandsController < ApplicationController
   filter_resource_access
-  
+  layout proc { |controller| controller.request.xhr? ? 'popup' : 'application' }
   # GET /commands
   # GET /commands.xml
   def index
@@ -17,6 +17,7 @@ class CommandsController < ApplicationController
     @command = Command.find(params[:id])
 
     respond_to do |format|
+      format.html
       format.xml  { render :xml => @command }
     end
   end

@@ -14,41 +14,14 @@
 </head>
 
 <body>
-
-  <div id="header">
-    <div id="global_links">
-      <%= render :partial => 'shared/global_links' %>
-    </div>
-    <h1><%= link_to ('Retcon <span>blast from the past</span>', root_path) %></h1>
-
-    <div id="tabs">
-      <%= render :partial => 'shared/tabs' %>
-    </div>
-  </div>
-
+      
   <div id="main">
-
     <div id="left">
-    <% flash.keys.each do | key | %>
-       <div id="<%= key %>"><%= flash[key] %></div>
-    <% end %>
-    
-      <h2 class="head"><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
-
+    <h2 class="head"><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
       <div id="screen">
         <%= yield %>
       </div>
     </div>
-    <div id="right">
-      <% build_action_list %>
-      <%= yield_or_default(yield(:sidebar)) %>
-      <%= render :partial => 'shared/sidebar_links'%>
-    </div>
   </div>
-  <div id="footer">
-    Copyright © Wijnand Wiersma
-  </div>
-
-
 </body>
 </html>

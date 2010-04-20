@@ -4,3 +4,14 @@ $(document).ready(function() {
   $('input#server_search').quicksearch('#server_list ol li');
   $(".sortable").tablesorter();
 });
+TopUp.images_path = "/images/top_up/";
+TopUp.players_path = "/players/";
+TopUp.addPresets({
+  "#commandstable tbody tr td a": {
+    group: "commands",
+    type: "ajax",
+    layout: "quicklook",
+    title: "command",
+    shaded: 1
+  }
+});

@@ -47,23 +47,21 @@
 </table>
 
 <h3>Commands and results</h3>
-<table class="index commands sortable">
+<table class="index commands sortable" id='commandstable'>
   <thead>
   <tr>
+  <th>&nbsp;</th>
 	<th>When</th>
-	<th>Command</th>
 	<th>Exit status</th>
-	<th>Output</th>
 	<th>Label</th>
   </tr>
   </thead>
   <tbody>
 <% @backup_job.commands(:order => 'created_at ASC').each do | command | %>
   <tr>
+  <td><%= link_to 'Show', command %></td>
 	<td><%= command.created_at %></td>
-	<td><%= h command.command %></td>
 	<td><%= h command.exitstatus %></td>
-	<td><%= h command.output %></th>
 	<td><%= h command.label %></th>
   </tr>
   </tbody>

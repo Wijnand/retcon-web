@@ -1,0 +1,12 @@
+<% content_for :header do %>
+  Command <%=h @command.id %>
+<% end %>
+
+<table class="index commands sortable">
+  <tr><th>ID</th><td><%= @command.id %></tr>
+  <tr><th>Label</th><td><%= @command.label %></tr>
+  <tr><th>When</th><td><%= @command.created_at %></tr>
+  <tr><th>Exit status</th><td><%= @command.exitstatus %></tr>
+  <tr><th>Command</th><td><%= @command.command %></tr>
+  <tr><th>Output</th><td><%= @command.output %></tr>
+</table>

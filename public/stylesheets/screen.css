@@ -8,7 +8,7 @@ body {
 	min-width: 900px;
 }
 a:link, a:visited {
-	color: #0054ff;
+	color: #002339;
 }
 a:hover {
 	background-color: #0054ff;
@@ -23,7 +23,7 @@ ul {
 }
 /** Header */
 #header {
-	background-color: #204ca0;
+	background-color: #002339;
 	margin: 0;
 	padding: 0.5em 1em 0 3em;
 }
@@ -61,9 +61,9 @@ ul {
 	width: 80%;
 }
 #left .head {
-	color: #204ca0;
+	color: #fff;
 	font-weight: normal;
-	background-color: #d3dbff;
+	background-color: #004353;
 	padding: 0.7em 1em;
 	margin: 0;
 	font-size: 1.3em;
@@ -136,9 +136,8 @@ ul {
 	padding-left: 0.5em;
 }
 #right a {
-	color: #666;
+	color: #005363;
 
-/* TODO: needs yellow tint */
 }
 #right a:hover {
 	color: #fff;
@@ -154,6 +153,10 @@ ul {
 	font-weight: normal;
 	font-size: 1.2em;
 	padding: 0.5em;
+}
+
+#right h1 {
+  color: #003343;
 }
 /** Footer */
 #footer {
@@ -236,6 +239,7 @@ table.index td.date span {
 
 table th {
 	text-align: left;
+	color: #003343;
 }
 
 #submitbutton {

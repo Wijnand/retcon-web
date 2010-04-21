@@ -7,7 +7,7 @@ $(document).ready(function() {
 TopUp.images_path = "/images/top_up/";
 TopUp.players_path = "/players/";
 TopUp.addPresets({
-  "#commandstable tbody tr td a": {
+  ".commandstable tbody tr td a": {
     group: "commands",
     type: "ajax",
     layout: "quicklook",

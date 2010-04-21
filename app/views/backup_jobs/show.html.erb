@@ -57,7 +57,7 @@
   </tr>
   </thead>
   <tbody>
-<% @backup_job.commands(:order => 'created_at ASC').each do | command | %>
+<% @backup_job.commands.all(:order => 'created_at ASC').each do | command | %>
   <tr>
   <td><%= link_to 'Show', command %></td>
 	<td><%= command.created_at %></td>

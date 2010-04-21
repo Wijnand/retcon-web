@@ -1,18 +1,14 @@
 body {
 	font-family: arial;
 	color: #000;
-	background-color: #d4d4d4;
+	background-color: #d3b8ff;
 	margin: 0;
 	padding: 0;
 	font-size: 0.9em;
 	min-width: 900px;
 }
-a:link, a:visited {
+a:link, a:visited, a:hover {
 	color: #002339;
-}
-a:hover {
-	background-color: #0054ff;
-	color: #fff;
 }
 input {
 	font-size: 1.1em;
@@ -31,6 +27,11 @@ ul {
 	font-weight: normal;
 	color: #fff;
 }
+#header h1:hover, #header a:hover{
+	font-weight: normal;
+	color: #fff;
+	background-color: #002339;
+}
 #header h1 span {
 	font-size: 0.6em;
 	color: #bfd82d;
@@ -45,7 +46,7 @@ ul {
 }
 #global_links a:hover {
 	color: #00a8c6;
-	background-color: #e3fdff;
+	background-color: #002339;
 }
 
 /** Main body */
@@ -139,11 +140,8 @@ ul {
 	color: #005363;
 
 }
-#right a:hover {
+#right a:hover, #right a:active {
 	color: #fff;
-	background-color: #666;
-
-/* TODO: needs yellow tint */
 }
 #right label {
 	font-weight: bold;
@@ -162,7 +160,7 @@ ul {
 #footer {
 	clear: both;
 	padding: 1em 0 0 4em;
-	color: #b5aea1;
+	color: #002339;
 	font-size: 0.8em;
 }
 #footer a:link {

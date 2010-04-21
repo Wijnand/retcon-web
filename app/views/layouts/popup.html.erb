@@ -16,12 +16,10 @@
 <body>
       
   <div id="main">
-    <div id="left">
     <h2 class="head"><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
       <div id="screen">
         <%= yield %>
       </div>
-    </div>
   </div>
 </body>
 </html>

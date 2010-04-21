@@ -12,6 +12,9 @@ TopUp.addPresets({
     type: "ajax",
     layout: "quicklook",
     title: "command",
+    x: "0",
+    y: "0",
+    effect: "flip",
     shaded: 1
   }
 });

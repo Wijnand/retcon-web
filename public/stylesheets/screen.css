@@ -164,11 +164,12 @@ ul {
 	font-size: 0.8em;
 }
 #footer a:link {
-	color: #b5aea1;
-	font-size: 0.8em;
+	color: #002339;
+	font-size: 1em;
 }
 #footer a:hover {
-	color: #fff;
+	color: #002339;
+	font-size: 1em;
 }
 
 #toplinks {

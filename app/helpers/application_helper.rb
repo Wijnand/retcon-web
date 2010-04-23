@@ -13,11 +13,10 @@ module ApplicationHelper
     @actions ||= []
     return nil unless @actions.size > 0
     content_for :sidebar do
-      "<h1>Actions</h1><ul>" +
+      '<ul>' +
       @actions.map do | action |
         "<li>" + link_to( action[0], action[1]) + "</li>"
-      end.join("\n") +
-      "</ul>"
+      end.join("\n") + '</ul>'
     end
   end
 end

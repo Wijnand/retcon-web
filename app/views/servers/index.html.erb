@@ -1,45 +1,15 @@
 <% content_for :header do %>
-   Server overview
+   Server overview 
 <% end %>
 <p>
-<% form_for @search do |f| %>
+<% form_for @search, :html => {:id => 'search'} do |f| %>
     <%= f.label :hostname_like, 'Hostname' %>
     <%= f.text_field :hostname_like %>
     <%= f.submit 'Search' %>
 <% end %>
 <br />
-<%= page_entries_info @servers %>
-<%= will_paginate @servers %>
-
-</p>
-
-<table class="index sortable">
-  <thead>
-  <tr>
-    <th>Hostname</th>
-    <th>Usage</th>
-    <th>Last backup</th>
-    <th>Last backup result</th>
-    <th>Last backup duration</th>
-  </tr>
-  </thead>
-  <tbody>
-<% @servers.each do |server| %>
-  <tr>
-    <td><%=link_to h(server.hostname), server %></td>
-    <td><%=number_to_human_size server.usage  || 'NaN' %></td>
-    <td><%=h server.last_backup || "None" %></td>
-    <td><%=h (server.last_backup ? server.previous_jobs.last.status : 'Nothing yet') %></td>
-    <td><%= display_backup_duration (server.previous_jobs.last) %></td>
-    <td><%= link_to 'Edit', edit_server_path(server) %> | 
-    <%= link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</tbody>
-</table>
-
-<p>
-<%= will_paginate @servers %>
-</p>
+<div id="listing">
+<%= render :partial => 'listing' %>
+</div>
 <% add_action 'Add Server', new_server_path %>
 

@@ -6,11 +6,14 @@ class ServersController < ApplicationController
   def index
    @search = Server.search(params[:search])
    @servers = @search.all(:order => 'hostname', :include => :backup_jobs).paginate(:page => params[:page])
-   
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @servers }
-      format.json { render :json => @servers}
+   if request.xhr?
+     render :partial => 'listing'
+   else   
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @servers }
+        format.json { render :json => @servers}
+      end
     end
   end
 

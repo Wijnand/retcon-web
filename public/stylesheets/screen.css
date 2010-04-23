@@ -59,16 +59,37 @@ ul {
 }
 #left {
 	background-color: #fff;
-	width: 80%;
+	width: 96%;
+	margin: auto;
 }
 #left .head {
 	color: #fff;
 	font-weight: normal;
 	background-color: #004353;
-	padding: 0.7em 1em;
+	padding: 0.7em 1em 0;
 	margin: 0;
 	font-size: 1.3em;
 }
+
+#left .head h2 {
+  display: inline;
+}
+
+#left .head ul, #left .head ul li, #left .head form {
+  display: inline;
+  list-style-type: none;
+  float: right;
+  margin: 0 1em 0 0;
+}
+#left .head form input {
+  font-size: 0.7em;
+  width: 12em;
+}
+
+#left .head a {
+  color: #fff;
+}
+
 #left #screen {
 	padding: 0 1.5em 1.5em;
 }
@@ -126,36 +147,6 @@ ul {
 	list-style: square;
 }
 
-/** Right column */
-#right {
-	width: 17%;
-	padding: 0 0 1em 1.5em;
-	margin: 0;
-	color: #666;
-}
-#right p {
-	padding-left: 0.5em;
-}
-#right a {
-	color: #005363;
-
-}
-#right a:hover, #right a:active {
-	color: #fff;
-}
-#right label {
-	font-weight: bold;
-}
-#right h2 {
-	color: #494949;
-	font-weight: normal;
-	font-size: 1.2em;
-	padding: 0.5em;
-}
-
-#right h1 {
-  color: #003343;
-}
 /** Footer */
 #footer {
 	clear: both;
@@ -295,4 +286,24 @@ table.sortable thead tr .headerSortDown {
 }
 table.sortable thead tr .headerSortDown, table.sortable thead tr .headerSortUp {
 background-color: #8dbdd8;
+}
+
+div#tabs {
+  margin: 0;
+	padding: 0.5em 1em 0 3em;
+}
+div#tabs ul {
+  list-style-type: none;
+}
+
+div#tabs ul li {
+  display: inline;
+  border: 1px dotted #fff;
+  margin: 0.5em;
+  padding: 0.3em;
+}
+
+div#tabs ul li a {
+  color: #fff;
+  font-size: 1.2em;
 }

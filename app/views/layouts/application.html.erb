@@ -29,17 +29,14 @@
     <% flash.keys.each do | key | %>
        <div id="<%= key %>"><%= flash[key] %></div>
     <% end %>
-    
-      <h2 class="head"><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
+    <% build_action_list %>
+      <div class="head"><h2><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
+      <%= yield_or_default(yield(:sidebar)) %>
+      </div>
 
       <div id="screen">
         <%= yield %>
       </div>
-    </div>
-    <div id="right">
-      <% build_action_list %>
-      <%= yield_or_default(yield(:sidebar)) %>
-      <%= render :partial => 'shared/sidebar_links'%>
     </div>
   </div>
   <div id="footer">

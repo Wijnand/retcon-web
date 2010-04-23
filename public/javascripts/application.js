@@ -5,9 +5,8 @@ $(document).ready(function() {
   $(".sortable").tablesorter();
   
   $("#search").bind("keyup", function() {
-    var form = $(this); // grab the form wrapping the search bar.
-    var url = form.attr("action"); // grab the URL from the form's action value.
-    var formData = form.serialize(); // grab the data in the form
+    var url = $(this).attr("action"); // grab the URL from the form's action value.
+    var formData = $(this).serialize(); // grab the data in the form
     $.get(url, formData, function(html) { // perform an AJAX get, the trailing function is what happens on successful get.
       $("#listing").html(html); // replace the "results" div with the result of action taken
     });

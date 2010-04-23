@@ -31,9 +31,9 @@
     <% end %>
     <% build_action_list %>
       <div class="head"><h2><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
-      <%= yield_or_default(yield(:sidebar)) %>
+        <%= yield_or_default(yield(:sidebar)) %>
+        <%= yield(:search) %>
       </div>
-
       <div id="screen">
         <%= yield %>
       </div>

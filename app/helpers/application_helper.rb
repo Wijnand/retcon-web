@@ -11,12 +11,13 @@ module ApplicationHelper
   
   def build_action_list
     @actions ||= []
-    return nil unless @actions.size > 0
-    content_for :sidebar do
-      '<ul>' +
-      @actions.map do | action |
-        "<li>" + link_to( action[0], action[1]) + "</li>"
-      end.join("\n") + '</ul>'
+    if @actions.size > 0
+      content_for :sidebar do
+        '<ul>' +
+        @actions.map do | action |
+          "<li>" + link_to( action[0], action[1]) + "</li>"
+        end.join("\n") + '</ul>'
+      end
     end
   end
 end

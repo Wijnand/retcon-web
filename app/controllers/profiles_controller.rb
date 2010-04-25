@@ -4,12 +4,17 @@ class ProfilesController < ApplicationController
   # GET /profiles
   # GET /profiles.xml
   def index
-    @profiles = Profile.find(:all, :order => 'name')
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @profiles }
-    end
+    @search = Profile.search(params[:search])
+    @profiles = @search.find(:all, :order => 'name')
+    if request.xhr?
+      render :partial => 'listing'
+    else
+       respond_to do |format|
+         format.html # index.html.erb
+         format.xml  { render :xml => @profiles }
+         format.json { render :json => @profiles}
+       end
+     end
   end
 
   # GET /profiles/1

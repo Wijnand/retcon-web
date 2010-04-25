@@ -6,10 +6,11 @@
   <% form_for @search, :html => {:id => 'search'} do |f| %>
       <%= f.text_field :hostname_like %>
   <% end %>
-<% end %> 
+<% end %>
+
 <br />
 <div id="listing">
 <%= render :partial => 'listing' %>
 </div>
-<% add_action 'Add Server', new_server_path %>
+<% add_action 'Add', new_server_path %>
 

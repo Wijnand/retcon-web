@@ -1,24 +1,14 @@
 <% content_for :header do %>
   Backup Profiles
 <% end %>
-
-<table class="index sortable">
-  <thead>
-  <tr>
-    <th>Name</th>
-  </tr>
-  </thead>
-  <tbody>
-<% @profiles.each do |profile| %>
-  <tr>
-    <td><%= link_to h(profile.name), profile %></td>
-    <td><%= link_to 'Edit', edit_profile_path(profile) %> | 
-    <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% content_for :search do %>
+  <% form_for @search, :html => {:id => 'search'} do |f| %>
+      <%= f.text_field :name_like %>
+  <% end %>
 <% end %>
-  </tbody>
-</table>
+
+<%= render :partial => 'listing' %>
 
 <br />
 
-<% add_action 'Create new profile', new_profile_path %>
+<% add_action 'New', new_profile_path %>

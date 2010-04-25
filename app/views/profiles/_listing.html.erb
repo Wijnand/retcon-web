@@ -1,0 +1,16 @@
+<table class="index sortable">
+  <thead>
+  <tr>
+    <th>Name</th>
+  </tr>
+  </thead>
+  <tbody>
+<% @profiles.each do |profile| %>
+  <tr>
+    <td><%= link_to h(profile.name), profile %></td>
+    <td><%= link_to 'Edit', edit_profile_path(profile) %> | 
+    <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>

@@ -7,8 +7,9 @@
   <% end %>
 <% end %>
 
-<%= render :partial => 'listing' %>
-
+<div id="listing">
+  <%= render :partial => 'listing' %>
+</div>
 <br />
 
 <% add_action 'New', new_profile_path %>

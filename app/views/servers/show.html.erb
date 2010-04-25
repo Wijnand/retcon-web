@@ -1,6 +1,9 @@
 <% content_for :header do %>
   <%=h @server.hostname %>
 <% end %>
+<% add_action 'Edit', edit_server_path( @server) %>
+<% add_action 'Add', new_server_path %>
+
 <table class="index sortable">
 <thead>
   <tr>
@@ -100,9 +103,6 @@
   <% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
   <p>This resolves to the following rsync command:<br/> <%= @job.main_rsync %></p>
 <% end %>
-<% add_action 'Edit this server', edit_server_path( @server) %>
-<% add_action 'Add Server', new_server_path %>
-<% add_action 'Servers overview', servers_path %>
 
 <% if @server.problems.size > 0 %>
   <hr/>

@@ -1,6 +1,10 @@
 <% content_for :header do %>
   Profile <%=h @profile.name %>
 <% end %>
+
+<% add_action 'Edit', edit_profile_path(@profile) %>
+<% add_action 'Add', new_profile_path %>
+
 <h3>General info</h3>
 
 <p>
@@ -49,7 +53,3 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
 <% @split = @profile.splits.build %>
 <%= render :partial => 'splits/form' %>
 </div>
-
-<% add_action 'Edit this profile', edit_profile_path(@profile) %>
-<% add_action 'All profiles', profiles_path %>
-<% add_action 'Create new profile', new_profile_path %>

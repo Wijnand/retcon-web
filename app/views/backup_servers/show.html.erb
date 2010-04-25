@@ -1,6 +1,7 @@
 <% content_for :header do %>
   <%= @backup_server.hostname %>
 <% end %>
+<% add_action 'Edit', edit_backup_server_path(@backup_server) %>
 
 <table class="index sortable">
 <thead>
@@ -73,5 +74,3 @@
 </tbody>
 </table>
 <% end %>
-<% add_action 'Edit this backup server', edit_backup_server_path(@backup_server) %>
-<% add_action 'Backup server overview', backup_servers_path %>

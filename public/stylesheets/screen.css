@@ -74,16 +74,19 @@ ul {
 #left .head h2 {
   display: inline;
 }
-
-#left .head ul, #left .head ul li, #left .head form {
+div.head ul, div.head ul li, div.head form {
+ // float: right;
   display: inline;
+}
+
+div.head ul, div.head li {
   list-style-type: none;
-  float: right;
   margin: 0 1em 0 0;
 }
-#left .head form input {
+div.head form input {
   font-size: 0.7em;
   width: 12em;
+  display: inline;
 }
 
 #left .head a {

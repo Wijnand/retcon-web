@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
@@ -28,8 +28,8 @@
     <% end %>
     <% build_action_list %>
       <div class="head"><h2><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
-        <%= yield_or_default(yield(:sidebar)) %>
         <%= yield(:search) %>
+        <%= yield_or_default(yield(:sidebar)) %>
       </div>
       <div id="screen">
         <%= yield %>

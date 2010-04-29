@@ -1,7 +1,7 @@
 <% content_for :header do %>
   Command <%=h @command.id %>
 <% end %>
-
+<section>
 <table class="index commands sortable">
   <tr><th>ID</th><td><%= @command.id %></tr>
   <tr><th>Label</th><td><%= @command.label %></tr>
@@ -10,3 +10,4 @@
   <tr><th>Command</th><td><%= @command.command %></tr>
   <tr><th>Output</th><td><%= @command.output %></tr>
 </table>
+</section>

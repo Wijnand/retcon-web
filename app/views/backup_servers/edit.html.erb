@@ -1,8 +1,8 @@
 <% content_for :header do %>
   Edit <%= @backup_server.hostname %>
 <% end %>
-
+<section>
 <%= render :partial => 'form' %>
-
+</section>
 <% add_action 'Show', @backup_server %>
 <% add_action 'Add', new_backup_server_path %>

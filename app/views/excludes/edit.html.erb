@@ -1,8 +1,8 @@
 <% content_for :header do %>
   Edit exclude <%= @exclude.path %>
 <% end %>
-
+<section>
 <%= render :partial => 'form' %>
-
+</section>
 <% add_action 'Show Profile', @profile %>
 <% add_action 'Profile overview', profiles_path %>

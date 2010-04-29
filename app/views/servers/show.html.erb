@@ -3,7 +3,7 @@
 <% end %>
 <% add_action 'Edit', edit_server_path( @server) %>
 <% add_action 'Add', new_server_path %>
-
+<section>
 <table class="index sortable">
 <thead>
   <tr>
@@ -46,7 +46,6 @@
 </tbody>
 </table>
 
-<p>
 <% if !@server.last_backup %>
   <b>Backup never performed!</b>
 <% elsif @server.backup_running? %>
@@ -64,12 +63,12 @@
 	  <%= f.submit "Queue now" %>
 	<% end %>
 <% end %>
-</p>
+</section>
 
 <% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
 
 <% if @server.current_snapshots.size > 0 %>
-  <hr/>
+<section>
 <h3>Known snapshots</h3>
 <table class="index sortable">
 <thead>
@@ -89,9 +88,10 @@
 <% end %>
 </tbody>
 </table>
+</section>
 <% end %> 
-<hr/>
 
+<section>
 <h3>Applied profiles</h3>
 <ul class="profile_list">
 <% @server.profiles.each do | profile | %>
@@ -103,9 +103,10 @@
   <% @job = BackupJob.new(:server => @server, :backup_server => @server.backup_server ) %>
   <p>This resolves to the following rsync command:<br/> <%= @job.main_rsync %></p>
 <% end %>
+</section>
 
 <% if @server.problems.size > 0 %>
-  <hr/>
+  <section>
 
 <h3>Latest problems</h3>
 <table class="index sortable">
@@ -126,10 +127,11 @@
 <% end %>
 </tbody>
 </table>
+</section>
 <% end %>
 
 <% if @server.backup_jobs.size > 0 %>
-  <hr/>
+<section>
 <h3>Latest backup jobs</h3>
 <table class="index sortable">
   <thead>
@@ -155,4 +157,5 @@
 <% end %>
   </tbody>
 </table>
+</section>
 <% end %>

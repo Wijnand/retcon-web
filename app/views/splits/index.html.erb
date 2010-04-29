@@ -1,7 +1,7 @@
 <% content_for :header do %>
   Splits
 <% end %>
-
+<section>
 <table class="index sortable">
   <thead>
   <tr>
@@ -19,6 +19,5 @@
   </body>
 </table>
 
-<br />
-
+</section>
 <% add_action 'Add split', new_profile_split_path(@profile) %>

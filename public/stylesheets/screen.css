@@ -1,11 +1,14 @@
+article, aside, dialog, figure, footer, header,
+hgroup, menu, nav, section { display: block; }
+
 body {
 	font-family: arial;
 	color: #000;
-	background-color: #dadada;
-	margin: 0;
-	padding: 0;
+	background-color: #d8d8d8;
+	margin: auto;
+	padding: 1em 0 0 0;
 	font-size: 0.9em;
-	min-width: 900px;
+	width: 96%;
 }
 a:link, a:visited, a:hover {
 	color: #002339;
@@ -18,27 +21,31 @@ ul {
 	margin-left: 0;
 }
 /** Header */
-#header {
+header.site_header {
 	background-color: #002339;
 	margin: 0;
 	padding: 0.5em 1em 0 3em;
+  border-radius: 1.6em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
 }
-#header h1 a{
+header.site_header h1 a{
 	font-weight: normal;
 	color: #fff;
 }
-#header h1:hover, #header a:hover{
+header.site_header h1:hover, header.site_header a:hover{
 	font-weight: normal;
 	color: #fff;
 	background-color: #002339;
 }
-#header h1 span {
+header.site_header h1 span {
 	font-size: 0.6em;
 	color: #bfd82d;
 }
 #global_links {
 	float: right;
 	font-size: 0.8em;
+	margin: 1em;
 	color: #e3fdff;
 }
 #global_links a {
@@ -50,67 +57,95 @@ ul {
 }
 
 /** Main body */
-#main {
+header.secondary {
+  width: 98%;
+  color: #fff;
+  background-color: #004353;
+  padding: 0.7em;
+  margin: auto;
+  font-size: 1.0em;
+  border-radius: 1.6em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
+}
+
+article#main {
 	margin: 2em 0 0 3em;
-}
-/** Left column */
-#left, #right {
-	float: left;
-}
-#left {
-	background-color: #fff;
-	width: 96%;
-	margin: auto;
-}
-#left .head {
-	color: #fff;
-	font-weight: normal;
-	background-color: #004353;
-	padding: 0.7em 1em 0;
-	margin: 0;
-	font-size: 1.3em;
+  width: 92%;
+  margin: auto;
 }
 
-#left .head h2 {
-  display: inline;
-}
-div.head ul, div.head ul li, div.head form {
- // float: right;
-  display: inline;
+article#main section {
+  padding: 1em 1.5em 1.5em;
+  background-color: #fff;
+  border-radius: 1.6em;
+  border: 1px solid #000;
+  margin-top: 1em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
 }
 
-div.head ul, div.head li {
+ul#display-inline-block, ul#display-inline-block li.lineitem {
+/* Setting a common base */
+margin: 0;
+padding: 0;
+}
+
+ul#display-inline-block li.lineitem {
+display: inline-block;
+width: 28%;
+vertical-align: center;
+height: 1.6em;
+}
+
+ul#display-inline-block li.right {
+  text-align: right;
+  width: 70%;
+  font-size: 1.2em;
+}
+
+header.secondary h1 {
+  display: inline;
+  font-size: 1.6em;
+  margin-left: .7em;
+}
+
+ul#display-inline-block  li.lineitem > ul, ul#display-inline-block li.lineitem > ul > li {
+  display: inline;
+  margin-left: 1em
+}
+
+header.secondary ul, header.secondary li {
   list-style-type: none;
   margin: 0 1em 0 0;
 }
-div.head form input {
+
+header.secondary form, header.secondary form input {
   font-size: 0.7em;
   width: 12em;
   display: inline;
+  height: 1.6em;
 }
 
-#left .head a {
+header.secondary a {
   color: #fff;
 }
 
-#left #screen {
-	padding: 0 1.5em 1.5em;
-}
-#left #notice {
+#notice {
 	color: #6d9100;
 	padding: 0.7em 1em;
 	margin: 1em 1.5em;
 	background-color: #e5ffba;
 	font-weight: bold;
 }
-#left #error {
+#error {
 	color: #9f1d20;
 	padding: 0.7em 1em;
 	margin: 1em 1.5em;
 	background-color: #ffb7bc;
 	font-weight: bold;
 }
-#left #warning {
+#warning {
 	color: #ee9a00;
 	padding: 0.7em 1em;
 	margin: 1em 1.5em;
@@ -151,17 +186,24 @@ div.head form input {
 }
 
 /** Footer */
-#footer {
+footer {
 	clear: both;
 	padding: 1em 0 0 4em;
 	color: #002339;
 	font-size: 0.8em;
+	margin-top: 1em;
+	background: #fff;
+	text-align: center;
+	border-radius: 1.6em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
+  border: 1px solid #000;
 }
-#footer a:link {
+footer a:link {
 	color: #002339;
 	font-size: 1em;
 }
-#footer a:hover {
+footer a:hover {
 	color: #002339;
 	font-size: 1em;
 }
@@ -240,19 +282,6 @@ table th {
 	text-align: right;
 }
 
-#main_menu li { float: left;}
-
-
-.hide_js {
-  display: none;
-}
-
-.online { color: green;}
-.offline { color: red;}
-dt { font-weight: bold; }
-
-table.commands { overflow: scroll;}
-
 /* tables */
 table.sortable {
 	background-color: #d3dbff;
@@ -291,22 +320,22 @@ table.sortable thead tr .headerSortDown, table.sortable thead tr .headerSortUp {
 background-color: #8dbdd8;
 }
 
-div#tabs {
-  margin: 0;
+nav {
+  margin: auto;
 	padding: 0.5em 1em 0 3em;
+	text-align: center;
 }
-div#tabs ul {
+nav ul {
   list-style-type: none;
 }
 
-div#tabs ul li {
+nav ul li {
   display: inline;
-  border: 1px dotted #fff;
   margin: 0.5em;
   padding: 0.3em;
 }
 
-div#tabs ul li a {
+nav a:link, nav  a:visited {
   color: #fff;
   font-size: 1.2em;
 }

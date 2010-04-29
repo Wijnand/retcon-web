@@ -1,7 +1,7 @@
 <% content_for :header do %>
   Backup servers
 <% end %>
-
+<section>
 <table class="index sortable">
   <thead>
   <tr>
@@ -20,7 +20,5 @@
 <% end %>
   </tbody>
 </table>
-
-<br />
-
+</section>
 <% add_action 'Add', new_backup_server_path %>

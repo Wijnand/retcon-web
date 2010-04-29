@@ -1,5 +1,5 @@
 class ServersController < ApplicationController
-  filter_resource_access
+ # filter_resource_access
   
   # GET /servers
   # GET /servers.xml

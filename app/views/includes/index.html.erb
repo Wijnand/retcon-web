@@ -1,7 +1,7 @@
 <% content_for :header do %>
   Excludes
 <% end %>
-
+<section>
 <table class="index sortable">
   <thead>
   <tr>
@@ -18,7 +18,6 @@
 <% end %>
   </tbody>
 </table>
-
-<br />
+</section>
 
 <%= add_action 'Add include', new_profile_include_path(@profile) %>

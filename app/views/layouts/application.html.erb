@@ -1,5 +1,11 @@
 <!DOCTYPE html>
+<html>
 <head>
+<meta charset="utf-8" />
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<title>Retcon: <%= yield_or_default yield(:header) %> </title>
@@ -9,36 +15,40 @@
 
 <body>
 
-  <div id="header">
+  <header class="site_header">
     <div id="global_links">
       <%= render :partial => 'shared/global_links' %>
     </div>
     <h1><%= link_to ('Retcon <span>blast from the past</span>', root_path) %></h1>
 
-    <div id="tabs">
+    <nav>
       <%= render :partial => 'shared/tabs' %>
-    </div>
-  </div>
+    </nav>
+  </header>
+  
+  <% flash.keys.each do | key | %>
+    <div id="<%= key %>"><%= flash[key] %></div>
+  <% end %>
+  
+    <header class="secondary">
+      <% build_action_list %>
+      <ul id="display-inline-block">
+        <li class="lineitem">
+          <h1><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h1>
+        </li>
+        <li class="lineitem right"
+          <%= yield(:search) %><%= yield(:sidebar) %>
+        </li>
+      </ul>
+    </header>
 
-  <div id="main">
-
-    <div id="left">
-    <% flash.keys.each do | key | %>
-       <div id="<%= key %>"><%= flash[key] %></div>
-    <% end %>
-    <% build_action_list %>
-      <div class="head"><h2><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h2>
-        <%= yield(:search) %>
-        <%= yield_or_default(yield(:sidebar)) %>
-      </div>
-      <div id="screen">
+    <article id="main">
         <%= yield %>
-      </div>
-    </div>
-  </div>
-  <div id="footer">
+    </article>
+ 
+  <footer>
     <a href="http://github.com/wijnand/retcon-web">Retcon project</a>
-  </div>
+  </footer>
 
 
 </body>

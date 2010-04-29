@@ -2,17 +2,21 @@
   <% content_for :header do %>
   Dashboard
   <% end %>
+<section>
 <h3>Backup server information</h3>
 <%= render_cell :backup_servers, :status %>
-<hr/>
+</section>
+<section>
 <h3>Now running</h3>
 <%= render_cell :backup_jobs, :running %>
-<hr/>
+</section>
 
+<section>
 <h3>Queued Backups</h3>
 <%= render_cell :backup_jobs, :queued %>
-<hr/>
+</section>
 
+<section>
 <h3>Latest fails</h3>
 <%= render_cell :backup_jobs, :problems %>
 
@@ -22,3 +26,4 @@
   <% end %>
   <%= render_cell :login, :login %>
 <% end %>
+</section>

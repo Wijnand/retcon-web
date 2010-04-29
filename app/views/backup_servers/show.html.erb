@@ -2,7 +2,7 @@
   <%= @backup_server.hostname %>
 <% end %>
 <% add_action 'Edit', edit_backup_server_path(@backup_server) %>
-
+<section>
 <table class="index sortable">
 <thead>
   <tr>
@@ -23,9 +23,10 @@
 </tr>
 </tbody>
 </table>
+</section>
 
 <% if @backup_server.backup_jobs.size > 0 %>
-  <hr/>
+<section>
 <h3>Latest backup jobs</h3>
 <table class="index sortable">
   <thead>
@@ -49,11 +50,11 @@
   </tbody>
 <% end %>
 </table>
+</section>
 <% end %>
 
 <% if @backup_server.problems.size > 0 %>
-  <hr/>
-
+<section>
 <h3>Latest problems</h3>
 <table class="index sortable">
 <thead>
@@ -73,4 +74,5 @@
 <% end %>
 </tbody>
 </table>
+</section>
 <% end %>

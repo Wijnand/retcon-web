@@ -1,8 +1,8 @@
 <% content_for :header do %>
   Edit profile <%= @profile.name %>
 <% end %>
-
+<section>
 <%= render :partial => 'form' %>
-
+</section>
 <% add_action 'Show', @profile %>
 <% add_action 'Add', new_profile_path %>

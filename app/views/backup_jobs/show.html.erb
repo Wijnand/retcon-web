@@ -1,7 +1,7 @@
 <% content_for :header do %>
   Backup job <%=h @backup_job.id %>
 <% end %>
-
+<section>
 <table class="index sortable">
 <thead>
   <tr>
@@ -45,7 +45,8 @@
 </tr>
 </tbody>
 </table>
-
+</section>
+<section>
 <h3>Commands and results</h3>
 <table class="index commands sortable commandstable">
   <thead>
@@ -67,3 +68,4 @@
   </tbody>
 <% end %>
 </table>
+</section>

@@ -1,16 +1,15 @@
 <% content_for :header do %>
    Server overview 
 <% end %>
-<p>
 <% content_for :search do %>
   <% form_for @search, :html => {:id => 'search'} do |f| %>
-      <%= f.text_field :hostname_like %>
+      <%= f.text_field :hostname_like, :autofocus => 'autofocus' %>
   <% end %>
 <% end %>
 
-<br />
+<section>
 <div id="listing">
 <%= render :partial => 'listing' %>
 </div>
 <% add_action 'Add', new_server_path %>
-
+</section>

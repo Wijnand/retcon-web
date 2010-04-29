@@ -3,13 +3,14 @@
 <% end %>
 <% content_for :search do %>
   <% form_for @search, :html => {:id => 'search'} do |f| %>
-      <%= f.text_field :name_like %>
+      <%= f.text_field :name_like, :autofocus => 'autofocus' %>
   <% end %>
 <% end %>
 
+<section>
 <div id="listing">
   <%= render :partial => 'listing' %>
 </div>
-<br />
+</section>
 
 <% add_action 'Add', new_profile_path %>

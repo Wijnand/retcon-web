@@ -137,6 +137,11 @@ header.secondary a {
 	margin: 1em 1.5em;
 	background-color: #e5ffba;
 	font-weight: bold;
+  margin-top: 1em;
+  border: 1px solid #000;
+  border-radius: 1.6em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
 }
 #error {
 	color: #9f1d20;
@@ -144,6 +149,11 @@ header.secondary a {
 	margin: 1em 1.5em;
 	background-color: #ffb7bc;
 	font-weight: bold;
+	margin-top: 1em;
+	border: 1px solid #000;
+	border-radius: 1.6em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
 }
 #warning {
 	color: #ee9a00;
@@ -151,6 +161,11 @@ header.secondary a {
 	margin: 1em 1.5em;
 	background-color: #fff1c0;
 	font-weight: bold;
+	margin-top: 1em;
+	border: 1px solid #000;
+	border-radius: 1.6em;
+  -webkit-border-radius: 1.6em;
+  -moz-border-radius: 1.6em;
 }
 /** Scaffold styles */
 .fieldWithErrors {

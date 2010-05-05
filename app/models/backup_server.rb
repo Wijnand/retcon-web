@@ -42,7 +42,7 @@ class BackupServer < ActiveRecord::Base
   end
   
   def queued_backups(opts={})
-    backup_jobs.all({:conditions => { :status => 'queued'}, :order => 'created_at DESC' }.merge(opts))
+    backup_jobs.all({:conditions => { :status => 'queued'}, :order => 'created_at ASC' }.merge(opts))
   end
   
   def next_queued

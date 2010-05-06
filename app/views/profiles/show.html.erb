@@ -1,5 +1,5 @@
 <% content_for :header do %>
-  Profile <%=h @profile.name %>
+  <%=h @profile.name %>
 <% end %>
 <% add_action 'Add', new_profile_path %>
 <% add_action 'Edit', edit_profile_path(@profile) %>

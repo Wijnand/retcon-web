@@ -217,7 +217,7 @@ describe BackupJob do
     command = Factory(:command, :exitstatus => 0, :output => '1234
 5678
 90')
-    job.should_receive(:run_command).with("/sbin/zfs get -Hp used backup/server88.example.com | /usr/gnu/bin/awk '{print $3}'", "diskusage")
+    job.should_receive(:run_command).with("/sbin/zfs get -Hp used backup/#{job.server.hostname} | /usr/gnu/bin/awk '{print $3}'", "diskusage")
     job.after_get_snapshots(command)
     job.server.snapshots.should == '1234,5678,90'
   end

@@ -73,8 +73,8 @@ describe BackupServer do
   
   it "should should take the already running backups into account" do
     b = Factory(:backup_server, :max_backups => 3)
-    job1 = Factory(:backup_job, :backup_server => b, :status => 'running')
-    job2 = Factory(:backup_job, :backup_server => b, :status => 'running')
+    job1 = Factory(:backup_job, :backup_server => b, :status => 'running', :finished => false)
+    job2 = Factory(:backup_job, :backup_server => b, :status => 'running', :finished => false)
     job3 = Factory(:backup_job, :backup_server => b, :status => 'queued')
     job4 = Factory(:backup_job, :backup_server => b, :status => 'queued')
     b.queued_backups.size.should == 2
@@ -83,9 +83,9 @@ describe BackupServer do
 
   it "should know how many backups are running" do
     b = Factory(:backup_server)
-    job1 = Factory(:backup_job, :backup_server => b, :status => 'running')
-    job2 = Factory(:backup_job, :backup_server => b, :status => 'running')
-    job3 = Factory(:backup_job, :backup_server => b, :status => 'running')
+    job1 = Factory(:backup_job, :backup_server => b, :status => 'running', :finished => false)
+    job2 = Factory(:backup_job, :backup_server => b, :status => 'running', :finished => false)
+    job3 = Factory(:backup_job, :backup_server => b, :status => 'running', :finished => false)
     b.running_backups.size.should == 3
   end
   

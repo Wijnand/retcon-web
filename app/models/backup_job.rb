@@ -70,7 +70,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def get_rsyncs
-    self.server.splits.map do | split |
+    self.server.splits.reject{|s| server.excludes.include? s }.map do | split |
       arr = []
       split_dir = self.server.startdir + split.to_s
       arr.concat(('a'..'z').to_a)

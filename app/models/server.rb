@@ -74,7 +74,7 @@ class Server < ActiveRecord::Base
   end
   
   def excludes
-    self.profiles.map{ | p | p.excludes }.flatten
+    self.profiles.map{ | p | p.excludes.map{|e| e.path} }.flatten
   end
   
   def rsync_excludes
@@ -90,7 +90,7 @@ class Server < ActiveRecord::Base
   end
   
   def splits
-    self.profiles.map{ | p | p.splits }.flatten
+    self.profiles.map{ | p | p.splits.map{|p | p.path} }.flatten
   end
   
   def rsync_protects

@@ -2,12 +2,18 @@
   <thead>
   <tr>
     <th>Name</th>
+    <th>Excludes</th>
+    <th>Includes</th>
+    <th>Splits</th>
   </tr>
   </thead>
   <tbody>
 <% @profiles.each do |profile| %>
   <tr>
     <td><%= link_to h(profile.name), profile %></td>
+    <td><%= profile.excludes.size %></td>
+    <td><%= profile.includes.size %></td>
+    <td><%= profile.splits.size %></td>
     <td><%= link_to 'Edit', edit_profile_path(profile) %> | 
     <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

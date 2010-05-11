@@ -20,4 +20,8 @@ module ApplicationHelper
       end
     end
   end
+  
+  def selected_tab?(cont)
+    @controller.controller_name == cont ? 'active' : 'inactive'
+  end
 end

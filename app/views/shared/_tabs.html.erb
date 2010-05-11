@@ -1,7 +1,7 @@
 <ul>
-  <li><%= link_to "Home", root_path %></li>
-  <li><%= link_to 'Servers', servers_path %></li>
-  <li><%= link_to 'Profiles', profiles_path %></li>
-  <li><%= link_to 'Backup servers', backup_servers_path %></li>
-  <li><%= link_to 'Users', users_path %></li>
+  <li class="<%= selected_tab?('dashboard') %>"><%= link_to "Home", root_path %></li>
+  <li class="<%= selected_tab?('servers') %>"><%= link_to 'Servers', servers_path %></li>
+  <li class="<%= selected_tab?('profiles') %>"><%= link_to 'Profiles', profiles_path %></li>
+  <li class="<%= selected_tab?('backup_servers') %>"><%= link_to 'Backup servers', backup_servers_path %></li>
+  <li class="<%= selected_tab?('users') %>"><%= link_to 'Users', users_path %></li>
 </ul>

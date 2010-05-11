@@ -24,10 +24,10 @@ ul {
 header.site_header {
 	background-color: #002339;
 	margin: 0;
-	padding: 0.5em 1em 0 3em;
-  border-radius: 1.6em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+	padding: 0.5em 1em 0 1em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 header.site_header h1 a{
 	font-weight: normal;
@@ -58,15 +58,15 @@ header.site_header h1 span {
 
 /** Main body */
 header.secondary {
-  width: 98%;
+  width: 94%;
   color: #fff;
   background-color: #004353;
   padding: 0.7em;
   margin: auto;
-  font-size: 1.0em;
-  border-radius: 1.6em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+  font-size: 1.6em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 
 article#main {
@@ -78,11 +78,11 @@ article#main {
 article#main section {
   padding: 1em 1.5em 1.5em;
   background-color: #fff;
-  border-radius: 1.6em;
+  border-radius: 1em;
   border: 1px solid #000;
   margin-top: 1em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 
 ul#display-inline-block, ul#display-inline-block li.lineitem {
@@ -95,7 +95,7 @@ ul#display-inline-block li.lineitem {
 display: inline-block;
 width: 28%;
 vertical-align: center;
-height: 1.6em;
+height: 1em;
 }
 
 ul#display-inline-block li.right {
@@ -106,7 +106,7 @@ ul#display-inline-block li.right {
 
 header.secondary h1 {
   display: inline;
-  font-size: 1.6em;
+  font-size: 1em;
   margin-left: .7em;
 }
 
@@ -124,11 +124,12 @@ header.secondary form, header.secondary form input {
   font-size: 0.7em;
   width: 12em;
   display: inline;
-  height: 1.6em;
+  height: 1em;
 }
 
 header.secondary a {
   color: #fff;
+  font-size: .7em;
 }
 
 #notice {
@@ -139,9 +140,9 @@ header.secondary a {
 	font-weight: bold;
   margin-top: 1em;
   border: 1px solid #000;
-  border-radius: 1.6em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 #error {
 	color: #9f1d20;
@@ -151,9 +152,9 @@ header.secondary a {
 	font-weight: bold;
 	margin-top: 1em;
 	border: 1px solid #000;
-	border-radius: 1.6em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+	border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 #warning {
 	color: #ee9a00;
@@ -163,9 +164,9 @@ header.secondary a {
 	font-weight: bold;
 	margin-top: 1em;
 	border: 1px solid #000;
-	border-radius: 1.6em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+	border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 /** Scaffold styles */
 .fieldWithErrors {
@@ -203,15 +204,15 @@ header.secondary a {
 /** Footer */
 footer {
 	clear: both;
-	padding: 1em 0 0 4em;
+	padding: 1em;
 	color: #002339;
 	font-size: 0.8em;
 	margin-top: 1em;
 	background: #fff;
 	text-align: center;
-	border-radius: 1.6em;
-  -webkit-border-radius: 1.6em;
-  -moz-border-radius: 1.6em;
+	border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
   border: 1px solid #000;
 }
 footer a:link {
@@ -337,7 +338,7 @@ background-color: #8dbdd8;
 
 nav {
   margin: auto;
-	padding: 0.5em 1em 0 3em;
+	padding: 0.5em 1em 0 1em;
 	text-align: center;
 }
 nav ul {
@@ -345,12 +346,33 @@ nav ul {
 }
 
 nav ul li {
-  display: inline;
-  margin: 0.5em;
-  padding: 0.3em;
+  display: inline-block;
+  margin: 0.5em 0.5em 0 0.5em;
+  padding: 0.9 0.5 0 0.5em;
+  background: #004353;
+  width: 15%;
+  border-radius: 1em 1em 0 0;
+  -webkit-border-radius: 1em 1em 0 0;
+  -moz-border-radius: 1em 1em 0 0;
+}
+
+nav ul li.active {
+  background-color: #007883;
 }
 
 nav a:link, nav  a:visited {
   color: #fff;
   font-size: 1.2em;
+}
+
+section h3 {
+  font-size: 1.5em;
+  margin: -.7em 0 0 0;
+  background-color: #002339;
+  padding: .3em;
+  text-align: center;
+  color: white;
+  border-radius: 0 0 1em 1em;
+  -webkit-border-radius: 0 0 1em 1em;
+  -moz-border-radius: 0 0 1em 1em;
 }

@@ -127,6 +127,16 @@ header.secondary form, header.secondary form input {
   height: 1em;
 }
 
+header.secondary form input {
+	border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+}
+
+header.secondary form input:focus {
+  border: none;
+}
+
 header.secondary a {
   color: #fff;
   font-size: .7em;

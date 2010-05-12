@@ -214,7 +214,7 @@ header.secondary a {
 /** Footer */
 footer {
 	clear: both;
-	padding: 1em 0 0 0;
+	padding: 1em 0 1em 0;
 	color: #002339;
 	font-size: 0.8em;
 	background: #fff;

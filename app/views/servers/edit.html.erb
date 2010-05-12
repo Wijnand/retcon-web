@@ -1,6 +1,7 @@
 <% content_for :header do %>
   Edit
 <% end %>
+<h3>Edit server <%= @server %></h3>
 <% add_action 'Show', @server %>
 <% add_action 'Add', new_server_path %>
 <section>

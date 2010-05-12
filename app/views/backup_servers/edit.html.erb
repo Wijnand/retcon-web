@@ -2,6 +2,8 @@
   Edit
 <% end %>
 <section>
+<h3>Edit backup server <%= @backup_server.hostname %></h3>
+
 <%= render :partial => 'form' %>
 </section>
 <% add_action 'Show', @backup_server %>

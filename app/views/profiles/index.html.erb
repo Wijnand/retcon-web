@@ -1,5 +1,5 @@
 <% content_for :header do %>
-  Backup Profiles
+  Profiles
 <% end %>
 <% content_for :search do %>
   <% form_for @search, :html => {:id => 'search'} do |f| %>
@@ -8,6 +8,7 @@
 <% end %>
 
 <section>
+<h3>Profiles overview</h3>
 <div id="listing">
   <%= render :partial => 'listing' %>
 </div>

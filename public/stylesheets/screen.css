@@ -389,7 +389,7 @@ nav a:link, nav  a:visited {
 
 section h3 {
   font-size: 1em;
-  margin: -1em 0 0 0;
+  margin: -1em 0 1em 0;
   background-color: #002339;
   padding: .3em;
   text-align: center;

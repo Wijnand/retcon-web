@@ -20,6 +20,8 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
     <li><%=h exclude.path %> (<%= link_to 'Edit', edit_profile_exclude_path(@profile, exclude) %> | <%= link_to 'Destroy', [@profile, exclude], :confirm => 'Are you sure?', :method => :delete %>)</li>
   <% end %>
 </ul>
+</section>
+<section>
 <h3>Add exclude</h3>
 <% @exclude = @profile.excludes.build %>
 <%= render :partial => 'excludes/form' %>
@@ -33,6 +35,8 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
     <li><%=h include.path %> (<%= link_to 'Edit', edit_profile_include_path(@profile, include) %> | <%= link_to 'Destroy', [@profile, include], :confirm => 'Are you sure?', :method => :delete %>)</li>
   <% end %>
 </ul>
+</section>
+<section>
 <h3>Add include</h3>
 <% @include = @profile.includes.build %>
 <%= render :partial => 'includes/form' %>
@@ -46,6 +50,8 @@ These are the settings of the <b><%=h @profile.name %></b> profile. Using profil
     <li><%=h split.path %> (<%= link_to 'Edit', edit_profile_split_path(@profile, split) %> | <%= link_to 'Destroy', [@profile, split], :confirm => 'Are you sure?', :method => :delete %>)</li>
   <% end %>
 </ul>
+</section>
+<section>
 <h3>Add split</h3>
 <% @split = @profile.splits.build %>
 <%= render :partial => 'splits/form' %>

@@ -24,7 +24,7 @@ ul {
 header.site_header {
 	background-color: #002339;
 	margin: 0;
-	padding: 0.5em 1em 0 1em;
+	padding: 0.5em .8em 0 .8em;
   border-radius: 1em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
@@ -61,7 +61,7 @@ header.secondary {
   width: 94%;
   color: #fff;
   background-color: #004353;
-  padding: 0.7em;
+  padding: 0.5em;
   margin: auto;
   font-size: 1.6em;
   border-radius: 1em;
@@ -106,7 +106,7 @@ ul#display-inline-block li.right {
 
 header.secondary h1 {
   display: inline;
-  font-size: 1em;
+  font-size: .8em;
   margin-left: .7em;
 }
 
@@ -214,16 +214,18 @@ header.secondary a {
 /** Footer */
 footer {
 	clear: both;
-	padding: 1em;
+	padding: 1em 0 0 0;
 	color: #002339;
 	font-size: 0.8em;
-	margin-top: 1em;
 	background: #fff;
 	text-align: center;
 	border-radius: 1em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
   border: 1px solid #000;
+  width: 50%;
+  margin: auto;
+  margin-top: 1em;
 }
 footer a:link {
 	color: #002339;
@@ -232,6 +234,16 @@ footer a:link {
 footer a:hover {
 	color: #002339;
 	font-size: 1em;
+}
+
+footer ul {
+  list-style-type: none;
+  display: inline;
+}
+
+footer ul li {
+  display: inline;
+  margin: 1em 0 1em 1em;
 }
 
 #toplinks {
@@ -348,7 +360,7 @@ background-color: #8dbdd8;
 
 nav {
   margin: auto;
-	padding: 0.5em 1em 0 1em;
+	padding: 0 1em 0 1em;
 	text-align: center;
 }
 nav ul {
@@ -376,8 +388,8 @@ nav a:link, nav  a:visited {
 }
 
 section h3 {
-  font-size: 1.5em;
-  margin: -.7em 0 0 0;
+  font-size: 1em;
+  margin: -1em 0 0 0;
   background-color: #002339;
   padding: .3em;
   text-align: center;

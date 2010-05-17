@@ -13,6 +13,8 @@ class Server < ActiveRecord::Base
   has_many :problems, :include => :backup_server
   has_many :backup_jobs, :include => :backup_server
   belongs_to :backup_server
+  
+  default_scope :include => [:profiles, :backup_jobs]
 
   def after_initialize 
     return unless new_record?

@@ -8,6 +8,7 @@ class BackupServer < ActiveRecord::Base
   
   attr_accessor :in_subnet
   
+  default_scope :include => [:servers]
   
   def self.user_missing
     self.all.select { | b | b.user.nil? }

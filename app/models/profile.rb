@@ -6,4 +6,6 @@ class Profile < ActiveRecord::Base
   has_many :splits, :dependent => :destroy
   has_many :profilizations, :dependent => :destroy
   has_many :servers, :through => :profilizations
+  
+  default_scope :include => [:excludes, :includes, :splits]
 end

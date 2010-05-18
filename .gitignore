@@ -1,4 +1,5 @@
 log/*.log
+*.rbc
 tmp
 config/database.yml
 db/*.sqlite3

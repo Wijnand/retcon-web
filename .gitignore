@@ -6,4 +6,4 @@ db/*.sqlite3
 db/schema.rb
 config/nanite/*.yml
 public/javascripts/all.js
-public/javascripts/all.css
+public/stylesheets/all.css

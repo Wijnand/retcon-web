@@ -11,8 +11,8 @@ class ServersController < ApplicationController
    else   
       respond_to do |format|
         format.html # index.html.erb
-        format.xml  { render :xml => @servers }
-        format.json { render :json => @servers}
+        format.xml  { render :xml => @servers.to_xml( :include => [:backup_jobs]) }
+        format.json { render :json => @servers.to_json(:include => [:backup_jobs])}
       end
     end
   end

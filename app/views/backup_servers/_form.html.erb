@@ -4,5 +4,5 @@
     <%= f.input :zpool if @backup_server.zpool.blank? %>
     <%= f.input :max_backups, :label => 'Max concurrent backups', :hint => 'If you enable too much backups run longer and are more likely to fail' %>
   <% end %>
-  <%= f.buttons %>
+  <button type=submit>Save</button>
 <% end %>

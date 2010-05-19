@@ -1,9 +1,9 @@
 <% content_for :header do %>
   Edit
 <% end %>
+<section>
 <h3>Edit server <%= @server %></h3>
 <% add_action 'Show', @server %>
 <% add_action 'Add', new_server_path %>
-<section>
 <%= render :partial => 'form' %>
 </section>

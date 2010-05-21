@@ -389,6 +389,10 @@ nav ul li.active, nav ul li:hover {
   transition:background-color 0.5s linear;
 }
 
+nav ul li a {
+  display: inline-block;
+  width: 100%;
+}
 nav a:link, nav  a:visited {
   color: #fff;
   font-size: 1.2em;

@@ -36,7 +36,6 @@ header.site_header h1 a{
 header.site_header h1:hover, header.site_header a:hover{
 	font-weight: normal;
 	color: #fff;
-	background-color: #002339;
 }
 header.site_header h1 span {
 	font-size: 0.6em;
@@ -371,15 +370,23 @@ nav ul li {
   display: inline-block;
   margin: 0.5em 0.5em 0 0.5em;
   padding: 0.9 0.5 0 0.5em;
-  background: #004353;
+  background-color: #004353;
   width: 15%;
   border-radius: 1em 1em 0 0;
   -webkit-border-radius: 1em 1em 0 0;
   -moz-border-radius: 1em 1em 0 0;
+  -webkit-transition:background-color 0.5s linear;
+  -moz-transition:background-color 0.5s linear;
+  -o-transition:background-color 0.5s linear;
+  transition:background-color 0.5s linear;
 }
 
-nav ul li.active {
+nav ul li.active, nav ul li:hover {
   background-color: #007883;
+  -webkit-transition:background-color 0.5s linear;
+  -moz-transition:background-color 0.5s linear;
+  -o-transition:background-color 0.5s linear;
+  transition:background-color 0.5s linear;
 }
 
 nav a:link, nav  a:visited {

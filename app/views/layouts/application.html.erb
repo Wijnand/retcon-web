@@ -36,7 +36,7 @@
         <li class="lineitem">
           <h1><%= yield_or_default yield(:header), "Use 'content_for :header do; end' in your view to set this title" %></h1>
         </li>
-        <li class="lineitem right"
+        <li class="lineitem right">
           <%= yield(:search) %><%= yield(:sidebar) %>
         </li>
       </ul>

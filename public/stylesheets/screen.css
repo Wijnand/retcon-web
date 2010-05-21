@@ -14,7 +14,7 @@ a:link, a:visited, a:hover {
 	color: #002339;
 }
 input {
-	font-size: 1.1em;
+	font-size: 1.2em;
 }
 ul {
 	padding-left: 2em;
@@ -400,16 +400,15 @@ section h3 {
 }
 
 input, textarea {  
-    padding: 9px;  
+    padding: 4px;  
     border: solid 1px #E5E5E5;  
     outline: 0;  
-    font: normal 13px/100% Verdana, Tahoma, sans-serif;  
-    background: #FFFFFF url('bg_form.png') left top repeat-x;  
-    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));  
-    background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);  
-    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
-    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
-    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
+    background: #EEEEEE url('bg_form.png') left top repeat-x;  
+    background: -webkit-gradient(linear, left top, left 25, from(#EEEEEE), color-stop(4%, #DDDDDD), to(#EEEEEE));  
+    background: -moz-linear-gradient(top, #EEEEEE, #DDDDDD 1px, #EEEEEE 25px);  
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 3px;  
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 3px;  
+    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 3px;  
     }  
   
 textarea {  
@@ -422,9 +421,16 @@ textarea {
 input:hover, textarea:hover,  
 input:focus, textarea:focus {  
     border-color: #C9C9C9;  
-    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;  
+    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 3px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 3px;
     }
-    
+
+input[type=hidden] {
+  visibility: none;
+  border: 0;
+  padding: 0;
+}
 label {
   color: #444;
 }
@@ -436,12 +442,16 @@ button {
   background: #002339;
   border: 0;
   font-size: 14px;
-  color: #FFFFFF;
+  color: #EEEEEE;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 
 button:hover {
-  background: #007883;
+  background-color: #007883;
+  -webkit-transition:background-color 0.5s linear;
+  -moz-transition:background-color 0.5s linear;
+  -o-transition:background-color 0.5s linear;
+  transition:background-color 0.5s linear;
 }

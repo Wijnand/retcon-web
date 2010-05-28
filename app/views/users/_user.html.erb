@@ -7,5 +7,5 @@
     <%= f.input :roles, :as => :check_boxes, :collection => Role.all %>
     <%= f.input :backup_server, :hint => 'This user is used by this backup server for API connections. You should also set the role to agent', :include_blank => true %>
   <% end %>
-  <%= f.buttons %>   
+  <button type='submit'>Save</button>
 <% end %>

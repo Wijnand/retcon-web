@@ -36,9 +36,11 @@ describe BackupJob do
     j.rsyncs.size.should == 0
   end
   
-  it "should have a class method to convert exit statusses to a string representation" do
+  it "should have a method to convert exit statusses to a string representation" do
     job = Factory(:backup_job)
     job.code_to_success(0).should == 'OK'
+    job.code_to_success(12, 'rsync: Command not found').should == 'FAIL'
+    job.code_to_success(12, 'rsync: connection unexpectedly closed (0 bytes received so far)').should == 'FAIL'
     job.code_to_success(25).should == 'PARTIAL'
   end
   

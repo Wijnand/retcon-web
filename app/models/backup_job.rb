@@ -82,8 +82,12 @@ class BackupJob < ActiveRecord::Base
     end.flatten.join('!RSYNC!')
   end
   
-  def code_to_success(num)
+  def code_to_success(num, output='')
     return "OK" if [0,24].include?(num)
+    return "FAIL" if Regexp.new(/Command not found/).match(output)
+    if match = Regexp.new(/\((\d+) bytes received so far\)/).match(output)
+      return "FAIL" if match[1].to_i == 0
+    end
     return "PARTIAL"
   end
   
@@ -138,7 +142,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def after_main_rsync(command)
-    self.status = code_to_success(command.exitstatus)
+    self.status = code_to_success(command.exitstatus, command.output)
     save
     run_split_rsyncs
   end

@@ -40,6 +40,7 @@ describe BackupJob do
     job = Factory(:backup_job)
     job.code_to_success(0).should == 'OK'
     job.code_to_success(12, 'rsync: Command not found').should == 'FAIL'
+    job.code_to_success(127).should == 'FAIL'
     job.code_to_success(12, 'rsync: connection unexpectedly closed (0 bytes received so far)').should == 'FAIL'
     job.code_to_success(25).should == 'PARTIAL'
   end

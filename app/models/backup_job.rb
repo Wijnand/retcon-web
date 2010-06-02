@@ -84,6 +84,7 @@ class BackupJob < ActiveRecord::Base
   
   def code_to_success(num, output='')
     return "OK" if [0,24].include?(num)
+    return "FAIL" if [127].include?(num)
     return "FAIL" if Regexp.new(/Command not found/).match(output)
     if match = Regexp.new(/\((\d+) bytes received so far\)/).match(output)
       return "FAIL" if match[1].to_i == 0

@@ -1,15 +1,13 @@
 class BackupServer < ActiveRecord::Base
-  has_many :servers, :include => [:backup_jobs, :problems]
-  has_many :backup_jobs, :include => :server, :dependent => :destroy
-  has_many :problems, :include => :server, :dependent => :destroy
+  has_many :servers
+  has_many :backup_jobs, :dependent => :destroy
+  has_many :problems, :dependent => :destroy
   has_one :user
       
   validates_presence_of :hostname, :zpool, :max_backups
   
   attr_accessor :in_subnet
-  
-  default_scope :include => [:servers]
-  
+    
   def self.user_missing
     self.all.select { | b | b.user.nil? }
   end

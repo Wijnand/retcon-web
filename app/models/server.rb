@@ -10,12 +10,10 @@ class Server < ActiveRecord::Base
   
   has_many :profilizations
   has_many :profiles, :through => :profilizations
-  has_many :problems, :include => :backup_server
-  has_many :backup_jobs, :include => :backup_server
+  has_many :problems
+  has_many :backup_jobs
   belongs_to :backup_server
   
-  default_scope :include => [:profiles, :backup_jobs]
-
   def after_initialize 
     return unless new_record?
     self.ssh_port = 22

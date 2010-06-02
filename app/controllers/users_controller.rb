@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
   
   def index
-    @users = User.find(:all, :order => 'username')
+    @users = User.find(:all, :order => 'username', :include => [:backup_server])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }

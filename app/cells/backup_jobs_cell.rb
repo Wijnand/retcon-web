@@ -12,7 +12,7 @@ class BackupJobsCell < Cell::Base
   end
   
   def queued
-    @backup_jobs = BackupJob.queued(:include => [:servers])
+    @backup_jobs = BackupJob.queued
     render
   end
 end

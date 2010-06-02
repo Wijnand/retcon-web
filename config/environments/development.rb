@@ -15,3 +15,21 @@ config.action_controller.perform_caching             = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
+
+begin
+  require 'bullet'
+  config.after_initialize do
+    Bullet.enable = true 
+    Bullet.alert = false
+    Bullet.bullet_logger = false  
+    Bullet.console = true
+    begin
+      require 'ruby-growl'
+      Bullet.growl = true
+    rescue MissingSourceFile
+    end  
+    Bullet.rails_logger = true
+    Bullet.disable_browser_cache = true
+  end
+rescue MissingSourceFile
+end

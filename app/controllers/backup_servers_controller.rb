@@ -15,7 +15,7 @@ class BackupServersController < ApplicationController
   # GET /backup_servers/1
   # GET /backup_servers/1.xml
   def show
-    @backup_server = BackupServer.find(params[:id], :include => [:backup_jobs, :problems])
+    @backup_server = BackupServer.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

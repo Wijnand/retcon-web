@@ -12,7 +12,7 @@ class Server < ActiveRecord::Base
   has_many :profiles, :through => :profilizations
   has_many :problems
   has_many :backup_jobs
-  belongs_to :backup_server
+  belongs_to :backup_server, :counter_cache => true
   
   def after_initialize 
     return unless new_record?

@@ -1,5 +1,5 @@
 class Exclude < ActiveRecord::Base
-  belongs_to :profile
+  belongs_to :profile, :counter_cache => true
   
   validates_presence_of :path, :profile_id
   

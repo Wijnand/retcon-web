@@ -3,7 +3,7 @@ class BackupServer < ActiveRecord::Base
   has_many :backup_jobs, :dependent => :destroy
   has_many :problems, :dependent => :destroy
   has_one :user
-      
+  
   validates_presence_of :hostname, :zpool, :max_backups
   
   attr_accessor :in_subnet
@@ -13,11 +13,11 @@ class BackupServer < ActiveRecord::Base
   end
 
   def latest_problems
-    problems.find(:all, :order => 'created_at DESC', :limit=>10)
+    problems.find(:all, :order => 'created_at DESC', :limit=>10, :include => [:server])
   end
   
   def latest_jobs
-    backup_jobs.find(:all, :order => 'updated_at DESC', :limit => 50)
+    backup_jobs.find(:all, :order => 'updated_at DESC', :limit => 50, :include => [:server])
   end
   
   def to_s

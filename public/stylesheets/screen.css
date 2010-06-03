@@ -25,12 +25,15 @@ header.site_header {
 	background-color: #002339;
 	margin: 0;
 	padding: 0.5em .8em 0 .8em;
-  border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -webkit-box-shadow: 10px 10px 5px #888;
-  -moz-box-shadow: 10px 10px 5px #888;
-  box-shadow: 10px 10px 5px #888;
+     -moz-border-radius: 1em;
+
+     -webkit-box-shadow: 10px 10px 5px #888;
+        -moz-box-shadow: 10px 10px 5px #888;
+          -o-box-shadow: 10px 10px 5px #888;
+             box-shadow: 10px 10px 5px #888;
 }
 header.site_header h1 a{
 	font-weight: normal;
@@ -66,12 +69,15 @@ header.secondary {
   padding: 0.5em;
   margin: auto;
   font-size: 1.6em;
-  border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -webkit-box-shadow: 10px 10px 5px #888;
-  -moz-box-shadow: 10px 10px 5px #888;
-  box-shadow: 10px 10px 5px #888;
+     -moz-border-radius: 1em;
+
+     -webkit-box-shadow: 10px 10px 5px #888;
+        -moz-box-shadow: 10px 10px 5px #888;
+          -o-box-shadow: 10px 10px 5px #888;
+             box-shadow: 10px 10px 5px #888;
 }
 
 article#main {
@@ -83,14 +89,29 @@ article#main {
 article#main section {
   padding: 1em 1.5em 1.5em;
   background-color: #fff;
-  border-radius: 1em;
-  border: 1px solid #000;
   margin-top: 1em;
+  border: 1px solid #000;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
+     -moz-border-radius: 1em;
+
+  -webkit-transition:-webkit-box-shadow 0.3s linear;
+        -moz-transition:-moz-box-shadow 0.3s linear;
+            -o-transition:-o-box-shadow 0.3s linear;
+                  transition:box-shadow 0.3s linear;
+}
+
+article#main section:hover {
   -webkit-box-shadow: 10px 10px 5px #888;
-  -moz-box-shadow: 10px 10px 5px #888;
-  box-shadow: 10px 10px 5px #888;
+     -moz-box-shadow: 10px 10px 5px #888;
+       -o-box-shadow: 10px 10px 5px #888;
+          box-shadow: 10px 10px 5px #888;
+
+  -webkit-transition:-webkit-box-shadow 0.3s linear;
+        -moz-transition:-moz-box-shadow 0.3s linear;
+            -o-transition:-o-box-shadow 0.3s linear;
+                  transition:box-shadow 0.3s linear;
 }
 
 ul#display-inline-block, ul#display-inline-block li.lineitem {
@@ -136,9 +157,10 @@ header.secondary form, header.secondary form input {
 }
 
 header.secondary form input {
-	border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
+     -moz-border-radius: 1em;
 }
 
 header.secondary form input:focus {
@@ -158,9 +180,10 @@ header.secondary a {
 	font-weight: bold;
   margin-top: 1em;
   border: 1px solid #000;
-  border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
+     -moz-border-radius: 1em;
 }
 #error {
 	color: #9f1d20;
@@ -170,9 +193,10 @@ header.secondary a {
 	font-weight: bold;
 	margin-top: 1em;
 	border: 1px solid #000;
-	border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
+     -moz-border-radius: 1em;
 }
 #warning {
 	color: #ee9a00;
@@ -182,9 +206,10 @@ header.secondary a {
 	font-weight: bold;
 	margin-top: 1em;
 	border: 1px solid #000;
-	border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
+     -moz-border-radius: 1em;
 }
 /** Scaffold styles */
 .fieldWithErrors {
@@ -227,17 +252,19 @@ footer {
 	font-size: 0.8em;
 	background: #fff;
 	text-align: center;
-	border-radius: 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
   -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
+     -moz-border-radius: 1em;
   border: 1px solid #000;
   width: 50%;
   margin: auto;
   margin-top: 1em;
   margin-bottom: 1em;
   -webkit-box-shadow: 10px 10px 5px #888;
-  -moz-box-shadow: 10px 10px 5px #888;
-  box-shadow: 10px 10px 5px #888;
+     -moz-box-shadow: 10px 10px 5px #888;
+       -o-box-shadow: 10px 10px 5px #888;
+          box-shadow: 10px 10px 5px #888;
 }
 footer a:link {
 	color: #002339;
@@ -385,21 +412,23 @@ nav ul li {
   padding: 0.9 0.5 0 0.5em;
   background-color: #004353;
   width: 15%;
-  border-radius: 1em 1em 0 0;
-  -webkit-border-radius: 1em 1em 0 0;
-  -moz-border-radius: 1em 1em 0 0;
-  -webkit-transition:background-color 0.5s linear;
-  -moz-transition:background-color 0.5s linear;
-  -o-transition:background-color 0.5s linear;
-  transition:background-color 0.5s linear;
+          border-radius: 1em;
+       -o-border-radius: 1em;
+  -webkit-border-radius: 1em;
+     -moz-border-radius: 1em;
+
+ -webkit-transition:-webkit-background-color 0.5s linear;
+       -moz-transition:-moz-background-color 0.5s linear;
+           -o-transition:-o-background-color 0.5s linear;
+                 transition:background-color 0.5s linear;
 }
 
 nav ul li.active, nav ul li:hover {
   background-color: #007883;
-  -webkit-transition:background-color 0.5s linear;
-  -moz-transition:background-color 0.5s linear;
-  -o-transition:background-color 0.5s linear;
-  transition:background-color 0.5s linear;
+   -webkit-transition:-webkit-background-color 0.5s linear;
+         -moz-transition:-moz-background-color 0.5s linear;
+             -o-transition:-o-background-color 0.5s linear;
+                   transition:background-color 0.5s linear;
 }
 
 nav ul li a {
@@ -418,9 +447,10 @@ section h3 {
   padding: .3em;
   text-align: center;
   color: white;
-  border-radius: 0 0 1em 1em;
-  -webkit-border-radius: 0 0 1em 1em;
-  -moz-border-radius: 0 0 1em 1em;
+          border-radius: 1em;
+       -o-border-radius: 1em;
+  -webkit-border-radius: 1em;
+     -moz-border-radius: 1em;
 }
 
 input, textarea {  
@@ -430,9 +460,10 @@ input, textarea {
     background: #EEEEEE url('bg_form.png') left top repeat-x;  
     background: -webkit-gradient(linear, left top, left 25, from(#EEEEEE), color-stop(4%, #DDDDDD), to(#EEEEEE));  
     background: -moz-linear-gradient(top, #EEEEEE, #DDDDDD 1px, #EEEEEE 25px);  
-    box-shadow: rgba(0,0,0, 0.1) 0px 0px 3px;  
-    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 3px;  
-    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 3px;  
+    -webkit-box-shadow: 10px 10px 5px #888;
+       -moz-box-shadow: 10px 10px 5px #888;
+         -o-box-shadow: 10px 10px 5px #888;
+            box-shadow: 10px 10px 5px #888;
     }  
   
 textarea {  
@@ -445,9 +476,10 @@ textarea {
 input:hover, textarea:hover,  
 input:focus, textarea:focus {  
     border-color: #C9C9C9;  
-    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 3px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 3px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 3px;
+    -webkit-box-shadow: 10px 10px 5px #888;
+       -moz-box-shadow: 10px 10px 5px #888;
+         -o-box-shadow: 10px 10px 5px #888;
+            box-shadow: 10px 10px 5px #888;
     }
 
 input[type=hidden] {
@@ -467,15 +499,16 @@ button {
   border: 0;
   font-size: 14px;
   color: #EEEEEE;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
+          border-radius: 1em;
+       -o-border-radius: 1em;
+  -webkit-border-radius: 1em;
+     -moz-border-radius: 1em;
 }
 
 button:hover {
   background-color: #007883;
-  -webkit-transition:background-color 0.5s linear;
-  -moz-transition:background-color 0.5s linear;
-  -o-transition:background-color 0.5s linear;
-  transition:background-color 0.5s linear;
+   -webkit-transition:-webkit-background-color 0.5s linear;
+         -moz-transition:-moz-background-color 0.5s linear;
+             -o-transition:-o-background-color 0.5s linear;
+                   transition:background-color 0.5s linear;
 }

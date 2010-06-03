@@ -417,18 +417,18 @@ nav ul li {
   -webkit-border-radius: 1em;
      -moz-border-radius: 1em;
 
- -webkit-transition:-webkit-background-color 0.5s linear;
-       -moz-transition:-moz-background-color 0.5s linear;
-           -o-transition:-o-background-color 0.5s linear;
-                 transition:background-color 0.5s linear;
+   -webkit-transition:background-color 0.5s linear;
+      -moz-transition:background-color 0.5s linear;
+        -o-transition:background-color 0.5s linear;
+           transition:background-color 0.5s linear;
 }
 
 nav ul li.active, nav ul li:hover {
   background-color: #007883;
-   -webkit-transition:-webkit-background-color 0.5s linear;
-         -moz-transition:-moz-background-color 0.5s linear;
-             -o-transition:-o-background-color 0.5s linear;
-                   transition:background-color 0.5s linear;
+   -webkit-transition:background-color 0.5s linear;
+      -moz-transition:background-color 0.5s linear;
+        -o-transition:background-color 0.5s linear;
+           transition:background-color 0.5s linear;
 }
 
 nav ul li a {
@@ -460,10 +460,6 @@ input, textarea {
     background: #EEEEEE url('bg_form.png') left top repeat-x;  
     background: -webkit-gradient(linear, left top, left 25, from(#EEEEEE), color-stop(4%, #DDDDDD), to(#EEEEEE));  
     background: -moz-linear-gradient(top, #EEEEEE, #DDDDDD 1px, #EEEEEE 25px);  
-    -webkit-box-shadow: 10px 10px 5px #888;
-       -moz-box-shadow: 10px 10px 5px #888;
-         -o-box-shadow: 10px 10px 5px #888;
-            box-shadow: 10px 10px 5px #888;
     }  
   
 textarea {  
@@ -476,10 +472,6 @@ textarea {
 input:hover, textarea:hover,  
 input:focus, textarea:focus {  
     border-color: #C9C9C9;  
-    -webkit-box-shadow: 10px 10px 5px #888;
-       -moz-box-shadow: 10px 10px 5px #888;
-         -o-box-shadow: 10px 10px 5px #888;
-            box-shadow: 10px 10px 5px #888;
     }
 
 input[type=hidden] {
@@ -503,12 +495,16 @@ button {
        -o-border-radius: 1em;
   -webkit-border-radius: 1em;
      -moz-border-radius: 1em;
+ -webkit-transition:background-color 0.5s linear;
+    -moz-transition:background-color 0.5s linear;
+      -o-transition:background-color 0.5s linear;
+         transition:background-color 0.5s linear;
 }
 
 button:hover {
   background-color: #007883;
-   -webkit-transition:-webkit-background-color 0.5s linear;
-         -moz-transition:-moz-background-color 0.5s linear;
-             -o-transition:-o-background-color 0.5s linear;
-                   transition:background-color 0.5s linear;
+  -webkit-transition:background-color 0.5s linear;
+     -moz-transition:background-color 0.5s linear;
+       -o-transition:background-color 0.5s linear;
+          transition:background-color 0.5s linear;
 }

@@ -18,7 +18,7 @@
 <tr>
   <td><%=h @backup_server.zpool %></td>
   <td><%=h @backup_server.max_backups %></td>
-  <td><%=number_to_human_size @backup_server.disk_free %></td>
+  <td><%= @backup_server.disk_free %></td>
   <td><%=h @backup_server.servers.size %></td>
   <td><%=h @backup_server.running_backups.size %></td>
 </tr>

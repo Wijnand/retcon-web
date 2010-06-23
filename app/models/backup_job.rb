@@ -1,5 +1,5 @@
 class BackupJob < ActiveRecord::Base
-  belongs_to :server, :counter_cache => true
+  belongs_to :server
   belongs_to :backup_server
   has_many :commands, :dependent => :destroy
   

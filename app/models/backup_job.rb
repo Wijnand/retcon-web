@@ -99,7 +99,7 @@ class BackupJob < ActiveRecord::Base
   
   def wakeup
     last = commands.last
-    if last.exitstatus
+    if last && last.exitstatus
       run_callback(last)
     end
   end

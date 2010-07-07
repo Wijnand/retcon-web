@@ -29,11 +29,6 @@ header.site_header {
        -o-border-radius: .8em;
   -webkit-border-radius: .8em;
      -moz-border-radius: .8em;
-
-     -webkit-box-shadow: 10px 10px 5px #888;
-        -moz-box-shadow: 10px 10px 5px #888;
-          -o-box-shadow: 10px 10px 5px #888;
-             box-shadow: 10px 10px 5px #888;
 }
 header.site_header h1 a{
   font-weight: normal;
@@ -73,11 +68,6 @@ header.secondary {
        -o-border-radius: .8em;
   -webkit-border-radius: .8em;
      -moz-border-radius: .8em;
-
-     -webkit-box-shadow: 10px 10px 5px #888;
-        -moz-box-shadow: 10px 10px 5px #888;
-          -o-box-shadow: 10px 10px 5px #888;
-             box-shadow: 10px 10px 5px #888;
 }
 
 article#main {
@@ -244,10 +234,6 @@ footer {
   margin: auto;
   margin-top: 1em;
   margin-bottom: 1em;
-  -webkit-box-shadow: 10px 10px 5px #888;
-     -moz-box-shadow: 10px 10px 5px #888;
-       -o-box-shadow: 10px 10px 5px #888;
-          box-shadow: 10px 10px 5px #888;
 }
 footer a:link {
   color: #002339;

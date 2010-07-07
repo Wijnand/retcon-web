@@ -95,14 +95,14 @@ padding: 0;
 
 ul#display-inline-block li.lineitem {
 display: inline-block;
-width: 28%;
+width: 38%;
 vertical-align: center;
 height: 1em;
 }
 
 ul#display-inline-block li.right {
   text-align: right;
-  width: 70%;
+  width: 60%;
   font-size: 1.2em;
 }
 

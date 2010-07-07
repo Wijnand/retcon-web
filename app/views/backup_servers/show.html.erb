@@ -44,9 +44,9 @@
   <tr>
 	<td><%= link_to job.id, job %></td>
     <td><%=link_to h(job.server.hostname), job.server %></td>
-    <td><%=h job.display_status %></td>
-    <td><%=h (job.started || job.updated_at) %></td>
-    <td><%= distance_of_time_in_words((job.started || job.updated_at), job.updated_at )%></td>
+    <td><%=job.display_status %></td>
+    <td><%=(job.started || job.updated_at) %></td>
+    <td><%=display_backup_duration(job)%></td>
   </tr>
   </tbody>
 <% end %>

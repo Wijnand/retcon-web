@@ -16,8 +16,8 @@
       <td><%=link_to h(job.id), job %></td>
       <td><%=link_to h(job.server), job.server %></td>
       <td><%=link_to h(job.backup_server), job.backup_server %></td>
-      <td><%=h (job.started || job.updated_at) %></td>
-      <td><%=h time_ago_in_words(job.started || job.updated_at) %></td>
+      <td><%=(job.started || job.updated_at) %></td>
+      <td><%=display_backup_duration(job) %></td>
     </tr>
   <% end %>
   </tbody>

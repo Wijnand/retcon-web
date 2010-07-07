@@ -8,10 +8,10 @@ class Server < ActiveRecord::Base
          :message => 'Should be a valid hour! Ranging from 0 to 23',
          :unless => Proc.new { |server| server.window_stop.blank?  }
   
-  has_many :profilizations
+  has_many :profilizations, :dependent => :destroy
   has_many :profiles, :through => :profilizations
-  has_many :problems
-  has_many :backup_jobs
+  has_many :problems, :dependent => :destroy
+  has_many :backup_jobs, :dependent => :destroy
   belongs_to :backup_server
   
   def after_initialize 

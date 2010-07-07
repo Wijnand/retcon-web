@@ -381,10 +381,10 @@ nav ul li {
   padding: 0.9 0.5 0 0.5em;
   background-color: #004353;
   width: 15%;
-          border-radius: .8em;
-       -o-border-radius: .8em;
-  -webkit-border-radius: .8em;
-     -moz-border-radius: .8em;
+          border-radius: .8em  .8em 0 0;
+       -o-border-radius: .8em  .8em 0 0;
+  -webkit-border-radius: .8em  .8em 0 0;
+     -moz-border-radius: .8em  .8em 0 0;
 
    -webkit-transition:background-color 0.5s linear;
       -moz-transition:background-color 0.5s linear;
@@ -416,10 +416,10 @@ section h3 {
   padding: .3em;
   text-align: center;
   color: white;
-          border-radius: .8em;
-       -o-border-radius: .8em;
-  -webkit-border-radius: .8em;
-     -moz-border-radius: .8em;
+          border-radius: 0 0 .8em .8em;
+       -o-border-radius: 0 0 .8em .8em;
+  -webkit-border-radius: 0 0 .8em .8em;
+     -moz-border-radius: 0 0 .8em .8em;
 }
 
 input, textarea {  

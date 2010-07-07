@@ -95,23 +95,6 @@ article#main section {
        -o-border-radius: 1em;
   -webkit-border-radius: 1em;
      -moz-border-radius: 1em;
-
-  -webkit-transition:-webkit-box-shadow 0.3s linear;
-        -moz-transition:-moz-box-shadow 0.3s linear;
-            -o-transition:-o-box-shadow 0.3s linear;
-                  transition:box-shadow 0.3s linear;
-}
-
-article#main section:hover {
-  -webkit-box-shadow: 10px 10px 5px #888;
-     -moz-box-shadow: 10px 10px 5px #888;
-       -o-box-shadow: 10px 10px 5px #888;
-          box-shadow: 10px 10px 5px #888;
-
-  -webkit-transition:-webkit-box-shadow 0.3s linear;
-        -moz-transition:-moz-box-shadow 0.3s linear;
-            -o-transition:-o-box-shadow 0.3s linear;
-                  transition:box-shadow 0.3s linear;
 }
 
 ul#display-inline-block, ul#display-inline-block li.lineitem {

@@ -200,6 +200,18 @@ describe BackupJob do
     job.rsyncs.size.should == 0
   end
   
+  it "should not snapshot when the main rsync failed" do
+    job = Factory(:backup_job, :status => 'FAIL')
+    job.stub(:get_rsyncs).and_return('0!RSYNC!1')
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 1
+    job.run_split_rsyncs
+    job.rsyncs.size.should == 0
+    job.should_not_receive(:do_snapshot)
+    job.run_split_rsyncs
+    job.finished.should == true
+  end
+  
   it "should cleanup after the snapshot" do
     job = Factory(:backup_job)
     command = Factory(:command, :exitstatus => 0)

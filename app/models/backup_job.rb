@@ -152,7 +152,11 @@ class BackupJob < ActiveRecord::Base
     if rsync = get_first_rsync
       run_command(rsync, "split_rsync")
     else
-      do_snapshot
+      if self.status == 'FAIL'
+        finish
+      else
+        do_snapshot
+      end
     end
   end
   

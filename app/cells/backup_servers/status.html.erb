@@ -18,5 +18,12 @@
       <td><%=h backup_server.disk_free %></td>
     </tr>
   <% end %>
+  <tr>
+    <td>Total</td>
+    <td><%= @backup_servers.map{|b|b.servers.count}.sum %></td>
+    <td><%= @backup_servers.map{|b|b.running_backups.count}.sum %></td>
+    <td><%= @backup_servers.map{|b|b.queued_backups.count}.sum %></td>
+    <td>&nbsp;</td>
+  </tr>
   </tbody>
 </table>

@@ -206,7 +206,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def after_get_snapshots(command)
-    snapshots = command.output.split(/\n/).join(',')
+    snapshots = command.output.split(/\n/).join(',') rescue ''
     self.server.snapshots = snapshots
     self.server.save
     run_command("/sbin/zfs get -Hp used #{self.fs} | /usr/gnu/bin/awk '{print $3}'", "diskusage")

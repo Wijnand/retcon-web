@@ -4,6 +4,7 @@
     <th>Backup Server</th>
     <th>Number of servers</th>
     <th>Running backups</th>
+    <th>Queued backups</th>
     <th>Disk Free</th>
   </tr>
   </thead>
@@ -13,6 +14,7 @@
       <td><%=link_to h( backup_server.hostname), backup_server %></td>
       <td><%=  backup_server.servers.count %></td>
       <td><%=  backup_server.running_backups.count %></td>
+      <td><%=  backup_server.queued_backups.count %></td>
       <td><%=h backup_server.disk_free %></td>
     </tr>
   <% end %>

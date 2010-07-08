@@ -13,6 +13,7 @@ class Server < ActiveRecord::Base
   has_many :problems, :dependent => :destroy
   has_many :backup_jobs, :dependent => :destroy
   belongs_to :backup_server
+  before_save :sanitize_inputs
   
   def after_initialize 
     return unless new_record?
@@ -143,5 +144,11 @@ class Server < ActiveRecord::Base
     backup_jobs.find(:all, :order => 'created_at DESC', :offset => offset, :limit => count).each do | job |
       job.destroy
     end
+  end
+  
+  def sanitize_inputs
+    self.hostname.gsub!(/\s/,'')
+    self.connect_to.gsub!(/\s/,'')
+    self.path.gsub!(/\s/,'')
   end
 end

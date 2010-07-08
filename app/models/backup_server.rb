@@ -5,6 +5,7 @@ class BackupServer < ActiveRecord::Base
   has_one :user
   
   validates_presence_of :hostname, :zpool, :max_backups
+  before_save :sanitize_inputs
   
   attr_accessor :in_subnet
     
@@ -58,4 +59,8 @@ class BackupServer < ActiveRecord::Base
     end
   end
 
+  def sanitize_inputs
+    self.hostname.gsub!(/\s/,'')
+    self.zpool.gsub!(/\s/,'')
+  end
 end

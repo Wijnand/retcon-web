@@ -50,24 +50,7 @@
 
 <section>
 <h3>Commands and results</h3>
-<table class="index commands sortable commandstable">
-  <thead>
-  <tr>
-  <th>&nbsp;</th>
-	<th>When</th>
-	<th>Exit status</th>
-	<th>Label</th>
-  </tr>
-  </thead>
-  <tbody>
-<% @backup_job.commands.all(:order => 'created_at ASC').each do | command | %>
-  <tr>
-  <td><%= link_to 'Show', command %></td>
-	<td><%= command.created_at %></td>
-	<td><%= h command.exitstatus %></td>
-	<td><%= h command.label %></th>
-  </tr>
-  </tbody>
+<%- @backup_job.commands.all(:order => 'created_at ASC').each do | command | %>
+  <%= render :partial => 'commands/command', :locals => { :command => command } %>
 <% end %>
-</table>
 </section>

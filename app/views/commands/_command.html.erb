@@ -1,0 +1,45 @@
+<div class="toggle" style="border: 1px solid #000; padding: .8em">
+<table class="index sortable">
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Label</td>
+      <td>Exit status</td>
+      <td>Started</td>
+      <td>Finished</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= command.id %></td>
+      <td><%= command.label %></td>
+      <td><%= command.exitstatus || 'Still running' %></td>
+      <td><%= command.created_at %></td>
+      <td><%= command.updated_at %></td>
+    </tr>
+  </tbody>
+</table>
+<%- style = (command.exitstatus != 0 || command.exitstatus.blank?) ? 'block' : 'none' %>
+<table class="index sortable togglable" style="display: <%= style -%>">
+  <thead>
+    <tr><td>Command</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= command.command %></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="index sortable togglable" style="display: <%= style -%>">
+  <thead>
+    <tr><td>Output</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= command.output %></td>
+    </tr>
+  </tbody>
+</table>
+
+</div>

@@ -148,7 +148,7 @@ class Server < ActiveRecord::Base
   
   def sanitize_inputs
     self.hostname.gsub!(/\s/,'')
-    self.connect_to.gsub!(/\s/,'')
+    self.connect_to.gsub!(/\s/,'') unless connect_to.blank?
     self.path.gsub!(/\s/,'')
   end
 end

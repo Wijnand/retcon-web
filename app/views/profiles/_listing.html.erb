@@ -2,6 +2,7 @@
   <thead>
   <tr>
     <th>Name</th>
+    <th>Used by</th>
     <th>Excludes</th>
     <th>Includes</th>
     <th>Splits</th>
@@ -11,6 +12,7 @@
 <% @profiles.each do |profile| %>
   <tr>
     <td><%= link_to h(profile.name), profile %></td>
+    <td><%= profile.servers.count %></td>
     <td><%= profile.excludes.size %></td>
     <td><%= profile.includes.size %></td>
     <td><%= profile.splits.size %></td>

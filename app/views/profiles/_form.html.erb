@@ -3,6 +3,7 @@
   <% f.inputs do %>
     <% f.inputs :name => "General", :class => 'separator' do %>
      <%= f.input :name %>
+     <%= f.input :exclusive, :as => :hidden %>
     <% end %>
     <% f.inputs :name => "Apply to", :class => 'separator' do %>
     <form action="#">

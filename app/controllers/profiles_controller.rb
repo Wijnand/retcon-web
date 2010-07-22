@@ -31,7 +31,7 @@ class ProfilesController < ApplicationController
   # GET /profiles/new
   # GET /profiles/new.xml
   def new
-    @profile = Profile.new
+    @profile = Profile.new(:exclusive => false)
 
     respond_to do |format|
       format.html # new.html.erb

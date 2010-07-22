@@ -8,11 +8,11 @@ class SplitsController < ApplicationController
     respond_to do |format|
       if @split.save
         flash[:notice] = 'Split was successfully added.'
-        format.html { redirect_to(@profile) }
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @split, :status => :created, :location => @profile }
       else
         flash[:error] = 'Split was not valid.'
-        format.html { redirect_to @profile}
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @split.errors, :status => :unprocessable_entity }
       end
     end
@@ -30,11 +30,11 @@ class SplitsController < ApplicationController
     respond_to do |format|
       if @split.update_attributes(params[:split])
         flash[:notice] = 'Split was successfully updated.'
-        format.html { redirect_to(@profile) }
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { head :ok }
       else
         flash[:error] = 'Split was not valid.'
-        format.html { redirect_to @profile}
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @split.errors, :status => :unprocessable_entity }
       end
     end
@@ -46,7 +46,7 @@ class SplitsController < ApplicationController
     @split.destroy
 
     respond_to do |format|
-      format.html { redirect_to(@profile) }
+      format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
       format.xml  { head :ok }
     end
   end

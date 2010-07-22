@@ -8,11 +8,11 @@ class IncludesController < ApplicationController
     respond_to do |format|
       if @include.save
         flash[:notice] = 'Exclude was successfully added.'
-        format.html { redirect_to(@profile) }
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @include, :status => :created, :location => @profile }
       else
         flash[:error] = 'Exclude was not valid.'
-        format.html { redirect_to @profile}
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @include.errors, :status => :unprocessable_entity }
       end
     end
@@ -30,11 +30,11 @@ class IncludesController < ApplicationController
     respond_to do |format|
       if @include.update_attributes(params[:include])
         flash[:notice] = 'Include was successfully updated.'
-        format.html { redirect_to(@profile) }
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { head :ok }
       else
         flash[:error] = 'Include was not valid.'
-        format.html { redirect_to @profile}
+        format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @include.errors, :status => :unprocessable_entity }
       end
     end
@@ -46,7 +46,7 @@ class IncludesController < ApplicationController
     @include.destroy
 
     respond_to do |format|
-      format.html { redirect_to(@profile) }
+      format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
       format.xml  { head :ok }
     end
   end

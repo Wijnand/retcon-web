@@ -169,7 +169,7 @@ If some settings need to be done only for this server this is the right place.
 </p>
 <p><%= link_to 'Show them', {:anchor => 'local_settings' }, :class => 'toggle_settings'%></p>
 </section>
-<span class="togglable" style="display: none">
+<span class="togglable" style="display: none" id="local_settings">
 <% @profile = @server.exclusive_profile %>
 <%= render :partial => 'profiles/excludes' %>
 <%= render :partial => 'profiles/includes' %>

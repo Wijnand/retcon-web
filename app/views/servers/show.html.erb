@@ -58,12 +58,12 @@
   <%=h @server.last_backup %>
 <% end %>
 <% unless @server.backup_running? %>
-	<% form_for(@server.backup_jobs.build(:backup_server => @server.backup_server, :status => 'queued')) do |f| %>
-	    <%= f.hidden_field :backup_server_id %>
-	    <%= f.hidden_field :server_id %>
-	    <%= f.hidden_field :status %>
-	  <button type='submit'>Queue now</button>
-	<% end %>
+  <% form_for(@server.backup_jobs.build(:backup_server => @server.backup_server, :status => 'queued')) do |f| %>
+      <%= f.hidden_field :backup_server_id %>
+      <%= f.hidden_field :server_id %>
+      <%= f.hidden_field :status %>
+    <button type='submit'>Queue now</button>
+  <% end %>
 <% end %>
 </section>
 
@@ -83,9 +83,9 @@
 <tbody>
 <% @server.current_snapshots.each do | snapshot | %>
 <tr>
-	<td><%= snapshot %></td>
-	<td><%= Time.at snapshot.to_i %></td>
-	<td>/<%= @job.fs %>/.zfs/snapshot/<%= snapshot %></td>
+  <td><%= snapshot %></td>
+  <td><%= Time.at snapshot.to_i %></td>
+  <td>/<%= @job.fs %>/.zfs/snapshot/<%= snapshot %></td>
 </t>
 <% end %>
 </tbody>
@@ -138,7 +138,7 @@
 <table class="index sortable">
   <thead>
   <tr>
-	<th>Job</th>
+  <th>Job</th>
     <th>Backup server</th>
     <th>Status</th>
     <th>Job created</th>
@@ -149,7 +149,7 @@
   <tbody>
 <% @server.latest_jobs.each do | job | %>
   <tr>
-	<td><%= link_to job.id, job %></td>
+  <td><%= link_to job.id, job %></td>
     <td><%= h job.backup_server %></td>
     <td><%=h job.display_status %></td>
     <td><%=h job.created_at %></td>

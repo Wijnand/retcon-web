@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
   # GET /profiles
   # GET /profiles.xml
   def index
-    @search = Profile.search(params[:search])
+    @search = Profile.public.search(params[:search])
     @profiles = @search.find(:all, :order => 'name')
     if request.xhr?
       render :partial => 'listing'

@@ -96,7 +96,7 @@
 <section>
 <h3>Applied profiles</h3>
 <ul class="profile_list">
-<% @server.profiles.each do | profile | %>
+<% @server.profiles.public.each do | profile | %>
   <li><%= link_to h(profile.name), profile %></li>
 <% end %>
 </ul>

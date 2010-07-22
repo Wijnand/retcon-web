@@ -162,12 +162,16 @@
 </section>
 <% end %>
 <section>
+<h3>Local settings</h3>
 <p>
 These are the local settings of the <b><%=h @server.hostname %></b> server.
 If some settings need to be done only for this server this is the right place.
 </p>
+<p><%= link_to 'Show them', {:anchor => 'local_settings' }, :class => 'toggle_settings'%></p>
 </section>
+<span class="togglable" style="display: none">
 <% @profile = @server.exclusive_profile %>
 <%= render :partial => 'profiles/excludes' %>
 <%= render :partial => 'profiles/includes' %>
 <%= render :partial => 'profiles/splits' %>
+</span>

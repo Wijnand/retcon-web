@@ -15,4 +15,7 @@ $(document).ready(function() {
   $(".toggle").live('click', function(){
     $(this).find('.togglable').toggle();
   });
+  $(".toggle_settings").live('click', function(){
+    $('.togglable').toggle();
+  });
 });

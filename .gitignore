@@ -7,3 +7,5 @@ db/schema.rb
 config/nanite/*.yml
 public/javascripts/all.js
 public/stylesheets/all.css
+*.swp
+*.swo

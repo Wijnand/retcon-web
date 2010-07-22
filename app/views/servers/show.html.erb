@@ -161,3 +161,13 @@
 </table>
 </section>
 <% end %>
+<section>
+<p>
+These are the local settings of the <b><%=h @server.hostname %></b> server.
+If some settings need to be done only for this server this is the right place.
+</p>
+</section>
+<% @profile = @server.exclusive_profile %>
+<%= render :partial => 'profiles/excludes' %>
+<%= render :partial => 'profiles/includes' %>
+<%= render :partial => 'profiles/splits' %>

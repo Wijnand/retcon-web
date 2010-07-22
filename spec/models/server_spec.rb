@@ -281,4 +281,17 @@ describe Server do
     server.cleanup_old_jobs
     server.backup_jobs.size.should == 5
   end
+
+  it "should have a method that gets or creates an exclusive profile" do
+    server = Factory(:server) 
+    p1 = Factory(:profile)
+    server.profiles << p1
+    server.profiles.count.should == 1
+    p2 = server.exclusive_profile
+    p2.exclusive.should == true
+    server.profiles.length.should == 2
+    p2.save
+    p3 = server.exclusive_profile
+    p3.should === p2
+  end
 end

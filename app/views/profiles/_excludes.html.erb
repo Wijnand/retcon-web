@@ -1,0 +1,15 @@
+<section id="excludes">
+<h3>Excludes</h3>
+<p>The following directories will be excluded from the backups. Wildcards are allowed.</p>
+<ul>
+  <% @profile.excludes.each do | exclude | %>
+    <li><%=h exclude.path %> (<%= link_to 'Edit', edit_profile_exclude_path(@profile, exclude) %> | <%= link_to 'Destroy', [@profile, exclude], :confirm => 'Are you sure?', :method => :delete %>)</li>
+  <% end %>
+</ul>
+</section>
+<section>
+<h3>Add exclude</h3>
+<% @exclude = @profile.excludes.build %>
+<%= render :partial => 'excludes/form' %>
+</section>
+

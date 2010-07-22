@@ -9,12 +9,20 @@ class Server < ActiveRecord::Base
          :unless => Proc.new { |server| server.window_stop.blank?  }
   
   has_many :profilizations, :dependent => :destroy
-  has_many :profiles, :through => :profilizations
+  has_many :profiles, :through => :profilizations, :include => [:includes, :excludes, :splits]
   has_many :problems, :dependent => :destroy
   has_many :backup_jobs, :dependent => :destroy
   belongs_to :backup_server
   before_save :sanitize_inputs
-  
+
+  def exclusive_profile
+    if profile = profiles.select{|p| p.exclusive?}[0]
+      return profile
+    else
+      return profiles.create!(:name => self.hostname, :exclusive => true)
+    end
+  end
+
   def after_initialize 
     return unless new_record?
     self.ssh_port = 22

@@ -1,6 +1,15 @@
 class BackupJobsController < ApplicationController
   filter_resource_access
   
+  def index
+    @backup_jobs = BackupJob.queued
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @backup_jobs }
+      format.json  { render :json => @backup_jobs }
+    end
+  end
+
   # GET /backup_jobs/1
   # GET /backup_jobs/1.xml
   def show

@@ -12,7 +12,7 @@
       <%= f.input :keep_snapshots, :required => true, :label => 'Keep this number of snapshots' %>
       <%= f.input :window_start, :required => false, :hint => 'Integer 0-23. Window starts at 0:00 when empty.' %>
       <%= f.input :window_stop, :required => false, :hint => 'Integer 0-23. Window ends at 23:59 when empty.' %>
-      <%= f.input :profiles, :collection => Profile.find(:all, :order => 'name ASC'), :as => :check_boxes, :required => false %><br/>
+      <%= f.input :profiles, :collection => Profile.public.find(:all, :order => 'name ASC'), :as => :check_boxes, :required => false %><br/>
       <%= f.input :backup_server, :hint => "When moving to another backup server the backup data will currently not be moved!", 
                                   :include_blank => (@server.backup_server.nil? ? true : false )%>
     <% end %>

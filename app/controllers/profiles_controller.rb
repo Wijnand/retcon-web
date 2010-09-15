@@ -1,10 +1,10 @@
 class ProfilesController < ApplicationController
-  filter_resource_access
+  load_and_authorize_resource
   
   # GET /profiles
   # GET /profiles.xml
   def index
-    @search = Profile.public.search(params[:search])
+    @search = Profile.accessible_by(current_ability).public.search(params[:search])
     @profiles = @search.find(:all, :order => 'name')
     if request.xhr?
       render :partial => 'listing'
@@ -20,7 +20,7 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.xml
   def show
-    @profile = Profile.find(params[:id])
+    @profile = Profile.accessible_by(current_ability).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,13 +41,13 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    @profile = Profile.find(params[:id], :include => [:servers])
+    @profile = Profile.accessible_by(current_ability).find(params[:id], :include => [:servers])
   end
 
   # POST /profiles
   # POST /profiles.xml
   def create
-    @profile = Profile.new(params[:profile])
+    @profile = Profile.accessible_by(current_ability).new(params[:profile])
 
     respond_to do |format|
       if @profile.save
@@ -64,7 +64,7 @@ class ProfilesController < ApplicationController
   # PUT /profiles/1
   # PUT /profiles/1.xml
   def update
-    @profile = Profile.find(params[:id])
+    @profile = Profile.accessible_by(current_ability).find(params[:id])
 
     respond_to do |format|
       if @profile.update_attributes(params[:profile])
@@ -81,7 +81,7 @@ class ProfilesController < ApplicationController
   # DELETE /profiles/1
   # DELETE /profiles/1.xml
   def destroy
-    @profile = Profile.find(params[:id])
+    @profile = Profile.accessible_by(current_ability).find(params[:id])
     @profile.destroy
 
     respond_to do |format|

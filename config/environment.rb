@@ -21,7 +21,7 @@ Rails::Initializer.run do |config|
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "authlogic"
   config.gem "formtastic"
-  config.gem "declarative_authorization"
+  config.gem "cancan"
   config.gem "searchlogic"
   config.gem "will_paginate", :version => '2.3.12'
 

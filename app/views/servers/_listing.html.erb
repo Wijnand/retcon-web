@@ -22,8 +22,12 @@
     <td><%=h server.last_backup || "None" %></td>
     <td><%=h server.previous_jobs.last.try :status || 'Nothing yet' %></td>
     <td><%= display_backup_duration (server.previous_jobs.last) %></td>
-    <td><%= link_to 'Edit', edit_server_path(server) %> | 
-    <%= link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+      <% if can?(:manage, server) %>
+        <%= link_to 'Edit', edit_server_path(server) %> | 
+        <%= link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete %>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </tbody>

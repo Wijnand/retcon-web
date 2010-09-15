@@ -14,4 +14,4 @@
 </div>
 </section>
 
-<% add_action 'Add', new_profile_path %>
+<% add_action 'Add', new_profile_path if can?(:manage, Profile) %>

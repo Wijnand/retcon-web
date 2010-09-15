@@ -1,5 +1,5 @@
-<% if @backup_jobs.size > 0 %>
-  <p>Now running: <%= @backup_jobs.size %> backup jobs</p>
+<% if @running.size > 0 %>
+  <p>Now running: <%= @running.size %> backup jobs</p>
   <table class="index sortable">
     <thead>
     <tr>
@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-  <% @backup_jobs.each do |job| %>
+  <% @running.each do |job| %>
     <tr>
       <td><%=link_to h(job.id), job %></td>
       <td><%=link_to h(job.server), job.server %></td>

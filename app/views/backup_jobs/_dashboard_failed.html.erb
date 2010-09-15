@@ -1,4 +1,4 @@
-<% if @backup_jobs.size > 0 %>
+<% if @failed.size > 0 %>
   <table class="index sortable">
   <thead>
     <tr>
@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-  <% @backup_jobs.each do |job| %>
+  <% @failed.each do |job| %>
     <tr>
       <td><%=link_to h(job.id), job %></td>
       <td><%=link_to h(job.server), job.server %></td>

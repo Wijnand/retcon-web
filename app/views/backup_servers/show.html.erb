@@ -1,7 +1,7 @@
 <% content_for :header do %>
   <%= @backup_server.hostname %>
 <% end %>
-<% add_action 'Edit', edit_backup_server_path(@backup_server) %>
+<% add_action 'Edit', edit_backup_server_path(@backup_server) if can?(:manage, @backup_server)%>
 <section>
 <h3>General info</h3>
 <table class="index sortable">
@@ -40,7 +40,7 @@
   </tr>
   </thead>
   <tbody>
-<% @backup_server.latest_jobs.each do | job | %>
+<% @backup_server.latest_jobs.select{|j| can? :read, j}.each do | job | %>
   <tr>
 	<td><%= link_to job.id, job %></td>
     <td><%=link_to h(job.server.hostname), job.server %></td>
@@ -66,7 +66,7 @@
 </tr>
 </thead>
 <tbody>
-<% @backup_server.latest_problems.each do | problem | %>
+<% @backup_server.latest_problems.select{|p| can? :read, p}.each do | problem | %>
   <tr>
     <td><%=h problem.server %></td>
     <td><%= problem.created_at %></td>

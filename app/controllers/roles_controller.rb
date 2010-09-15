@@ -1,10 +1,10 @@
 class RolesController < ApplicationController
-  filter_resource_access
+  load_and_authorize_resource
   
   # GET /roles
   # GET /roles.xml
   def index
-    @roles = Role.all
+    @roles = Role.accessible_by(current_ability).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +15,7 @@ class RolesController < ApplicationController
   # GET /roles/1
   # GET /roles/1.xml
   def show
-    @role = Role.find(params[:id])
+    @role = Role.accessible_by(current_ability).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,7 +36,7 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    @role = Role.find(params[:id])
+    @role = Role.accessible_by(current_ability).find(params[:id])
   end
 
   # POST /roles
@@ -59,7 +59,7 @@ class RolesController < ApplicationController
   # PUT /roles/1
   # PUT /roles/1.xml
   def update
-    @role = Role.find(params[:id])
+    @role = Role.accessible_by(current_ability).find(params[:id])
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
@@ -76,7 +76,7 @@ class RolesController < ApplicationController
   # DELETE /roles/1
   # DELETE /roles/1.xml
   def destroy
-    @role = Role.find(params[:id])
+    @role = Role.accessible_by(current_ability).find(params[:id])
     @role.destroy
 
     respond_to do |format|

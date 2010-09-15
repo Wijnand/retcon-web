@@ -6,14 +6,9 @@ class ApplicationController < ActionController::Base
   helper_method :yield_or_default
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   helper_method :current_user
-  
-  before_filter :set_current_user
-  
-  private
-  def set_current_user
-    Authorization.current_user = current_user
-  end
-  
+  helper_method :current_ability
+    
+  private  
   def permission_denied
     flash[:error] = "Sorry, you are not allowed to access that page."
     redirect_to root_url

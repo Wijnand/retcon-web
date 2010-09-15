@@ -13,6 +13,7 @@ class Server < ActiveRecord::Base
   has_many :problems, :dependent => :destroy
   has_many :backup_jobs, :dependent => :destroy
   belongs_to :backup_server
+  belongs_to :user
   before_save :sanitize_inputs
 
   def exclusive_profile

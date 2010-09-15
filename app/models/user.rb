@@ -5,10 +5,14 @@ class User < ActiveRecord::Base
   has_many :roles_users
   has_many :commands, :dependent => :destroy
   belongs_to :backup_server
+  has_many :servers
 
   def role_symbols
     roles.map {|r| r.name.to_sym}
   end
   
+  def has_role?(role)
+    role_symbols.include? role
+  end
 end
 

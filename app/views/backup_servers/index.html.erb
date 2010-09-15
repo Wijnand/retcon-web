@@ -15,11 +15,15 @@
   <tr>
     <td><%=link_to h( backup_server.hostname), backup_server %></td>
     <td><%= backup_server.user ? h(backup_server.user.username) : 'NONE: edit a user and set the backup server' %></td>
-    <td><%= link_to 'Edit', edit_backup_server_path(backup_server) %> | 
-    <%= link_to 'Destroy', backup_server, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+       <% if can?(:manage, backup_server) %>
+       <%= link_to 'Edit', edit_backup_server_path(backup_server) %> | 
+       <%= link_to 'Destroy', backup_server, :confirm => 'Are you sure?', :method => :delete %>
+       <% end %>
+    </td>
   </tr>
 <% end %>
   </tbody>
 </table>
 </section>
-<% add_action 'Add', new_backup_server_path %>
+<% add_action 'Add', new_backup_server_path  if can?(:manage, BackupServer) %>

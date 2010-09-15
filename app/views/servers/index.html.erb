@@ -12,5 +12,5 @@
 <div id="listing">
 <%= render :partial => 'listing' %>
 </div>
-<% add_action 'Add', new_server_path %>
+<% add_action 'Add', new_server_path if can?(:manage, Server) %>
 </section>

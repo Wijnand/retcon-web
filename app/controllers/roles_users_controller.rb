@@ -1,5 +1,5 @@
 class RolesUsersController < ApplicationController
-  filter_resource_access
+  load_and_authorize_resource
   
   # GET /roles_users
   # GET /roles_users.xml

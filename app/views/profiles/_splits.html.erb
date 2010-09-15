@@ -3,12 +3,18 @@
 <p>The following directories will be split in rsyncs for A-Z, a-z and 0-9. This increases performance for very large directories. Files and directories starting with other characters will not be backupped!</p>
 <ul>
   <% @profile.splits.each do | split | %>
-    <li><%=h split.path %> (<%= link_to 'Edit', edit_profile_split_path(@profile, split) %> | <%= link_to 'Destroy', [@profile, split], :confirm => 'Are you sure?', :method => :delete %>)</li>
+    <li><%=h split.path %> 
+      <% if can?(:manage, split) %>
+      (<%= link_to 'Edit', edit_profile_split_path(@profile, split) %> | <%= link_to 'Destroy', [@profile, split], :confirm => 'Are you sure?', :method => :delete %>)
+      <% end %>
+    </li>
   <% end %>
 </ul>
 </section>
-<section>
-<h3>Add split</h3>
-<% @split = @profile.splits.build %>
-<%= render :partial => 'splits/form' %>
-</section>
+<% if can?(:manage, Split) %>
+  <section>
+  <h3>Add split</h3>
+  <% @split = @profile.splits.build %>
+  <%= render :partial => 'splits/form' %>
+  </section>
+<% end %>

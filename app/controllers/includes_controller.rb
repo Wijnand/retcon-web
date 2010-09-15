@@ -1,8 +1,8 @@
 class IncludesController < ApplicationController
-  filter_resource_access
+  load_and_authorize_resource
   
   def create
-    @profile = Profile.find(params[:profile_id])
+    @profile = Profile.accessible_by(current_ability).find(params[:profile_id])
     @include = @profile.includes.create(params[:include])
     
     respond_to do |format|
@@ -19,12 +19,12 @@ class IncludesController < ApplicationController
   end
   
   def edit
-    @profile = Profile.find(params[:profile_id])
+    @profile = Profile.accessible_by(current_ability).find(params[:profile_id])
     @include = @profile.includes.find(params[:id])
   end
   
   def update
-    @profile = Profile.find(params[:profile_id])
+    @profile = Profile.accessible_by(current_ability).find(params[:profile_id])
     @include = @profile.includes.find(params[:id])
 
     respond_to do |format|
@@ -41,7 +41,7 @@ class IncludesController < ApplicationController
   end
   
   def destroy
-    @profile = Profile.find(params[:profile_id])
+    @profile = Profile.accessible_by(current_ability).find(params[:profile_id])
     @include = @profile.includes.find(params[:id])
     @include.destroy
 

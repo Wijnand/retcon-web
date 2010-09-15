@@ -21,4 +21,4 @@
 </table>
 </section>
 
-<%= add_action 'Add include', new_profile_include_path(@profile) %>
+<%= add_action 'Add include', new_profile_include_path(@profile) if can?(:manage, Include)%>

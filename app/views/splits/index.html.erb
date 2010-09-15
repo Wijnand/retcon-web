@@ -21,4 +21,4 @@
 </table>
 
 </section>
-<% add_action 'Add split', new_profile_split_path(@profile) %>
+<% add_action 'Add split', new_profile_split_path(@profile) if can?(:manage, Split) %>

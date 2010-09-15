@@ -1,8 +1,8 @@
 <% content_for :header do %>
   <%=h @profile.name %>
 <% end %>
-<% add_action 'Add', new_profile_path %>
-<% add_action 'Edit', edit_profile_path(@profile) %>
+<% add_action 'Add', new_profile_path if can?(:manage, Profile) %>
+<% add_action 'Edit', edit_profile_path(@profile) if can?(:manage, @profile)%>
 
 <section>
 <h3>General info</h3>

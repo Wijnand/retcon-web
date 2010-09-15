@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access
+  load_and_authorize_resource
   
   def new
     @user = User.new

@@ -16,8 +16,12 @@
     <td><%= profile.excludes.size %></td>
     <td><%= profile.includes.size %></td>
     <td><%= profile.splits.size %></td>
-    <td><%= link_to 'Edit', edit_profile_path(profile) %> | 
-    <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+      <% if can?(:manage, profile) %>
+        <%= link_to 'Edit', edit_profile_path(profile) %> | 
+        <%= link_to 'Destroy', profile, :confirm => 'Are you sure?', :method => :delete %>
+      <% end %>
+    </td>
   </tr>
 <% end %>
   </tbody>

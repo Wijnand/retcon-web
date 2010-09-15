@@ -1,10 +1,10 @@
 class BackupServersController < ApplicationController
-  filter_resource_access
+  load_and_authorize_resource
   
   # GET /backup_servers
   # GET /backup_servers.xml
   def index
-    @backup_servers = BackupServer.find(:all, :order => 'hostname', :include => [:user])
+    @backup_servers = BackupServer.accessible_by(current_ability).find(:all, :order => 'hostname', :include => [:user])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +15,7 @@ class BackupServersController < ApplicationController
   # GET /backup_servers/1
   # GET /backup_servers/1.xml
   def show
-    @backup_server = BackupServer.find(params[:id])
+    @backup_server = BackupServer.accessible_by(current_ability).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -26,7 +26,7 @@ class BackupServersController < ApplicationController
   # GET /backup_servers/new
   # GET /backup_servers/new.xml
   def new
-    @backup_server = BackupServer.new
+    @backup_server = BackupServer.accessible_by(current_ability).new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,7 +36,7 @@ class BackupServersController < ApplicationController
 
   # GET /backup_servers/1/edit
   def edit
-    @backup_server = BackupServer.find(params[:id])
+    @backup_server = BackupServer.accessible_by(current_ability).find(params[:id])
   end
 
   # POST /backup_servers
@@ -59,7 +59,7 @@ class BackupServersController < ApplicationController
   # PUT /backup_servers/1
   # PUT /backup_servers/1.xml
   def update
-    @backup_server = BackupServer.find(params[:id])
+    @backup_server = BackupServer.accessible_by(current_ability).find(params[:id])
 
     respond_to do |format|
       if @backup_server.update_attributes(params[:backup_server])
@@ -76,7 +76,7 @@ class BackupServersController < ApplicationController
   # DELETE /backup_servers/1
   # DELETE /backup_servers/1.xml
   def destroy
-    @backup_server = BackupServer.find(params[:id])
+    @backup_server = BackupServer.accessible_by(current_ability).find(params[:id])
     @backup_server.destroy
     respond_to do |format|
       format.html { redirect_to(backup_servers_url) }

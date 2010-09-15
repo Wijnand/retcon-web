@@ -1,4 +1,6 @@
 class SettingsController < ApplicationController
+  load_and_authorize_resource
+
   # GET /settings
   # GET /settings.xml
   def index

@@ -1,8 +1,8 @@
 <% content_for :header do %>
   <%=h @server.hostname %>
 <% end %>
-<% add_action 'Edit', edit_server_path( @server) %>
-<% add_action 'Add', new_server_path %>
+<% add_action 'Edit', edit_server_path( @server) if can?(:manage, @server)%>
+<% add_action 'Add', new_server_path if can?(:manage, Server)%>
 <section>
 
 <h3>General info</h3>

@@ -8,7 +8,7 @@
     <%= f.input :backup_server, :hint => 'This user is used by this backup server for API connections. You should also set the role to agent', :include_blank => true %>
     
     <% if Role.find_by_name('user').users.include? @user %>
-      <h1>Woet</h1>
+      <p>Sorry, mass server assignment is not ready yet :-(</p>
     <% end %>
   <% end %>
   <button type='submit'>Save</button>

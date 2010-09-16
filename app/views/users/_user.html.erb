@@ -11,8 +11,8 @@
       <%= f.input :backup_server, :hint => 'This user is used by this backup server for API connections. You should also set the role to agent', :include_blank => true %>
       
       <% if Role.find_by_name('user').users.include? @user %>
-         <li id="server_search_input"><label for="server_search">Filter servers</label>
-         <input id="server_search" maxlength="255" size="50" type="text" /></li>
+        <li id="server_search_input"><label for="server_search">Filter servers</label>
+        <input id="server_search" maxlength="255" size="50" type="text" /></li>
         <div id="server_list">
           <%= f.input :servers, :as => :check_boxes, :collection => Server.all %>
         </div>

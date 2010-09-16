@@ -1,14 +1,19 @@
 <% semantic_form_for @user do |f| %>
   <% f.inputs do %>
     <%= f.error_messages %>
-    <%= f.input :username %>  
+    <% if Role.find_by_name('admin').users.include?(current_user) %>
+      <%= f.input :username %>
+    <% end %>
     <%= f.input :password %>   
     <%= f.input :password_confirmation %>
-    <%= f.input :roles, :as => :check_boxes, :collection => Role.all %>
-    <%= f.input :backup_server, :hint => 'This user is used by this backup server for API connections. You should also set the role to agent', :include_blank => true %>
-    
-    <% if Role.find_by_name('user').users.include? @user %>
-      <p>Sorry, mass server assignment is not ready yet :-(</p>
+    <% if Role.find_by_name('admin').users.include?(current_user) %>
+      <%= f.input :roles, :as => :check_boxes, :collection => Role.all %>
+      <%= f.input :backup_server, :hint => 'This user is used by this backup server for API connections. You should also set the role to agent', :include_blank => true %>
+      
+      <% if Role.find_by_name('user').users.include? @user %>
+        <p>Sorry, mass server assignment is not ready yet :-(</p>
+      <% end %>
+
     <% end %>
   <% end %>
   <button type='submit'>Save</button>

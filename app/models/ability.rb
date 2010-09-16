@@ -19,6 +19,7 @@ class Ability
       can :read, Problem do | problem|
         problem.server.user_id == user.id
       end
+      can :manage, User, :id => user.id
     else
       # nothing!
     end

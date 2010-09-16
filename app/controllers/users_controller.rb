@@ -16,11 +16,11 @@ class UsersController < ApplicationController
   end
   
   def edit  
-    @user = User.find(params[:id])
+    @user = User.accessible_by(current_ability).find(params[:id])
   end  
 
   def update  
-    @user = User.find(params[:id])
+    @user = User.accessible_by(current_ability).find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:notice] = "Successfully updated user account."
       redirect_to root_url
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
   
   def index
-    @users = User.find(:all, :order => 'username', :include => [:backup_server])
+    @users = User.accessible_by(current_ability).find(:all, :order => 'username', :include => [:backup_server])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }

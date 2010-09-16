@@ -7,13 +7,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   helper_method :current_user
   helper_method :current_ability
-    
-  private  
-  def permission_denied
-    flash[:error] = "Sorry, you are not allowed to access that page."
-    redirect_to root_url
-  end
   
+  rescue_from CanCan::AccessDenied do |exception|
+     redirect_to :controller => 'dashboard', :action => 'forbidden'
+  end
+     
+  private  
   def current_user_session  
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find

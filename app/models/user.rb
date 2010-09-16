@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :commands, :dependent => :destroy
   belongs_to :backup_server
   has_many :servers
+  accepts_nested_attributes_for :servers
 
   def role_symbols
     roles.map {|r| r.name.to_sym}

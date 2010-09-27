@@ -3,6 +3,7 @@
     <% f.inputs :name => "General", :class => 'separator' do %>
       <%= f.input :hostname %>
       <%= f.input :enabled, :required => false, :label => 'Backups enabled?' %>
+      <%= f.input :remove_only, :required => false, :label => 'Dont backup, just remove snapshots' %>
       <%= f.input :connect_to, :required => false, :label => 'Ssh address', :hint => 'If different from hostname' %>
       <%= f.input :ssh_port, :required => true, :hint => 'Probably port 22' %>
       <%= f.input :path, :required => true, :hint => 'Probably /', :label => 'Rsync start path' %>

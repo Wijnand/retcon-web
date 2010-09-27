@@ -115,6 +115,16 @@ describe BackupJob do
     job.after_fs_exists(command)
   end
   
+  it "should not start the rsyncs if the server is in removal mode" do
+    job =  Factory(:backup_job)
+    server = job.server
+    server.remove_only = true
+    server.save
+    command = Factory(:command, :exitstatus => 0)
+    job.should_receive(:cleanup)
+    job.after_fs_exists(command)
+  end
+  
   it "should give out an order to create a filesystem if it does not exist" do
     job =  Factory(:backup_job)
     command = Factory(:command, :exitstatus => 1)
@@ -254,9 +264,9 @@ describe BackupJob do
   end
   
   it "should get all snapshots for a server when cleanup is done" do
-    server = Factory.create(:server, :hostname => 'server1', :keep_snapshots => 6, :snapshots => 'snap1,snap2,snap3,snap4,snap5,snap6')
+    server = Factory.create(:server, :hostname => 'serverx1', :keep_snapshots => 6, :snapshots => 'snap1,snap2,snap3,snap4,snap5,snap6')
     job = Factory.create(:backup_job, :server => server)
-    job.should_receive(:run_command).with("/sbin/zfs list -H -r -o name -t snapshot backup/server1 | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
+    job.should_receive(:run_command).with("/sbin/zfs list -H -r -o name -t snapshot backup/serverx1 | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
     job.remove_old_snapshots
     server.snapshots.should == 'snap1,snap2,snap3,snap4,snap5,snap6'
   end

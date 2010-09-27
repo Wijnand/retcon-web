@@ -112,7 +112,11 @@ class BackupJob < ActiveRecord::Base
   
   def after_fs_exists(command)
     if command.exitstatus == 0
-      start_rsyncs
+      if server.remove_only?
+        cleanup
+      else
+        start_rsyncs
+      end
     else
       run_command("/bin/pfexec /sbin/zfs create #{self.fs}", "create_fs")
     end

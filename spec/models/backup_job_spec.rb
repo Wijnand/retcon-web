@@ -254,7 +254,7 @@ describe BackupJob do
     job.should_receive(:remove_old_snapshots)
     job.cleanup
   end
-  
+
   it "should remove old snapshots for a server" do
     server = Factory.create(:server, :hostname => 'server1', :keep_snapshots => 5, :snapshots => 'snap1,snap2,snap3,snap4,snap5,snap6')
     job = Factory.create(:backup_job, :server => server)
@@ -285,4 +285,33 @@ describe BackupJob do
     job.finished.should == true
   end
   
+  it "should remove the filesystem when there are no snapshots left and server is in removal_only" do
+    server = Factory.create(:server, :hostname => 'serverx2', :snapshots => '', :remove_only => true)
+    job = Factory.create(:backup_job, :server => server)
+    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs destroy backup/serverx2", "remove_fs")
+    job.remove_old_snapshots
+  end
+  
+  it "should decrease the number of snapshots to keep if all old snapshots are deleted" do
+    server = Factory.create(:server, :hostname => 'serverx3', :snapshots => 'snap1,snap2', :keep_snapshots => 2, :remove_only => true)
+    job = Factory.create(:backup_job, :server => server)
+    job.should_receive(:run_command).with("/sbin/zfs list -H -r -o name -t snapshot backup/serverx3 | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
+    job.remove_old_snapshots
+    server.keep_snapshots.should == 1
+  end
+  
+  it "should only remove a snapshot when there are no snapshots left and server is in removal_only" do
+    server = Factory.create(:server, :hostname => 'serverx4', :snapshots => 'snap1,snap2', :keep_snapshots => 1, :remove_only => true)
+    job = Factory.create(:backup_job, :server => server)
+    job.should_receive(:run_command).with("/bin/pfexec /sbin/zfs destroy backup/serverx4@snap1", "remove_snapshot snap1")
+    job.remove_old_snapshots
+  end
+  
+  it "should remove the server is the filesystem is removed" do
+    server = Factory.create(:server, :snapshots => '', :remove_only => true)
+    job = Factory.create(:backup_job, :server => server)
+    server.should_receive(:destroy)
+    job.after_remove_fs(true)
+    job.finished?.should == true
+  end
 end

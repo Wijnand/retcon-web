@@ -193,7 +193,20 @@ class BackupJob < ActiveRecord::Base
   
   def remove_old_snapshots
     snaps = server.current_snapshots
-    if snaps.size > server.keep_snapshots
+    if server.remove_only?
+      if snaps.size == server.keep_snapshots
+        server.keep_snapshots -= 1
+        server.save # next snapshot will vanish on the next run
+        run_command("/sbin/zfs list -H -r -o name -t snapshot #{self.fs} | /usr/gnu/bin/sed -e 's/.*@//'", "get_snapshots")
+      elsif snaps.size == 0
+        run_command("/bin/pfexec /sbin/zfs destroy #{self.fs}", "remove_fs")
+      else
+        snap = snaps.delete_at(0)
+        run_command("/bin/pfexec /sbin/zfs destroy #{self.fs}@#{snap}", "remove_snapshot #{snap}")
+        server.snapshots = snaps.join(',')
+        server.save
+      end
+    elsif snaps.size > server.keep_snapshots
       snap = snaps.delete_at(0)
       run_command("/bin/pfexec /sbin/zfs destroy #{self.fs}@#{snap}", "remove_snapshot #{snap}")
       server.snapshots = snaps.join(',')
@@ -223,6 +236,11 @@ class BackupJob < ActiveRecord::Base
   def after_backupserver_diskspace(command)
     self.backup_server.disk_free = command.output
     self.backup_server.save
+    finish
+  end
+  
+  def after_remove_fs(command)
+    server.destroy
     finish
   end
 end

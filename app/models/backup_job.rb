@@ -5,7 +5,7 @@ class BackupJob < ActiveRecord::Base
   
   named_scope :running, :conditions => {:finished => false}, :order => 'updated_at DESC', :include => [:server]
   named_scope :queued, :conditions => {:status => 'queued'}, :order => 'created_at ASC', :include => [:server, :backup_server]
-  named_scope :latest_problems, :conditions => "status NOT IN ('OK','running','queued')", :order => 'updated_at DESC', :limit => 20, :include => [:server]
+  named_scope :latest_problems, :conditions => "status NOT IN ('OK','running','queued', 'done')", :order => 'updated_at DESC', :limit => 20, :include => [:server]
   
   def fs
     self.backup_server.zpool + '/' + self.server.hostname

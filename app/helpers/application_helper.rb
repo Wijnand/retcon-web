@@ -32,7 +32,7 @@ module ApplicationHelper
     end_time = job.updated_at
     
     if job.status == 'running'
-      start_time = job.started
+      start_time = job.started || job.created_at
       end_time = Time.new
     end
       

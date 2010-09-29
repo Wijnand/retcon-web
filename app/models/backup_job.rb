@@ -1,4 +1,5 @@
 class BackupJob < ActiveRecord::Base
+  attr_accessor :start_now
   belongs_to :server
   belongs_to :backup_server
   has_many :commands, :dependent => :destroy

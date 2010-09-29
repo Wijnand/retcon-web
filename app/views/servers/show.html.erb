@@ -62,6 +62,8 @@
       <%= f.hidden_field :backup_server_id %>
       <%= f.hidden_field :server_id %>
       <%= f.hidden_field :status %>
+      <%= f.label :start_now, "Skip queue" %>
+      <%= f.check_box :start_now %>
     <button type='submit'>Queue now</button>
   <% end %>
 <% end %>

@@ -16,6 +16,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def finish
+    self.status = 'done'
     self.finished = true
     save
   end

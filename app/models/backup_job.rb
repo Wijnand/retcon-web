@@ -196,6 +196,8 @@ class BackupJob < ActiveRecord::Base
   def remove_old_snapshots
     snaps = server.current_snapshots
     if server.remove_only?
+      self.status = 'OK'
+      save
       if snaps.size == server.keep_snapshots
         server.keep_snapshots -= 1
         server.save # next snapshot will vanish on the next run

@@ -71,15 +71,21 @@ class BackupJob < ActiveRecord::Base
   end
   
   def get_rsyncs
-    self.server.splits.reject{|s| server.excludes.include? s }.map do | split |
+    self.server.splits.reject{|s| server.excludes.include? s.path }.map do | split |
       arr = []
-      split_dir = self.server.startdir + split.to_s
+      split_dir = self.server.startdir + split.path
       arr.concat(('a'..'z').to_a)
       arr.concat(('A'..'Z').to_a)
       arr.concat((0..9).to_a)
-      arr.map do | letter |
-        rsync_template.sub('DIR', split_dir + "/#{letter}*")
+      to_rsync = []
+      split.depth.times do |n|
+        if n == 0
+          to_rsync = arr.map{|i| "#{i}*"}
+        else
+          to_rsync = to_rsync.map{|i| arr.map{|j| "#{i}/#{j}*"}}.flatten
+        end
       end
+      to_rsync.map{|letter| rsync_template.sub('DIR', split_dir + "/#{letter}") }
     end.flatten.join('!RSYNC!')
   end
   

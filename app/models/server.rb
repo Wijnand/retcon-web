@@ -100,7 +100,7 @@ class Server < ActiveRecord::Base
   end
   
   def splits
-    self.profiles.map{ | p | p.splits.map{|p | p.path} }.flatten
+    self.profiles.map{ | p | p.splits }.flatten
   end
   
   def rsync_protects

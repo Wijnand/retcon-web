@@ -25,6 +25,19 @@ describe BackupJob do
     j.rsyncs.last.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/backup root@server1.example.com://home/9* /backup/server1.example.com/"
   end
   
+  it "should store more rsyncs if the depth is 2" do
+    s = Factory.build(:server, :hostname => 'server1.example.com')
+    p = Factory.build(:profile, :name => 'linux')
+    p.includes << Factory.build(:include, :path => '/')
+    p.excludes << Factory.build(:exclude, :path => '/backup')
+    p.splits << Factory.build(:split, :path => '/home', :depth => 2)
+    s.profiles << p
+    j = Factory.build(:backup_job, :server => s)
+    j.rsyncs.size.should == 3844 # a-z,A-Z,0-9
+    j.rsyncs.first.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/backup root@server1.example.com://home/a*/a* /backup/server1.example.com/"
+    j.rsyncs.last.should == "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e 'ssh -c arcfour -p 22' --filter='protect /home' --include=/ --exclude=/backup root@server1.example.com://home/9*/9* /backup/server1.example.com/"
+  end
+  
   it "should not add splits if there is a matching include" do
     s = Factory.build(:server, :hostname => 'server1.example.com')
     p = Factory.build(:profile, :name => 'linux')

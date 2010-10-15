@@ -37,6 +37,7 @@ end
 
 Factory.define :split do | f |
   f.path "/home/"
+  f.depth 1
   f.association :profile
 end
 

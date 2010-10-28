@@ -19,17 +19,17 @@
     <div id="global_links">
       <%= render :partial => 'shared/global_links' %>
     </div>
-    <h1><%= link_to ('Retcon <span>blast from the past</span>', root_path) %></h1>
+    <h1><%= link_to('Retcon <span>blast from the past</span>', root_path) %></h1>
 
     <nav>
       <%= render :partial => 'shared/tabs' %>
     </nav>
   </header>
-  
+
   <% flash.keys.each do | key | %>
     <div id="<%= key %>"><%= flash[key] %></div>
   <% end %>
-  
+
     <header class="secondary">
       <% build_action_list %>
       <ul id="display-inline-block">
@@ -45,7 +45,7 @@
     <article id="main">
         <%= yield %>
     </article>
- 
+
   <footer>
       <ul>
         <li><a href="http://github.com/wijnand/retcon-web">Retcon project</a></li>

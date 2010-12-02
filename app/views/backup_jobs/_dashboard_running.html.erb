@@ -8,6 +8,7 @@
       <th>Backup Server</th>
       <th>Started</th>
       <th>Run time</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
       <td><%=link_to h(job.backup_server), job.backup_server %></td>
       <td><%=(job.started || job.updated_at) %></td>
       <td><%=display_backup_duration(job) %></td>
+      <td><%= link_to 'Redo last command', redo_path(job), :confirm => 'This will remove the last command from the database so it will be performed again. Only use if you know for sure it is finished on the backup server!' %></td>
     </tr>
   <% end %>
   </tbody>

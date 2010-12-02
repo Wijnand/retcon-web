@@ -67,4 +67,16 @@ class BackupJobsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def redo_last
+    @backup_job = BackupJob.accessible_by(current_ability).find(params[:id])
+    if command = @backup_job.commands.last
+      command.destroy
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.xml  { head :ok }
+    end
+  end
 end

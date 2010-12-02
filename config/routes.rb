@@ -2,6 +2,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :commands
 
   map.connect 'backup_jobs/queue.xml', :controller => 'backup_jobs', :action => 'queue'
+
+  map.redo '/backup_jobs/:id/redo_last', :controller => 'backup_jobs', :action => 'redo_last'
+
   map.resources :backup_jobs
 
   map.resources :settings

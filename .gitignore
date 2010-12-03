@@ -9,3 +9,4 @@ public/javascripts/all.js
 public/stylesheets/all.css
 *.swp
 *.swo
+.rvmrc

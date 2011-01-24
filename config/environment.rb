@@ -20,7 +20,7 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "authlogic"
-  config.gem "formtastic"
+  config.gem "formtastic", :version => '0.9.7'
   config.gem "cancan"
   config.gem "searchlogic"
   config.gem "will_paginate", :version => '2.3.12'

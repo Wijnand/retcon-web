@@ -31,7 +31,7 @@ class BackupServer < ActiveRecord::Base
   
   def should_queue
     should_start.select do | server |
-      server.backup_jobs.size == 0 or server.backup_jobs.last.status != 'queued'
+      server.backup_jobs.size == 0 || server.backup_jobs.last.status != 'queued'
     end
   end
   

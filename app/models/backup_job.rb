@@ -44,14 +44,14 @@ class BackupJob < ActiveRecord::Base
   end
   
   def main_rsync
-    "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
+    "/usr/bin/pfexec rsync --stats -aHRW --timeout=1800 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
     server.rsync_protects + " " + server.rsync_includes + " " + 
     server.rsync_split_excludes + " " + server.rsync_excludes +
     " root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/"
   end
   
   def rsync_template
-    "/usr/bin/pfexec rsync --stats -aHRW --timeout=600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
+    "/usr/bin/pfexec rsync --stats -aHRW --timeout=1800 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
     server.rsync_protects + " " + server.rsync_includes + " " + 
     server.rsync_excludes +
     " root@#{self.server.connect_address}:DIR /#{fs}/"
@@ -91,7 +91,7 @@ class BackupJob < ActiveRecord::Base
   
   def code_to_success(num, output='')
     return "OK" if [0,24].include?(num)
-    return "FAIL" if [127].include?(num)
+    return "FAIL" if [12,30,127].include?(num)
     return "FAIL" if Regexp.new(/Command not found/).match(output)
     if match = Regexp.new(/\((\d+) bytes received so far\)/).match(output)
       return "FAIL" if match[1].to_i == 0

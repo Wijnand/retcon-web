@@ -21,7 +21,7 @@
   <td><%=h (@server.connect_address) %></td>
   <td><%=h (@server.ssh_port || 22 ) %></td>
   <td><%=h @server.enabled %></td>
-  <td><%=h @server.backup_server %></td>
+  <td><%=link_to h(@server.backup_server), @server.backup_server %></td>
   <td><%=number_to_human_size @server.usage || 'NaN '%></td>
 </tr>
 </tbody>

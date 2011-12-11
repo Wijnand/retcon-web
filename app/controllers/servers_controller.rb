@@ -1,14 +1,15 @@
-class ServersController < ApplicationController  
+class ServersController < ApplicationController
   load_and_authorize_resource
 
   # GET /servers
   # GET /servers.xml
   def index
    @search = Server.accessible_by(current_ability).search(params[:search])
-   @servers = @search.find(:all, :order => 'hostname', :include => [:backup_server]).paginate(:page => params[:page])
+   @servers = @search.find(:all, :order => 'servers.hostname', :include => [:backup_server]).paginate(:page => params[:page])
+
    if request.xhr?
      render :partial => 'listing'
-   else   
+   else
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @servers.to_xml( :include => [:backup_jobs]) }

@@ -106,7 +106,7 @@ describe Server do
     server_one_hour_window.window_stop = 2
     Time.should_receive(:new).and_return(Time.parse("03:00"))
     server_one_hour_window.in_backup_window?.should be false
-  
+
     server_23_hour_window = Factory.build(:server)
     server_23_hour_window.window_start = 0
     server_23_hour_window.window_stop = 23
@@ -120,12 +120,12 @@ describe Server do
     server.window_stop = 2
     Time.should_receive(:new).and_return(Time.parse("01:30"))
     server.in_backup_window?.should be true
-  
+
     server.window_start = 0
     server.window_stop = 1
     Time.should_receive(:new).and_return(Time.parse("00:30"))
     server.in_backup_window?.should be true
-  
+
     server.window_start = 23
     server.window_stop = 0
     Time.should_receive(:new).and_return(Time.parse("23:30"))
@@ -146,7 +146,7 @@ describe Server do
     s = Factory.build(:server, :interval_hours => 1)
     j = Factory(:backup_job, :created_at => (Time.new - 3601), :server => s)
     s.interval_passed?.should be true
-  
+
     s.interval_hours = 3
     s.interval_passed?.should be false
   end
@@ -217,7 +217,7 @@ describe Server do
     p2.excludes << Factory.build(:exclude, :path => '/var/log') # second include
     s.profiles << p1
     s.profiles << p2
-  
+
     s.rsync_excludes.should == '--exclude=/ --exclude=/var/log'
   end
 
@@ -241,7 +241,7 @@ describe Server do
     p2.splits << Factory.build(:split, :path => '/home')
     s.profiles << p1
     s.profiles << p2
-    s.rsync_protects.should == "--filter='protect /var/spool/mqueue' --filter='protect /home'" 
+    s.rsync_protects.should == "--filter='protect /var/spool/mqueue' --filter='protect /home'"
   end
 
   it "should compile a list of splits in order to exclude them" do
@@ -276,6 +276,7 @@ describe Server do
   end
 
   it "should cleanup old backupjobs" do
+    pending "Not sure what behaviour is prefered now"
     server = Factory.create(:server, :keep_snapshots => 5)
     6.times do
       Factory.create(:backup_job, :backup_server => server.backup_server, :server => server, :status => 'OK')
@@ -287,7 +288,7 @@ describe Server do
   end
 
   it "should have a method that gets or creates an exclusive profile" do
-    server = Factory(:server) 
+    server = Factory(:server)
     p1 = Factory(:profile)
     server.profiles << p1
     server.profiles.count.should == 1

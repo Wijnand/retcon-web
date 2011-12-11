@@ -24,8 +24,8 @@
     <td><%= display_backup_duration (server.previous_jobs.last) %></td>
     <td>
       <% if can?(:manage, server) %>
-        <%= link_to 'Edit', edit_server_path(server) %> | 
-        <%= link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete %>
+        <%= link_to 'Edit', edit_server_path(server) %> |
+        <%= link_to 'Destroy', server, :confirm => "Are you sure you want to destroy #{server.hostname}?", :method => :delete %>
       <% end %>
     </td>
   </tr>

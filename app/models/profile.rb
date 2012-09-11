@@ -9,9 +9,6 @@ class Profile < ActiveRecord::Base
   has_many :servers, :through => :profilizations
 
   named_scope :public, :conditions => { :exclusive => false }
-  named_scope :public_plus, lambda { |*profilename|
-    {:conditions => "exclusive = false or name = '#{profilename}'" }
-  }
 
   accepts_nested_attributes_for :includes, :allow_destroy => true
   accepts_nested_attributes_for :excludes, :allow_destroy => true

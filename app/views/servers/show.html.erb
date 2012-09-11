@@ -83,7 +83,7 @@
 </tr>
 </thead>
 <tbody>
-<% @server.current_snapshots.reverse.each do | snapshot | %>
+<% @server.current_snapshots.each do | snapshot | %>
 <tr>
   <td><%= snapshot %></td>
   <td><%= Time.at snapshot.to_i %></td>

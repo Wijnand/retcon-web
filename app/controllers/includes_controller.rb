@@ -7,11 +7,11 @@ class IncludesController < ApplicationController
     
     respond_to do |format|
       if @include.save
-        flash[:notice] = 'Include was successfully added.'
+        flash[:notice] = 'Exclude was successfully added.'
         format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @include, :status => :created, :location => @profile }
       else
-        flash[:error] = 'Include was not valid.'
+        flash[:error] = 'Exclude was not valid.'
         format.html { @profile.exclusive? ? redirect_to(@profile.servers[0]) : redirect_to(@profile) }
         format.xml  { render :xml => @include.errors, :status => :unprocessable_entity }
       end

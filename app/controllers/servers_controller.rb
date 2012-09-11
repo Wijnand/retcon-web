@@ -5,7 +5,7 @@ class ServersController < ApplicationController
   # GET /servers.xml
   def index
    @search = Server.accessible_by(current_ability).search(params[:search])
-   @servers = @search.find(:all, :order => 'servers.hostname', :include => [:backup_server]).paginate(:page => params[:page], :per_page => 30)
+   @servers = @search.find(:all, :order => 'servers.hostname', :include => [:backup_server]).paginate(:page => params[:page])
 
    if request.xhr?
      render :partial => 'listing'

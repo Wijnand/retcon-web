@@ -44,14 +44,14 @@ class BackupJob < ActiveRecord::Base
   end
   
   def main_rsync
-    "/usr/bin/pfexec rsync --stats -aHRW --timeout=1800 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
+    "/usr/bin/pfexec rsync --stats -aHRW --timeout=3600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
     server.rsync_protects + " " + server.rsync_includes + " " + 
     server.rsync_split_excludes + " " + server.rsync_excludes +
     " root@#{self.server.connect_address}:#{self.server.startdir} /#{fs}/"
   end
   
   def rsync_template
-    "/usr/bin/pfexec rsync --stats -aHRW --timeout=1800 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
+    "/usr/bin/pfexec rsync --stats -aHRW --timeout=3600 --delete-excluded --exclude=.zfs -e '#{ssh_command}' " +
     server.rsync_protects + " " + server.rsync_includes + " " + 
     server.rsync_excludes +
     " root@#{self.server.connect_address}:DIR /#{fs}/"
@@ -125,7 +125,11 @@ class BackupJob < ActiveRecord::Base
         start_rsyncs
       end
     else
-      run_command("/bin/pfexec /sbin/zfs create #{self.fs}", "create_fs")
+      if server.remove_only?
+        cleanup
+      else
+        run_command("/bin/pfexec /sbin/zfs create #{self.fs}", "create_fs")
+      end
     end
   end
   
@@ -249,7 +253,7 @@ class BackupJob < ActiveRecord::Base
   end
   
   def after_remove_fs(command)
-    server.destroy
     finish
+    self.server.destroy
   end
 end

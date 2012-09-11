@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
   
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
   # Yield the content for a given block. If the block yiels nothing, the optionally specified default text is shown.
   #
   #   yield_or_default(:user_status)

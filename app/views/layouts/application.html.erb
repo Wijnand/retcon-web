@@ -10,7 +10,7 @@
 
 	<title>Retcon: <%= yield_or_default yield(:header) %> </title>
     <%= stylesheet_link_tag 'screen', 'formtastic', 'formtastic_changes' %>
-    <%= javascript_include_tag "top_up-min.js", "jquery.quicksearch",  "jquery.tablesorter.min", "application" %>
+    <%= javascript_include_tag "top_up-min.js?images_path=/images/top_up/&dummy_var=", "jquery.quicksearch",  "jquery.tablesorter.min", "application" %>
 </head>
 
 <body>

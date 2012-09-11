@@ -9,8 +9,9 @@
     <th>Backup server</th>
     <th>Usage</th>
     <th>Last backup</th>
-    <th>Last backup result</th>
-    <th>Last backup duration</th>
+    <th>Last status</th>
+    <th>Backup duration</th>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -20,12 +21,26 @@
     <td><%=link_to h(server.backup_server.hostname), server.backup_server %></td>
     <td><%=number_to_human_size server.usage  || 'NaN' %></td>
     <td><%=h server.last_backup || "None" %></td>
-    <td><%=h server.previous_jobs.last.try :status || 'Nothing yet' %></td>
+    <% if server.enabled %>
+      <% if server.remove_only %>
+        <% if server.keep_snapshots > 0 %>
+          <td>Removing</td>
+        <% else %>
+          <td>Removed</td>
+        <% end %>
+      <% else %>
+        <td><%=h server.previous_jobs.last.try :status || 'Nothing yet' %></td>
+      <% end %>
+    <% else %>
+      <td>Disabled</td>
+    <% end %>
     <td><%= display_backup_duration (server.previous_jobs.last) %></td>
     <td>
       <% if can?(:manage, server) %>
-        <%= link_to 'Edit', edit_server_path(server) %> |
-        <%= link_to 'Destroy', server, :confirm => "Are you sure you want to destroy #{server.hostname}?", :method => :delete %>
+        <%= link_to 'Edit', edit_server_path(server) %>
+        <% if server.keep_snapshots <= 0 %>
+          | <%= link_to 'Destroy', server, :confirm => 'Are you sure you want to destroy ' + server.hostname + '?', :method => :delete %>
+        <% end %>
       <% end %>
     </td>
   </tr>

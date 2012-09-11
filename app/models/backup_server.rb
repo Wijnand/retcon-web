@@ -46,9 +46,9 @@ class BackupServer < ActiveRecord::Base
   end
 
   def next_queued
-   count = self.max_backups - self.running_backups.size
-   count = 0 if count < 0
-   queued_backups :limit => count
+    count = self.max_backups - self.running_backups.size
+    count = 0 if count < 0
+    queued_backups :limit => count
   end
 
   def running_backups
